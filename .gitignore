@@ -7,8 +7,8 @@ devel/
 logs/
 protobuf/
 get-pip.py
-src/ceres-solver
-src/cartographer
+ceres-solver
+cartographer
 
 # CMake
 CMakeCache.txt
