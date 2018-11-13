@@ -1,0 +1,3 @@
+[submodule "sick_scan"]
+	path = sick_scan
+	url = https://github.com/SICKAG/sick_scan.git
