@@ -15,23 +15,20 @@ git submodule init
 git submodule update
 ```
 
-### Fix detached Heads
-running `git status` in a submodule will tell you the head is detached. fix by `git pull origin <branch>`. `branch` refers to either `master` or `indigo-devel`
-
-### Switching branches
+### Fix detached Heads & Switching Branches
 - cartographer_ros
 ```
 git checkout roboy
 ```
 - geometry2
 ```
-git pull origin indigo_devel
-git checkout indigo_devel
+git pull origin indigo-devel
+git checkout indigo-devel
 ```
 - pointcloud_to_laserscan 
 ```
 git pull origin lunar-devel
-git checkout indigo_devel
+git checkout indigo-devel
 ```
 
 ### Compiling Cartographer
