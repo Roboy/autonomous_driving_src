@@ -84,7 +84,7 @@ angle_min: -1.047
 angle_max: 1.047
 angle_increment: 0.002268928 
 ```
-launch running
+launch by executing
 ```
 roslaunch pointcloud_to_laserscan sample_node.launch
 ```

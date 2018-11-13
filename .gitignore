@@ -1,5 +1,6 @@
-#MISC
-.DS_Store
+# ROS
+.rosinstall
+.rosinstall.bak
 
 # building catkin
 build/
@@ -21,3 +22,6 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 CMakeLists.txt
+
+# MISC
+.DS_Store
