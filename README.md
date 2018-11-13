@@ -89,28 +89,23 @@ launch running
 roslaunch pointcloud_to_laserscan sample_node.launch
 ```
 #### Google Cartographer ROS
-follow instructions to install from [Google Cartographer ROS Docs](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but do a catkin build in the last step. 
-
-Switch to `roboy`-branch.
 
 According files for Roboy are defined. To test with demo bag run:
 ```roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag```
 
 
-### Structure
-
-#### Launch Files
+##### Launch Files
 - located at `src/cartographer_ros/cartographer_ros/launch`
 - add call for sickscan so we don't have to do it manually`. See here:
 ```https://github.com/SICKAG/sick_scan/issues/5```
 - adapt names to point to according urdf file
 
-#### Configuration Files
+##### Configuration Files
 - located at `src/cartographer_ros/cartographer_ros/configuration`
 - `.lua` files
 - compare dokumentation
 
-#### URDF Files
+##### URDF Files
 - located at `src/cartographer_ros/cartographer_ros/urdf`
 `urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found ´here ROS wiki urdf´
 
