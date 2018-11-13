@@ -15,21 +15,42 @@ git submodule init
 git submodule update
 ```
 
-### Fix detached heads
+### Fix detached Heads
 running `git status` in a submodule will tell you the head is detached. fix by `git pull origin <branch>`. `branch` refers to either `master` or `indigo-devel`
 
 ### Switching branches
-- cartographer_ros to `roboy`
-- geometry2 to `indigo_devel`
-- pointcloud_to_laserscan to `indigo_devel`
+- cartographer_ros
+```
+git checkout roboy
+```
+- geometry2
+```
+git pull origin indigo_devel
+git checkout indigo_devel
+```
+- pointcloud_to_laserscan 
+```
+git pull origin lunar-devel
+git checkout indigo_devel
+```
 
-### Compiling cartographer
+### Compiling Cartographer
 **leave your src folder and go to your catkin_ws first**
+Note the changed paths to Roboys cartographer fork:
 ```
 wstool init src
-wstool merge -t src https://raw.githubusercontent.com/Roboy/cartographer_ros/master/cartographer_ros.rosinstall
-wstool merge -t src https://raw.githubusercontent.com/googlecartographer/cartographer_ros/master/cartographer_ros.rosinstall
+
+wstool merge -t src https://raw.githubusercontent.com/Roboy/cartographer_ros/roboy/cartographer_ros.rosinstall
 
 wstool update -t src
+```
 
+```
+src/cartographer/scripts/install_proto3.sh
+sudo rosdep init
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+```
+```
+catkin build
 ```
