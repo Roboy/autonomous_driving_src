@@ -20,6 +20,10 @@ git submodule update
 ```
 git checkout roboy
 ```
+- sick_scan
+```
+git checkout master
+```
 - geometry2
 ```
 git pull origin indigo-devel
@@ -37,9 +41,7 @@ git checkout indigo-devel
 Works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but with some changed paths due to Roboy using its own fork of Cartographer_ROS.
 ```
 wstool init src
-
 wstool merge -t src https://raw.githubusercontent.com/Roboy/cartographer_ros/roboy/cartographer_ros.rosinstall
-
 wstool update -t src
 ```
 
@@ -49,6 +51,7 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
+After all of this is done, run
 ```
 catkin build
 ```
