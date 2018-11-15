@@ -62,6 +62,7 @@ catkin build
 
 ### Google Cartographer_ROS
 Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io/en/latest/your_bag.html).
+https://media.readthedocs.org/pdf/google-cartographer-ros/latest/google-cartographer-ros.pdf#page16
 According files for Roboy are defined. To test with Roboys bag run:
 ```
 roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
@@ -76,7 +77,10 @@ Configuration is stored in  `.lua`-files located at [`src/cartographer_ros/carto
 `urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found in the [ROS wiki about urdf](http://wiki.ros.org/urdf).
 In cartographer_ros, these are located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
 
-
+#### Check your `.bag`-file
+```
+rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
+```
 
 ### sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. 
@@ -112,6 +116,46 @@ Make sure you set the Params in the launch-file located at `src/pointcloud_to_la
 angle_min: -1.047
 angle_max: 1.047
 angle_increment: 0.002268928 
+```
+Which leaves the file to be
+```
+<?xml version="1.0"?>
+
+<launch>
+
+<!-- run pointcloud_to_laserscan node -->
+<node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+
+<remap from="cloud_in" to="cloud"/>
+<remap from="scan" to="fake/scan"/>
+<rosparam>
+# target_frame: camera_link # Leave disabled to output scan in pointcloud frame
+transform_tolerance: 0.1
+min_height: 0.0
+max_height: 4.0
+
+angle_min: -1.0472 # -M_PI/2
+angle_max: 1.0472 # M_PI/2
+angle_increment: 0.002268928 # M_PI/360.0
+scan_time: 0.1
+range_min: 0.45
+range_max: 70.0
+use_inf: true
+
+# Concurrency level, affects number of pointclouds queued for processing and number of threads used
+# 0 : Detect number of cores
+# 1 : Single threaded
+# 2->inf : Parallelism level
+concurrency_level: 1
+</rosparam>
+
+</node>
+
+</launch>
+
+
+
+
 ```
 Afterwards, launch by executing
 ```
