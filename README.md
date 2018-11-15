@@ -1,5 +1,5 @@
 # Automated Driving `/src/`
-/src/ folder of catkin_ws for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
+`/src/` folder of catkin_ws for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
 ## Cloning
 Clone this repository to your catkin workspace's source folder by running the following command (notice the dot in the end!).
@@ -63,10 +63,7 @@ According files for Roboy are defined. To test with Roboys bag run:
 roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 #### Launch Files
-- located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch)
-- add call for sickscan so we don't have to do it manually`. See here:
-```https://github.com/SICKAG/sick_scan/issues/5```
-- adapt names to point to according urdf file
+`.launch` files of cartographer_ros are located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch). Make sure you call the according `roboy` files in your launch file. Also, for the SICK LIDAR note [this github issue](https://github.com/SICKAG/sick_scan/issues/5).
 
 #### Configuration Files
 - located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files)
@@ -74,22 +71,20 @@ roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/c
 - compare dokumentation
 
 #### URDF Files
-- located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
-`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found ´here ROS wiki urdf´
+`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found in the [ROS wiki about urdf](http://wiki.ros.org/urdf).
+In cartographer_ros, these are located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
+
 
 
 ### sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. 
-```roslaunch sick_scan sick_mrs_6xxx.launch```
-Required to set the according LIDAR IP adress (192.168.1.24)
-Double Check through browser 
+```
+roslaunch sick_scan sick_mrs_6xxx.launch
+```
+It is required to set the LIDAR IP adress accordingly (192.168.1.24) which can be easily verified through entering it in a browser. 
 
 ### Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
-In case you run into issues building geometry2 
-- test_tf2 apparently doesnt work when building with catkin_make_isolated
-- tf2_ ... requires a sudo apt-get install
-- it is recommended to build with catkin build
 
 ### pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
