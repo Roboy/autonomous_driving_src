@@ -66,12 +66,10 @@ According files for Roboy are defined. To test with Roboys bag run:
 roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 #### Launch Files
-`.launch` files of cartographer_ros are located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch). Make sure you call the according `roboy` files in your launch file. Also, for the SICK LIDAR note [this github issue](https://github.com/SICKAG/sick_scan/issues/5).
+`.launch`-files of cartographer_ros are located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch). Make sure you call the according `roboy` files in your launch file. Also, for the SICK LIDAR note [this github issue](https://github.com/SICKAG/sick_scan/issues/5).
 
 #### Configuration Files
-- located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files)
-- `.lua` files
-- compare dokumentation
+Configuration is stored in  `.lua`-files located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files). 
 
 #### URDF Files
 `urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found in the [ROS wiki about urdf](http://wiki.ros.org/urdf).
@@ -116,5 +114,8 @@ roslaunch pointcloud_to_laserscan sample_node.launch
 
 ## FAQ
 
-Q: My `catkin build` was successfull at first but when I execute it again there is an error for cartographer_ros.
-A: You need to compile cartographer_ros again. First, do `catkin clean` and delete the following folders: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` `catkin_ws/protobuf`. Then follow the steps to compile cartographer_ros.
+Q: My `catkin build` was successfull at first but when I execute it again there is an error for `cartographer_ros`, `cartogarpher` or it even wants some `Abseil-function`.
+
+A: You need to compile cartographer_ros again. First, do `catkin clean` and delete the following folders: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` and `catkin_ws/protobuf`. Then follow the steps to compile cartographer_ros.
+
+
