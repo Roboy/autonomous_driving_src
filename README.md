@@ -1,8 +1,8 @@
 # Automated Driving `/src/`
-`/src/` folder of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
+`/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
 ## Cloning
-Clone this repository to your catkin workspace's source folder by running the following command (notice the dot in the end!).
+Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
 ```
 git clone https://github.com/Roboy/autonomous_driving_src.git .
 ```
@@ -36,7 +36,7 @@ git checkout indigo-devel
 ```
 
 ### Compiling Cartographer_ROS
-**Before compiling, leave your src folder and go to your catkin_ws**
+**Before compiling, leave your src directory and go to your catkin_ws**
 
 Compiling Cartographer_ROS works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but some paths differ due to Roboy using its own fork of Cartographer_ROS.
 ```
@@ -51,7 +51,8 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
-After all of this is done, run
+### Building
+After you completed all of the above steps, run
 ```
 catkin build
 ```
@@ -121,6 +122,9 @@ roslaunch pointcloud_to_laserscan sample_node.launch
 
 Q: My `catkin build` was successfull at first but when I execute it again there is an error for `cartographer_ros`, `cartogarpher` or it even wants some `Abseil-function`.
 
-A: You need to compile cartographer_ros again. First, do `catkin clean` and delete the following folders: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` and `catkin_ws/protobuf`. Then follow the steps to compile cartographer_ros.
+A: You need to compile cartographer_ros again. First, do `catkin clean` and delete the following directories: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` and `catkin_ws/protobuf`. Then follow the steps to compile cartographer_ros.
 
 
+Q: `roslaunch` command not found
+
+A: run `source /devel/setup.bash` in your catkin directory. 
