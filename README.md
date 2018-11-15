@@ -95,13 +95,7 @@ It is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.24), which
 ### pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
 
-Make sure you set the Params in the launch-file located at `src/pointcloud_to_laserscan/launch/sample_node.launch` accordingly. Especially, note to LIDAR-dependent set the parameters in lines 20 to 22 in radiants. 
-```
-angle_min: -1.047
-angle_max: 1.047
-angle_increment: 0.002268928 
-```
-Furthermore, make sure to [remove lines 7 to 10](https://github.com/ros-perception/pointcloud_to_laserscan/blob/1f4e90539e4d2c3d05b8dfe022d03008f322d37b/launch/sample_node.launch#L7-L10)
+Make sure to [remove lines 7 to 10](https://github.com/ros-perception/pointcloud_to_laserscan/blob/1f4e90539e4d2c3d05b8dfe022d03008f322d37b/launch/sample_node.launch#L7-L10)
 ```
 <!-- start sensor-->
 <include file="$(find openni2_launch)/launch/openni2.launch">
@@ -113,7 +107,12 @@ Furthermore, change [lines 15 and 16](https://github.com/ros-perception/pointclo
 <remap from="cloud_in" to="cloud"/>
 <remap from="scan" to="/fake/scan"/>
 ```
-
+Make sure you set the Params in the launch-file located at `src/pointcloud_to_laserscan/launch/sample_node.launch` accordingly. Don't forget to LIDAR-dependently set the parameters in lines 20 to 22 in radiants. 
+```
+angle_min: -1.047
+angle_max: 1.047
+angle_increment: 0.002268928 
+```
 Afterwards, launch by executing
 ```
 roslaunch pointcloud_to_laserscan sample_node.launch
