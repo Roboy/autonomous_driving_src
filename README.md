@@ -32,8 +32,9 @@ git checkout indigo-devel
 ```
 
 ### Compiling Cartographer
-**leave your src folder and go to your catkin_ws first**
-Note the changed paths to Roboys cartographer fork:
+**Before compiling, leave your src folder and go to your catkin_ws**
+
+Works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but with some changed paths due to Roboy using its own fork of Cartographer_ROS.
 ```
 wstool init src
 
@@ -55,20 +56,42 @@ catkin build
 
 ## Included Modules
 
-#### sick_scan
+### Google Cartographer ROS
+Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io/en/latest/your_bag.html).
+According files for Roboy are defined. To test with Roboys bag run:
+```
+roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+```
+#### Launch Files
+- located at `src/cartographer_ros/cartographer_ros/launch`
+- add call for sickscan so we don't have to do it manually`. See here:
+```https://github.com/SICKAG/sick_scan/issues/5```
+- adapt names to point to according urdf file
+
+#### Configuration Files
+- located at `src/cartographer_ros/cartographer_ros/configuration`
+- `.lua` files
+- compare dokumentation
+
+#### URDF Files
+- located at `src/cartographer_ros/cartographer_ros/urdf`
+`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found ´here ROS wiki urdf´
+
+
+### sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. 
 ```roslaunch sick_scan sick_mrs_6xxx.launch```
 Required to set the according LIDAR IP adress (192.168.1.24)
 Double Check through browser 
 
-#### Geometry2
+### Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 In case you run into issues building geometry2 
 - test_tf2 apparently doesnt work when building with catkin_make_isolated
 - tf2_ ... requires a sudo apt-get install
 - it is recommended to build with catkin build
 
-#### pointcloud to laserscan
+### pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
 
 Make sure you set the Params in the launch-file located at
@@ -92,24 +115,5 @@ Afterwards, launch by executing
 ```
 roslaunch pointcloud_to_laserscan sample_node.launch
 ```
-#### Google Cartographer ROS
 
-According files for Roboy are defined. To test with demo bag run:
-```roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag```
-
-
-##### Launch Files
-- located at `src/cartographer_ros/cartographer_ros/launch`
-- add call for sickscan so we don't have to do it manually`. See here:
-```https://github.com/SICKAG/sick_scan/issues/5```
-- adapt names to point to according urdf file
-
-##### Configuration Files
-- located at `src/cartographer_ros/cartographer_ros/configuration`
-- `.lua` files
-- compare dokumentation
-
-##### URDF Files
-- located at `src/cartographer_ros/cartographer_ros/urdf`
-`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found ´here ROS wiki urdf´
 
