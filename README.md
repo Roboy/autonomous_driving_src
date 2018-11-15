@@ -108,7 +108,7 @@ Furthermore, make sure to [remove lines 7 to 10](https://github.com/ros-percepti
 <arg name="camera" default="$(arg camera)"/>
 </include>
 ```
-Furthermore, change lines 15 and 16](https://github.com/ros-perception/pointcloud_to_laserscan/blob/ead080498d177c48fa4906a0b6264f60ae69e6ba/launch/sample_node.launch#L15-L16) to
+Furthermore, change [lines 15 and 16](https://github.com/ros-perception/pointcloud_to_laserscan/blob/ead080498d177c48fa4906a0b6264f60ae69e6ba/launch/sample_node.launch#L15-L16) to
 ```
 <remap from="cloud_in" to="cloud"/>
 <remap from="scan" to="/fake/scan"/>
