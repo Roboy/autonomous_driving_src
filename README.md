@@ -1,8 +1,8 @@
-# autonomous_driving_src
-/src/ folder of catkin_ws for Roboys autonomous driving project
+# Automated Driving `/src/`
+/src/ folder of catkin_ws for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
 ## Cloning
-Clone this repository to your catkin workspace's source folder by running the following command (notice the dot in the end!)
+Clone this repository to your catkin workspace's source folder by running the following command (notice the dot in the end!).
 ```
 git clone https://github.com/Roboy/autonomous_driving_src.git .
 ```
@@ -15,7 +15,7 @@ git submodule init
 git submodule update
 ```
 
-### Fix detached Heads & Switching Branches
+### Fixing detached heads & switching branches
 - cartographer_ros
 ```
 git checkout roboy
@@ -31,7 +31,7 @@ git pull origin lunar-devel
 git checkout indigo-devel
 ```
 
-### Compiling Cartographer
+### Compiling Cartographer_ROS
 **Before compiling, leave your src folder and go to your catkin_ws**
 
 Works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but with some changed paths due to Roboy using its own fork of Cartographer_ROS.
@@ -56,25 +56,25 @@ catkin build
 
 ## Included Modules
 
-### Google Cartographer ROS
+### Google Cartographer_ROS
 Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io/en/latest/your_bag.html).
 According files for Roboy are defined. To test with Roboys bag run:
 ```
 roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 #### Launch Files
-- located at `src/cartographer_ros/cartographer_ros/launch`
+- located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch)
 - add call for sickscan so we don't have to do it manually`. See here:
 ```https://github.com/SICKAG/sick_scan/issues/5```
 - adapt names to point to according urdf file
 
 #### Configuration Files
-- located at `src/cartographer_ros/cartographer_ros/configuration`
+- located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files)
 - `.lua` files
 - compare dokumentation
 
 #### URDF Files
-- located at `src/cartographer_ros/cartographer_ros/urdf`
+- located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
 `urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found ´here ROS wiki urdf´
 
 
