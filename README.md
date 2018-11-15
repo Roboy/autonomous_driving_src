@@ -1,5 +1,5 @@
 # Automated Driving `/src/`
-`/src/` folder of catkin_ws for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
+`/src/` folder of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
 ## Cloning
 Clone this repository to your catkin workspace's source folder by running the following command (notice the dot in the end!).
@@ -114,4 +114,7 @@ Afterwards, launch by executing
 roslaunch pointcloud_to_laserscan sample_node.launch
 ```
 
+## FAQ
 
+Q: My `catkin build` was successfull at first but when I execute it again there is an error for cartographer_ros.
+A: You need to compile cartographer_ros again. This means doing `catkin clean` and deleting the following folders: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` `catkin_ws/protobuf`
