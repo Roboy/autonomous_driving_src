@@ -83,7 +83,7 @@ In cartographer_ros, these are located at [`src/cartographer_ros/cartographer_ro
 ```
 roslaunch sick_scan sick_mrs_6xxx.launch
 ```
-It is required to set the LIDAR IP adress accordingly (192.168.1.24) which can be easily verified through entering it in a browser. 
+It is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.24), which can be easily verified through entering it in a browser, in the respecitve launch file. 
 
 
 
@@ -95,11 +95,7 @@ It is required to set the LIDAR IP adress accordingly (192.168.1.24) which can b
 ### pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
 
-Make sure you set the Params in the launch-file located at
-```
-src/pointcloud_to_laserscan/launch/sample_node.launch
-```
-accordingly. Especially, note to LIDAR-dependent set the parameters in lines 20 to 22 in radiants. 
+Make sure you set the Params in the launch-file located at `src/pointcloud_to_laserscan/launch/sample_node.launch` accordingly. Especially, note to LIDAR-dependent set the parameters in lines 20 to 22 in radiants. 
 ```
 angle_min: -1.047
 angle_max: 1.047
@@ -112,6 +108,12 @@ Furthermore, make sure to [remove lines 7 to 10](https://github.com/ros-percepti
 <arg name="camera" default="$(arg camera)"/>
 </include>
 ```
+Furthermore, change lines 15 and 16](https://github.com/ros-perception/pointcloud_to_laserscan/blob/ead080498d177c48fa4906a0b6264f60ae69e6ba/launch/sample_node.launch#L15-L16) to
+```
+<remap from="cloud_in" to="cloud"/>
+<remap from="scan" to="/fake/scan"/>
+```
+
 Afterwards, launch by executing
 ```
 roslaunch pointcloud_to_laserscan sample_node.launch
