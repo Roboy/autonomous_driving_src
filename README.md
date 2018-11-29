@@ -61,26 +61,75 @@ catkin build
 ## About the included Modules
 
 ### Google Cartographer_ROS
+#### Documentation
+[PDF containing Google Cartographer_ROS documentation](https://media.readthedocs.org/pdf/google-cartographer-ros/latest/google-cartographer-ros.pdf)
+
+#### Structure 
+##### Launch Files
+`.launch`-files of cartographer_ros are located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch). Make sure you call the according `roboy` files in your launch file. Also, for the SICK LIDAR note [this github issue](https://github.com/SICKAG/sick_scan/issues/5).
+
+##### Configuration Files
+Configuration is stored in  `.lua`-files located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files). [How to use them in cartographer.](https://google-cartographer-ros.readthedocs.io/en/latest/configuration.html)
+
+##### URDF Files
+`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found in the [ROS wiki about urdf](http://wiki.ros.org/urdf).
+In cartographer_ros, these are located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
+
+#### Record a  `.bag`-file
 Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io/en/latest/your_bag.html).
-https://media.readthedocs.org/pdf/google-cartographer-ros/latest/google-cartographer-ros.pdf#page16
+
+#### Check your `.bag`-file
+[ROS Bag files](http://wiki.ros.org/Bags)
+```
+rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
+```
+#### Run Cartographer on your  `.bag`-file
 According files for Roboy are defined. To test with Roboys bag run:
 ```
 roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
-#### Launch Files
-`.launch`-files of cartographer_ros are located at [`src/cartographer_ros/cartographer_ros/launch`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/launch). Make sure you call the according `roboy` files in your launch file. Also, for the SICK LIDAR note [this github issue](https://github.com/SICKAG/sick_scan/issues/5).
+#### Cartographer Configurations
+In this section, the configurations which have to be speciefied in Roboy-files to work with recorded  `.bag`-files are given.
 
-#### Configuration Files
-Configuration is stored in  `.lua`-files located at [`src/cartographer_ros/cartographer_ros/configuration`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files). [How to use them in cartographer.](https://google-cartographer-ros.readthedocs.io/en/latest/configuration.html)
-
-#### URDF Files
-`urdf`-files essentially define the physical configuration of the robot such as relative positions of different sensors. More can be found in the [ROS wiki about urdf](http://wiki.ros.org/urdf).
-In cartographer_ros, these are located at [`src/cartographer_ros/cartographer_ros/urdf`](https://github.com/Roboy/cartographer_ros/tree/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/urdf)
-
-#### Check your `.bag`-file
+##### pointcloud to laserscan recording
+`roboy_indoor_offline.launch`, [line 29](https://github.com/Roboy/cartographer_ros/blob/55defd7b8d6be13b5f1b2d2205e842b1b016661c/cartographer_ros/launch/roboy_indoor_offline.launch#L29-L30)
 ```
-rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
+<remap from="scan" to="fake/scan" />
 ```
+
+`roboy.lua`, [lines 30 and 31](https://github.com/Roboy/cartographer_ros/blob/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files/roboy.lua#L30-L31):
+```
+num_laser_scans = 1,
+num_multi_echo_laser_scans = 0,
+```
+Finally, to run execute
+```
+roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Documents/Roboy/catkin_ws/2018-11-15-17-36-28.bag
+```
+
+##### Deutsches Museum 2D
+
+`roboy_indoor_offline.launch`, [line 29](https://github.com/Roboy/cartographer_ros/blob/55defd7b8d6be13b5f1b2d2205e842b1b016661c/cartographer_ros/launch/roboy_indoor_offline.launch#L29-L30)
+```
+<remap from="echoes" to="horizontal_laser_2d" />
+```
+
+`roboy.lua`, [lines 30 and 31](https://github.com/Roboy/cartographer_ros/blob/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files/roboy.lua#L30-L31):
+```
+num_laser_scans = 0,
+num_multi_echo_laser_scans = 1,
+```
+Finally, to run execute
+```
+roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+```
+
+##### Revo LDS
+
+##### PR2
+
+##### Taurob Tracker
+
 
 ### sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. 
@@ -152,10 +201,6 @@ concurrency_level: 1
 </node>
 
 </launch>
-
-
-
-
 ```
 Afterwards, launch by executing
 ```
