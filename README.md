@@ -96,6 +96,11 @@ In this section, the configurations which have to be speciefied in Roboy-files t
 ```
 <remap from="scan" to="fake/scan" />
 ```
+add the following lines to the `.launch` file:
+```
+<node pkg="tf" type="static_transform_publisher" name="world_to_map_broadcaster" args="0 0 0 0 0 0 world map 50" />
+<node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 base_link laser 50" />
+```
 
 `roboy.lua`, [lines 30 and 31](https://github.com/Roboy/cartographer_ros/blob/c4a82825c947e6853b1fc0132a6c53e486d7a63a/cartographer_ros/configuration_files/roboy.lua#L30-L31):
 ```
