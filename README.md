@@ -86,7 +86,7 @@ rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
 #### Run Cartographer on your  `.bag`-file
 According files for Roboy are defined. To test with Roboys bag run:
 ```
-roslaunch cartographer_ros roboy_indoor.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 #### Cartographer Configurations
 In this section, the configurations which have to be speciefied in Roboy-files to work with recorded  `.bag`-files are given.
