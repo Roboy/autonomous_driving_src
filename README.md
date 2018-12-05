@@ -83,7 +83,22 @@ Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io
 ```
 rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
 ```
-#### Run Cartographer on your  `.bag`-file
+#### Sample `.bag`-file
+```
+wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/cartographer_paper_deutsches_museum.bag
+
+```
+
+#### Run Cartographer online 
+According files for Roboy are defined. To test with Roboys bag run:
+```
+roslaunch cartographer_ros roboy_indoor_online.launch 
+```
+```
+rosbag play bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+```
+
+#### Run Cartographer offline on your  `.bag`-file
 According files for Roboy are defined. To test with Roboys bag run:
 ```
 roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
