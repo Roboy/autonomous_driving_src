@@ -1,0 +1,7 @@
+digraph G {
+"map" -> "tricycle_frame"[label="Broadcaster: /tricycle_sim\nAverage rate: 2.222 Hz\nMost recent transform: 1543932430.824 ( 0.109 sec old)\nBuffer length: 4.500 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1543932430.933"[ shape=plaintext ] ;
+ }->"map";
+}
