@@ -94,7 +94,7 @@ According files for Roboy are defined. To test with Roboys bag run:
 roslaunch cartographer_ros roboy_indoor_online.launch 
 ```
 ```
-rosbag play bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+rosbag play ${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 
 #### Run Cartographer offline on a  `.bag`-file
@@ -122,9 +122,11 @@ rosrun cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename ${HO
 ````
 #### Pure Localization
 ```
-roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream
 ```
-
+```
+rosbag play ${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+```
 
 #### Cartographer Configurations
 In this section, the configurations which have to be speciefied in Roboy-files to work with recorded  `.bag`-files are given.
