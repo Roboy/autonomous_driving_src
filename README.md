@@ -86,7 +86,6 @@ rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
 #### Sample `.bag`-file
 ```
 wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/cartographer_paper_deutsches_museum.bag
-
 ```
 
 #### Run Cartographer online 
@@ -98,11 +97,35 @@ roslaunch cartographer_ros roboy_indoor_online.launch
 rosbag play bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
 
-#### Run Cartographer offline on your  `.bag`-file
+#### Run Cartographer offline on a  `.bag`-file
 According files for Roboy are defined. To test with Roboys bag run:
 ```
 roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
+##### Save a Map 
+Instances given for saving a map after SLAM has finished to [generate a `.pbstream`-file](https://github.com/googlecartographer/cartographer_ros/blob/master/docs/source/assets_writer.rst) and then converting it to a ROS `.yaml` map file:
+```
+# Finish the first trajectory. No further data will be accepted on it.
+rosservice call /finish_trajectory 0
+
+# Ask Cartographer to serialize its current state.
+# (press tab to quickly expand the parameter syntax)
+rosservice call /write_state "{filename: '${HOME}/Downloads/b3-2016-04-05-14-14-00.bag.pbstream', include_unfinished_submaps: 'true'}"
+````
+Visualize `.pbstream`-file:
+```
+roslaunch cartographer_ros visualize_pbstream.launch pbstream_filename:=${HOME}/Downloads/DeuMu.bag.pbstream
+```
+Convert  `.pbstream`-file to `.yaml` map file:
+````
+rosrun cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename ${HOME}/Downloads/DeuMu.bag.pbstream
+````
+#### Pure Localization
+```
+roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+```
+
+
 #### Cartographer Configurations
 In this section, the configurations which have to be speciefied in Roboy-files to work with recorded  `.bag`-files are given.
 
