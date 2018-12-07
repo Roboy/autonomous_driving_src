@@ -86,6 +86,8 @@ rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
 #### Sample `.bag`-file
 ```
 wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/cartographer_paper_deutsches_museum.bag
+wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/b2-2016-04-05-14-44-52.bag
+wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/b2-2016-04-27-12-31-41.bag
 ```
 
 #### Run Cartographer online 
