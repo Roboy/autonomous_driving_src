@@ -121,11 +121,19 @@ Convert  `.pbstream`-file to `.yaml` map file:
 rosrun cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename ${HOME}/Downloads/DeuMu.bag.pbstream
 ````
 #### Pure Localization
+Launch cartographer_ros and provide it with the `.pbstream`-file saved from a previous offline-run with SLAM:
 ```
 roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream
 ```
+Play a `.bag`-file faking the live location of the robot:
 ```
-rosbag play ${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+rosbag play ${HOME}/Downloads/b2-2016-04-27-12-31-41.bag
+```
+options to pick from for the `.bag`-files:
+```
+${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+${HOME}/Downloads/b2-2016-04-27-12-31-41.bag
+${HOME}/Downloads/b2-2016-04-05-14-44-52.bag
 ```
 
 #### Cartographer Configurations
