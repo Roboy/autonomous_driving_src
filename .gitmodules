@@ -4,9 +4,6 @@
 [submodule "geometry2"]
 	path = geometry2
 	url = https://github.com/ros/geometry2.git
-[submodule "pointcloud_to_laserscan"]
-	path = pointcloud_to_laserscan
-	url = https://github.com/ros-perception/pointcloud_to_laserscan.git
 [submodule "cartographer_ros"]
 	path = cartographer_ros
 	url = https://github.com/Roboy/cartographer_ros.git

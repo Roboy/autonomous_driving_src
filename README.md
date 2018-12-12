@@ -93,72 +93,11 @@ rosrun map_server map_server mymap.yaml
 
 ## Obstacle_Detector
 
-## sick_scan
+
+## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42). 
 ```
 roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol
-```
-
-## pointcloud to laserscan
-[Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
-
-Make sure to [remove lines 7 to 10](https://github.com/ros-perception/pointcloud_to_laserscan/blob/1f4e90539e4d2c3d05b8dfe022d03008f322d37b/launch/sample_node.launch#L7-L10)
-```
-<!-- start sensor-->
-<include file="$(find openni2_launch)/launch/openni2.launch">
-<arg name="camera" default="$(arg camera)"/>
-</include>
-```
-Furthermore, change [lines 15 and 16](https://github.com/ros-perception/pointcloud_to_laserscan/blob/ead080498d177c48fa4906a0b6264f60ae69e6ba/launch/sample_node.launch#L15-L16) to
-```
-<remap from="cloud_in" to="cloud"/>
-<remap from="scan" to="/fake/scan"/>
-```
-Make sure you set the Params in the launch-file located at `src/pointcloud_to_laserscan/launch/sample_node.launch` accordingly. Don't forget to LIDAR-dependently set the parameters in lines 20 to 22 in radiants. 
-```
-angle_min: -1.047
-angle_max: 1.047
-angle_increment: 0.002268928 
-```
-Which leaves the file to be
-```
-<?xml version="1.0"?>
-
-<launch>
-
-<!-- run pointcloud_to_laserscan node -->
-<node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
-
-<remap from="cloud_in" to="cloud"/>
-<remap from="scan" to="fake/scan"/>
-<rosparam>
-# target_frame: camera_link # Leave disabled to output scan in pointcloud frame
-transform_tolerance: 0.1
-min_height: 0.0
-max_height: 4.0
-
-angle_min: -1.0472 # -M_PI/2
-angle_max: 1.0472 # M_PI/2
-angle_increment: 0.002268928 # M_PI/360.0
-scan_time: 0.1
-range_min: 0.45
-range_max: 70.0
-use_inf: true
-
-# Concurrency level, affects number of pointclouds queued for processing and number of threads used
-# 0 : Detect number of cores
-# 1 : Single threaded
-# 2->inf : Parallelism level
-concurrency_level: 1
-</rosparam>
-
-</node>
-
-</launch>
-```
-Afterwards, launch by executing
-```
-roslaunch pointcloud_to_laserscan sample_node.launch
 ```
 
 
