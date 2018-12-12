@@ -67,7 +67,7 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
-### Building
+## Building
 After you completed all of the above steps, run
 ```
 catkin build
@@ -77,7 +77,7 @@ catkin build
 
 # About the Submodules
 
-### Google Cartographer_ROS
+## Google Cartographer_ROS
 
 #### pointcloud to laserscan recording
 `roboy_indoor_offline.launch`, [line 29](https://github.com/Roboy/cartographer_ros/blob/55defd7b8d6be13b5f1b2d2205e842b1b016661c/cartographer_ros/launch/roboy_indoor_offline.launch#L29-L30)
@@ -119,22 +119,22 @@ roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Dow
 ### Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
-### Navigation
+## Navigation
 includes `map_server`
 ```
 rosrun map_server map_server mymap.yaml
 
 ```
 
-### Obstacle_Detector
+## Obstacle_Detector
 
-### sick_scan
+## sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42). 
 ```
 roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol
 ```
 
-### pointcloud to laserscan
+## pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
 
 Make sure to [remove lines 7 to 10](https://github.com/ros-perception/pointcloud_to_laserscan/blob/1f4e90539e4d2c3d05b8dfe022d03008f322d37b/launch/sample_node.launch#L7-L10)
@@ -197,7 +197,7 @@ roslaunch pointcloud_to_laserscan sample_node.launch
 ```
 
 
-## FAQ
+# FAQ
 
 Q: My `catkin build` was successfull at first but when I execute it again there is an error for `cartographer_ros`, `cartogarpher` or it even wants some `Abseil-function`.
 
