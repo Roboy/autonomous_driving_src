@@ -1,6 +1,8 @@
 # Automated Driving `/src/`
 `/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
+# Building
+
 ## Cloning
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
 ```
@@ -20,26 +22,33 @@ git submodule update
 ```
 git checkout roboy
 ```
-- sick_scan
-```
-git checkout master
-```
+
 - geometry2
 ```
 git pull origin indigo-devel
 git checkout indigo-devel
 ```
-- pointcloud_to_laserscan 
-```
-git pull origin lunar-devel
-git checkout indigo-devel
-```
+
 - navigation
 ```
 sudo apt-get install ros-kinetic-navigation
 ```
 ```
 git checkout kinetic-devel
+```
+- obstacle_detector
+```
+sudo apt-get install libarmadillo-dev
+```
+
+- pointcloud_to_laserscan 
+```
+git pull origin lunar-devel
+git checkout indigo-devel
+```
+- sick_scan
+```
+git checkout master
 ```
 
 ### Compiling Cartographer_ROS
@@ -63,9 +72,10 @@ After you completed all of the above steps, run
 ```
 catkin build
 ```
+(This may very well take more than 30 minutes)
 
 
-## About the included Modules
+# About the Submodules
 
 ### Google Cartographer_ROS
 
@@ -106,21 +116,23 @@ Finally, to run execute
 ```
 roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
+### Geometry2
+[Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
+### Navigation
+includes `map_server`
+```
+rosrun map_server map_server mymap.yaml
+
+```
+
+### Obstacle_Detector
 
 ### sick_scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42). 
 ```
 roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol
 ```
-
-### navigation
-includes `map_server`
-
-### Geometry2
-[Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
-
-
 
 ### pointcloud to laserscan
 [Pointcloud_to_Laserscan](http://wiki.ros.org/pointcloud_to_laserscan) converts a 3D Point Cloud into a 2D laser scan. Make sure you get the version for kinetic before building (Switch branches!).
