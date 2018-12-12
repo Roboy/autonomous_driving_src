@@ -34,6 +34,13 @@ git checkout indigo-devel
 git pull origin lunar-devel
 git checkout indigo-devel
 ```
+- navigation
+```
+sudo apt-get install ros-kinetic-navigation
+```
+```
+git checkout kinetic-devel
+```
 
 ### Compiling Cartographer_ROS
 **Before compiling, leave your src directory and go to your catkin_ws**
@@ -102,13 +109,13 @@ roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Dow
 
 
 ### sick_scan
-[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. 
+[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42). 
 ```
 roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol
 ```
-It is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42), which can be easily verified through entering it in a browser, in the respecitve launch file. 
 
-
+### navigation
+includes `map_server`
 
 ### Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
