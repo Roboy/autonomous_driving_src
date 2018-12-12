@@ -67,12 +67,13 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
+
 ## Building
 After you completed all of the above steps, run
 ```
 catkin build
 ```
-(This may very well take more than 30 minutes)
+(This may very well take more than 30 minutes; check the github issues if it fails!)
 
 
 # About the Submodules
@@ -116,7 +117,7 @@ Finally, to run execute
 ```
 roslaunch cartographer_ros roboy_indoor_offline.launch bag_filename:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 ```
-### Geometry2
+## Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
 ## Navigation
