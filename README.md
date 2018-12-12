@@ -41,11 +41,6 @@ git checkout kinetic-devel
 sudo apt-get install libarmadillo-dev
 ```
 
-- pointcloud_to_laserscan 
-```
-git pull origin lunar-devel
-git checkout indigo-devel
-```
 - sick_scan
 ```
 git checkout master
