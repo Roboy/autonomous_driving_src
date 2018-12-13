@@ -29,7 +29,7 @@ class TricycleSim:
         vel, steering = controls
         x, y, th, _ = self.position
         vel_x = vel * cos(th)
-        vel_y = -vel * sin(th)
+        vel_y = vel * sin(th)
         vel_th = vel / self.base_len * tan(steering)
         self.velocity = Velocity(vel_x, vel_y, vel_th)
         self.position = Position(x + vel_x * dt, y + vel_y * dt, th + vel_th * dt, steering)
@@ -81,16 +81,15 @@ def engine():
         global last_update
         dt = min(curr_time - last_update, 1)
         last_update = curr_time
-        tricycle.update_pos_no_constraints((controls.vel, controls.steering), dt)
+        tricycle.update_pos((controls.vel, controls.steering), dt)
 
     def handle_initialpose(pose):
-        print pose
         pos = pose.pose.pose.position
         orientation = pose.pose.pose.orientation
         theta = euler_from_quaternion([orientation.x, orientation.y, orientation.z, orientation.w])[-1]
+        rospy.loginfo('Changing position from %s to %s', tricycle.position, pos)
         tricycle.velocity = Velocity(0.0, 0.0, 0.0)
         tricycle.position = Position(pos.x, pos.y, theta, theta)
-        print tricycle.position
 
     publish_odometry(tricycle.position, tricycle.velocity) # reset bike to default pos
     #rospy.Subscriber('robike/controls', Controls, handle_controls, queue_size=1)
