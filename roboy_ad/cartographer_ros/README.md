@@ -37,7 +37,7 @@ rosbag filter Input.bag Output.bag "t.secs>= 1461760303 and t.secs <= 1461760503
 ### Run Cartographer online
 According files for Roboy are defined. To test with Roboy's bag run
 ```
-roslaunch cartographer_ros roboy_indoor_online.launch 
+roslaunch roboy_ad roboy_indoor_online.launch 
 rosbag play ${HOME}/data/utum/utum_groundfloor_cw.bag
 ```
 
@@ -46,7 +46,7 @@ rosbag play ${HOME}/data/utum/utum_groundfloor_cw.bag
 According files for Roboy are defined. To test with Roboys bag run::
 
 ```
-roslaunch cartographer_ros roboy_indoor_offline.launch bag_filenames:=${HOME}/data/utum/utum_groundfloor_cw.bag
+roslaunch roboy_ad roboy_indoor_offline.launch bag_filenames:=${HOME}/data/utum/utum_groundfloor_cw.bag
 ```
 
 ### Save a Map 
@@ -74,11 +74,11 @@ rosrun cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename ${HO
 
 Launch cartographer_ros and provide it with the `.pbstream`-file saved from a previous offline-run with SLAM:
 ```
-roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream
+roslaunch roboy_ad roboy_localization.launch load_state_filename:=${HOME}/data/utum/utum_groundfloor_cw.bag.pbstream
 ```
 Play a `.bag`-file faking the live location of the robot:
 ```
-rosbag play ${HOME}/Downloads/b2-2016-04-05-14-44-52.bag
+rosbag play ${HOME}/data/utum/utum_groundfloor_ccw.bag
 ```
 
 # Structure
