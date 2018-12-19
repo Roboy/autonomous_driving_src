@@ -20,6 +20,14 @@ LIDAR:
 ```
 sudo apt-get install ros-kinetic-sick-scan
 ```
+TF2
+```
+sudo apt-get install ros-kinetic-geometry2
+```
+Cartographer
+```
+sudo apt-get install ros-kinetic-cartographer*
+```
 
 ### Git Submodules
 ```
@@ -32,28 +40,9 @@ git submodule update
 ```
 git checkout roboy
 ```
-
-- geometry2
-```
-git pull origin indigo-devel
-git checkout indigo-devel
-```
-
-- navigation
-```
-sudo apt-get install ros-kinetic-navigation
-```
-```
-git checkout kinetic-devel
-```
 - obstacle_detector
 ```
 sudo apt-get install libarmadillo-dev
-```
-
-- sick_scan
-```
-git checkout master
 ```
 
 ### Compiling Cartographer_ROS
