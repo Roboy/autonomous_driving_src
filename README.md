@@ -11,9 +11,14 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
-##
+## Install...
+Map Server:
 ```
 sudo apt-get install ros-kinetic-map-server
+```
+LIDAR:
+```
+sudo apt-get install ros-kinetic-sick_scan
 ```
 
 ### Git Submodules
@@ -76,7 +81,7 @@ catkin build
 (This may very well take more than 30 minutes; check the github issues if it fails!)
 
 
-# About the Submodules
+# HOW-TO
 
 ## Google Cartographer_ROS
 [Cartographer](https://github.com/googlecartographer/cartographer) is a system that provides real-time simultaneous localization and mapping [SLAM](https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping) in 2D and 3D across multiple platforms and sensor configurations. This project provides Cartographer's ROS integration.
@@ -90,7 +95,7 @@ catkin build
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
 ```
-roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol hostname:=192.168.1.42 
+roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol hostname:=192.168.0.42 
 ```
 
 
