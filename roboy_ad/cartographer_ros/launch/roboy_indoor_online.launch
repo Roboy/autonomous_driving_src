@@ -24,7 +24,7 @@
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find roboy_ad)/cartographer_ros/configuration_files
-          -configuration_basename roboy_indoor.lua"
+          -configuration_basename utum_indoors.lua"
       output="screen">
     <remap from="scan" to="scan" />
   </node>
