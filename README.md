@@ -90,7 +90,7 @@ rosrun map_server map_server mymap.yaml
 
 
 ## Sick_Scan
-[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.1.42). 
+[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). 
 ```
 roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol
 ```
