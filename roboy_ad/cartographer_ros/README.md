@@ -1,11 +1,10 @@
 # Purpose
 
-`Cartographer`_ is a system that provides real-time simultaneous localization
-and mapping (`SLAM`_) in 2D and 3D across multiple platforms and sensor
+[Cartographer](https://github.com/googlecartographer/cartographer) is a system that provides real-time simultaneous localization
+and mapping ([SLAM](https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping) in 2D and 3D across multiple platforms and sensor
 configurations. This project provides Cartographer's ROS integration.
 
-.. _Cartographer: https://github.com/googlecartographer/cartographer
-.. _SLAM: https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping
+.. _SLAM: 
 
 # Getting started
 Learn to use Cartographer with ROS at the [Read the Docs site](https://google-cartographer-ros.readthedocs.io). Install cartographer by executing
@@ -13,6 +12,8 @@ Learn to use Cartographer with ROS at the [Read the Docs site](https://google-ca
 sudo apt-get install ros-kinetic-cartographer*
 ```
 PDF containing [Google Cartographer_ROS documentation](https://media.readthedocs.org/pdf/google-cartographer-ros/latest/google-cartographer-ros.pdf)
+
+To runt he examples here, you need to get Roboys Lidar Recordings from [here](https://drive.google.com/drive/folders/1ZM3ox1b3obriWD1hJtNl5FpDvfjspb3m)
 
 # Some useful syntax
 
@@ -27,15 +28,6 @@ Create Roboys own bag [like here](https://google-cartographer-ros.readthedocs.io
 rosrun cartographer_ros cartographer_rosbag_validate -bag_filename your_bag.bag
 ```
 
-## Get sample `.bag`-files
-
-Get sample `.bag`-files
-```
-wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/cartographer_paper_deutsches_museum.bag
-wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/b2-2016-04-05-14-44-52.bag
-wget -P ~/Downloads https://storage.googleapis.com/cartographer-public-data/bags/backpack_2d/b2-2016-04-27-12-31-41.bag
-```
-
 ## Cut `.bag`-files
 
 Cut certain timeframe from `.bag`-file: 
@@ -48,7 +40,7 @@ rosbag filter Input.bag Output.bag "t.secs>= 1461760303 and t.secs <= 1461760503
 According files for Roboy are defined. To test with Roboy's bag run
 ```
 roslaunch cartographer_ros roboy_indoor_online.launch 
-rosbag play ${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+rosbag play ${HOME}/data/utum/utum_groundfloor_cw.bag
 ```
 
 ## Run Cartographer offline on a  `.bag`-file
@@ -56,7 +48,7 @@ rosbag play ${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
 According files for Roboy are defined. To test with Roboys bag run::
 
 ```
-roslaunch cartographer_ros roboy_indoor_offline.launch bag_filenames:=${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
+roslaunch cartographer_ros roboy_indoor_offline.launch bag_filenames:=${HOME}/data/utum/utum_groundfloor_cw.bag
 ```
 
 ## Save a Map 
@@ -82,19 +74,13 @@ rosrun cartographer_ros cartographer_pbstream_to_ros_map -pbstream_filename ${HO
 
 ## Pure Localization
 
-Launch cartographer_ros and provide it with the `.pbstream`-file saved from a previous offline-run with SLAM::
-
+Launch cartographer_ros and provide it with the `.pbstream`-file saved from a previous offline-run with SLAM:
+```
 roslaunch cartographer_ros roboy_localization.launch load_state_filename:=${HOME}/Downloads/DeuMu.bag.pbstream
-
+```
 Play a `.bag`-file faking the live location of the robot:
 ```
 rosbag play ${HOME}/Downloads/b2-2016-04-05-14-44-52.bag
-```
-options to pick from for the `.bag`-files:
-```
-${HOME}/Downloads/cartographer_paper_deutsches_museum.bag
-${HOME}/Downloads/b2-2016-04-27-12-31-41.bag
-${HOME}/Downloads/b2-2016-04-05-14-44-52.bag
 ```
 
 # Structure
