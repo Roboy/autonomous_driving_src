@@ -12,16 +12,16 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-include "roboy_indoor.lua"
+include "utum_indoors.lua"
 
 TRAJECTORY_BUILDER.pure_localization_trimmer = {
 	max_submaps_to_keep = 5,
 }
 
 
-POSE_GRAPH.constraint_builder.global_localization_min_score = 0.6
+--POSE_GRAPH.constraint_builder.global_localization_min_score = 0.6
 
-POSE_GRAPH.constraint_builder.min_score = 0.65
+--POSE_GRAPH.constraint_builder.min_score = 0.65
 
 POSE_GRAPH.constraint_builder.sampling_ratio = 0.05
 
