@@ -1,6 +1,3 @@
-[submodule "cartographer_ros"]
-	path = cartographer_ros
-	url = https://github.com/Roboy/cartographer_ros.git
 [submodule "obstacle_detector"]
 	path = obstacle_detector
 	url = https://github.com/tysik/obstacle_detector
