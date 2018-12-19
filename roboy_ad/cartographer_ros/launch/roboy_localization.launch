@@ -17,14 +17,14 @@
 <launch>
 
   <param name="robot_description"
-    textfile="$(find cartographer_ros)/urdf/roboy.urdf" />
+    textfile="$(find roboy_ad)/cartographer_ros/urdf/roboy.urdf" />
 
   <node name="robot_state_publisher" pkg="robot_state_publisher"
     type="robot_state_publisher" />
 
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
-          -configuration_directory $(find cartographer_ros)/configuration_files
+          -configuration_directory $(find roboy_ad)/cartographer_ros/configuration_files
           -configuration_basename roboy_localization.lua
           -load_state_filename $(arg load_state_filename)"
       output="screen">
