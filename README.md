@@ -1,7 +1,7 @@
 # Automated Driving `/src/`
 `/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
-# Building
+# Getting ready to go
 
 ## Cloning
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
@@ -11,7 +11,7 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
-## Install...
+### Install...
 Map Server:
 ```
 sudo apt-get install ros-kinetic-map-server
@@ -28,21 +28,15 @@ Cartographer
 ```
 sudo apt-get install ros-kinetic-cartographer*
 ```
+for obstacle_detector
+```
+sudo apt-get install libarmadillo-dev
+```
 
 ### Git Submodules
 ```
 git submodule init
 git submodule update
-```
-
-### Fixing detached heads & switching branches
-- cartographer_ros
-```
-git checkout roboy
-```
-- obstacle_detector
-```
-sudo apt-get install libarmadillo-dev
 ```
 
 ## Building
