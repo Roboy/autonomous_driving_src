@@ -11,6 +11,11 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
+##
+```
+sudo apt-get install ros-kinetic-map-server
+```
+
 ### Git Submodules
 ```
 git submodule init
@@ -78,13 +83,6 @@ catkin build
 
 ## Geometry2
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
-
-## Navigation
-includes `map_server`
-```
-rosrun map_server map_server mymap.yaml
-
-```
 
 ## Obstacle_Detector
 
