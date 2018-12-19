@@ -18,7 +18,7 @@ sudo apt-get install ros-kinetic-map-server
 ```
 LIDAR:
 ```
-sudo apt-get install ros-kinetic-sick_scan
+sudo apt-get install ros-kinetic-sick-scan
 ```
 
 ### Git Submodules
