@@ -19,7 +19,6 @@ class MotorController:
     Otherwise
     """
     def __init__(self):
-        #TODO: check topic
         self.publisher = rospy.Publisher('/roboy/control/GPIO', Bool, queue_size=1)
 
     def update_speed(self, target_speed):
@@ -30,6 +29,9 @@ class MotorController:
 
 
 class ControlNode:
+    """
+    A ROS node that receives cmd_vel commands and converts them to commands for rickshaw.
+    """
     def __init__(self):
         self.steering = SteeringController()
         self.motor = MotorController()
