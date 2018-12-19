@@ -1,3 +1,9 @@
+[submodule "roboy_communication"]
+	path = roboy_communication
+	url = https://github.com/Roboy/roboy_communication.git
+[submodule "common_utilities"]
+	path = common_utilities
+	url = https://github.com/Roboy/common_utilities.git
 [submodule "obstacle_detector"]
 	path = obstacle_detector
 	url = https://github.com/tysik/obstacle_detector
