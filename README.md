@@ -54,6 +54,11 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
+To be able to run pure localization, the following step is essential:
+```
+cd src/cartographer/
+git checkout master
+```
 
 ## Building
 After you completed all of the above steps, run
