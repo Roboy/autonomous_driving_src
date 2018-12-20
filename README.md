@@ -23,6 +23,7 @@ sudo apt-get install ros-kinetic-sick-scan
 ... Cartographer
 ```
 sudo apt-get install -y python-wstool python-rosdep ninja-build
+sudo apt-get install ros-kinetic-abseil-cpp
 ```
 ... TF2
 ```
