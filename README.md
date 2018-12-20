@@ -20,6 +20,10 @@ sudo apt-get install ros-kinetic-map-server
 ```
 sudo apt-get install ros-kinetic-sick-scan
 ```
+... Cartographer
+```
+sudo apt-get install -y python-wstool python-rosdep ninja-build
+```
 ... TF2
 ```
 sudo apt-get install ros-kinetic-geometry2
