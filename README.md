@@ -1,7 +1,7 @@
 # Automated Driving `/src/`
 `/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
-# Building
+# Getting ready to go
 
 ## Cloning
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
@@ -11,7 +11,7 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
-## Install...
+### Install...
 Map Server:
 ```
 sudo apt-get install ros-kinetic-map-server
@@ -28,6 +28,10 @@ Cartographer
 ```
 sudo apt-get install ros-kinetic-cartographer*
 ```
+for obstacle_detector
+```
+sudo apt-get install libarmadillo-dev
+```
 
 ### Git Submodules
 ```
@@ -35,40 +39,11 @@ git submodule init
 git submodule update
 ```
 
-### Fixing detached heads & switching branches
-- cartographer_ros
-```
-git checkout roboy
-```
-- obstacle_detector
-```
-sudo apt-get install libarmadillo-dev
-```
-
-### Compiling Cartographer_ROS
-**Before compiling, leave your src directory and go to your catkin_ws**
-
-Compiling Cartographer_ROS works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but some paths differ due to Roboy using its own fork of Cartographer_ROS.
-```
-wstool init src
-wstool merge -t src https://raw.githubusercontent.com/Roboy/cartographer_ros/roboy/cartographer_ros.rosinstall
-wstool update -t src
-```
-
-```
-src/cartographer/scripts/install_proto3.sh
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
-```
-
 ## Building
 After you completed all of the above steps, run
 ```
 catkin build
 ```
-(This may very well take more than 30 minutes; check the github issues if it fails!)
-
 
 # HOW-TO
 
@@ -84,7 +59,7 @@ catkin build
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
 ```
-roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol hostname:=192.168.0.42 
+roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
 
 
