@@ -10,3 +10,6 @@
 [submodule "realsense"]
 	path = realsense
 	url = https://github.com/intel-ros/realsense.git
+[submodule "cartographer_ros"]
+	path = cartographer_ros
+	url = https://github.com/Roboy/cartographer_ros.git
