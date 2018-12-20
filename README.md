@@ -24,10 +24,6 @@ sudo apt-get install ros-kinetic-sick-scan
 ```
 sudo apt-get install ros-kinetic-geometry2
 ```
-... Cartographer
-```
-sudo apt-get install ros-kinetic-cartographer*
-```
 ... for obstacle_detector:
 ```
 sudo apt-get install libarmadillo-dev
