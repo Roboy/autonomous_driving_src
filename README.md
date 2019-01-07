@@ -37,6 +37,13 @@ sudo apt-get install libarmadillo-dev
 ```
 sudo apt-get install ros-kinetic-moveit-msgs
 ```
+... for Intel Realsense Camera (steps copied from [official documentation](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)):
+```
+sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
+sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
+sudo rm -f /etc/apt/sources.list.d/realsense-public.list
+sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
+```
 
 ### Git Submodules
 ```
@@ -81,6 +88,10 @@ catkin build
 
 ## Obstacle_Detector
 
+## Intel Realsense Camera
+[Intel(R) RealSense(TM) ROS Wrapper](https://github.com/intel-ros/realsense) for D400 series and SR300 Camera http://wiki.ros.org/RealSense
+
+Follow *Usage Instructions* in provided link for first steps.
 
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
