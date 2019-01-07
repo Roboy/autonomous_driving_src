@@ -1,15 +1,15 @@
-[submodule "sick_scan"]
-	path = sick_scan
-	url = https://github.com/SICKAG/sick_scan.git
-[submodule "geometry2"]
-	path = geometry2
-	url = https://github.com/ros/geometry2.git
-[submodule "cartographer_ros"]
-	path = cartographer_ros
-	url = https://github.com/Roboy/cartographer_ros.git
-[submodule "navigation"]
-	path = navigation
-	url = https://github.com/ros-planning/navigation
+[submodule "roboy_communication"]
+	path = roboy_communication
+	url = https://github.com/Roboy/roboy_communication.git
+[submodule "common_utilities"]
+	path = common_utilities
+	url = https://github.com/Roboy/common_utilities.git
 [submodule "obstacle_detector"]
 	path = obstacle_detector
 	url = https://github.com/tysik/obstacle_detector
+[submodule "realsense"]
+	path = realsense
+	url = https://github.com/intel-ros/realsense.git
+[submodule "cartographer_ros"]
+	path = cartographer_ros
+	url = https://github.com/Roboy/cartographer_ros.git
