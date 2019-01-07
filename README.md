@@ -44,6 +44,7 @@ sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/
 sudo rm -f /etc/apt/sources.list.d/realsense-public.list
 sudo apt-get update
 sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
+sudo apt-get install ros-kinetic-cv-bridge
 ```
 
 ### Git Submodules
