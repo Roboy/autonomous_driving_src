@@ -32,6 +32,7 @@ sudo apt-get install ros-kinetic-geometry2
 ... for obstacle_detector:
 ```
 sudo apt-get install libarmadillo-dev
+sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
 ```
 ... for communication messages:
 ```
@@ -88,6 +89,7 @@ catkin build
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
 ## Obstacle_Detector
+[Obstacle Detector](https://github.com/tysik/obstacle_detector) is a ROS package for 2D obstacle detection based on laser range data.
 
 ## Intel Realsense Camera
 [Intel(R) RealSense(TM) ROS Wrapper](https://github.com/intel-ros/realsense) for D400 series and SR300 Camera http://wiki.ros.org/RealSense
