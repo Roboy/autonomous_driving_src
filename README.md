@@ -50,7 +50,7 @@ sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev li
 ... for gazebo
 ```
 sudo apt-get install libgazebo7-dev ros-kinetic-gazebo-ros-pkgs 
-ros-kinetic-gazebo-ros-control ros-kinetic-gazebo-ros-controllers
+ros-kinetic-gazebo-ros-control ros-kinetic-ros-controllers
 ```
 ### Git Submodules
 ```
