@@ -33,6 +33,11 @@ sudo apt-get install libarmadillo-dev
 sudo apt-get install ros-kinetic-moveit-msgs
 ```
 
+... for gazebo
+```
+sudo apt-get install libgazebo7-dev ros-kinetic-gazebo-ros-pkgs 
+ros-kinetic-gazebo-ros-control ros-kinetic-gazebo-ros-controllers
+```
 ### Git Submodules
 ```
 git submodule init
