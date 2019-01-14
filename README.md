@@ -20,6 +20,11 @@ sudo apt-get install ros-kinetic-map-server
 ```
 sudo apt-get install ros-kinetic-sick-scan
 ```
+... Cartographer
+```
+sudo apt-get install -y python-wstool python-rosdep ninja-build
+sudo apt-get install ros-kinetic-abseil-cpp
+```
 ... TF2
 ```
 sudo apt-get install ros-kinetic-geometry2
@@ -27,10 +32,19 @@ sudo apt-get install ros-kinetic-geometry2
 ... for obstacle_detector:
 ```
 sudo apt-get install libarmadillo-dev
+sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
 ```
 ... for communication messages:
 ```
 sudo apt-get install ros-kinetic-moveit-msgs
+```
+... for Intel Realsense Camera (steps copied from [official documentation](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)):
+```
+sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
+sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
+sudo rm -f /etc/apt/sources.list.d/realsense-public.list
+sudo apt-get update
+sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
 ```
 
 ... for gazebo
@@ -80,7 +94,12 @@ catkin build
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
 ## Obstacle_Detector
+[Obstacle Detector](https://github.com/tysik/obstacle_detector) is a ROS package for 2D obstacle detection based on laser range data.
 
+## Intel Realsense Camera
+[Intel(R) RealSense(TM) ROS Wrapper](https://github.com/intel-ros/realsense) for D400 series and SR300 Camera http://wiki.ros.org/RealSense
+
+Follow *Usage Instructions* in provided link for first steps.
 
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
