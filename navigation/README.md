@@ -1,3 +1,5 @@
+A customized [ROS Navigation Stack](http://wiki.ros.org/navigation) for Rickshaw control.
+
 ## Background
 
 **/map** - world frame
@@ -5,7 +7,8 @@
 
 ## Running
 
-1. `source devel/setup.bash`
-2. `roslaunch robike mobe_base.launch` to start navigation stack
-3. `rosrun rviz rviz` to start visualization
-4. `rosrun robike viz.py`
+To start navigation stack run `roslaunch navigation roboy_nav.launch`
+To run a custom simulation of Rickshaw movement, run `rosrun navigation 
+custom_sim.py`
+
+To run a simulation in gazebo, run `roslaunch tricycle_gazebo tricycle.launch`
