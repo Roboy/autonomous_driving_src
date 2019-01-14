@@ -1,7 +1,7 @@
 # Automated Driving `/src/`
 `/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
 
-# Building
+# Getting ready to go
 
 ## Cloning
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
@@ -11,22 +11,40 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
-## Install...
-Map Server:
+### Install...
+... Map Server:
 ```
 sudo apt-get install ros-kinetic-map-server
 ```
-LIDAR:
+... LIDAR:
 ```
 sudo apt-get install ros-kinetic-sick-scan
 ```
-TF2
+... Cartographer
+```
+sudo apt-get install -y python-wstool python-rosdep ninja-build
+sudo apt-get install ros-kinetic-abseil-cpp
+```
+... TF2
 ```
 sudo apt-get install ros-kinetic-geometry2
 ```
-Cartographer
+... for obstacle_detector:
 ```
-sudo apt-get install ros-kinetic-cartographer*
+sudo apt-get install libarmadillo-dev
+sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
+```
+... for communication messages:
+```
+sudo apt-get install ros-kinetic-moveit-msgs
+```
+... for Intel Realsense Camera (steps copied from [official documentation](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)):
+```
+sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
+sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
+sudo rm -f /etc/apt/sources.list.d/realsense-public.list
+sudo apt-get update
+sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
 ```
 
 ### Git Submodules
@@ -34,17 +52,6 @@ sudo apt-get install ros-kinetic-cartographer*
 git submodule init
 git submodule update
 ```
-
-### Fixing detached heads & switching branches
-- cartographer_ros
-```
-git checkout roboy
-```
-- obstacle_detector
-```
-sudo apt-get install libarmadillo-dev
-```
-
 ### Compiling Cartographer_ROS
 **Before compiling, leave your src directory and go to your catkin_ws**
 
@@ -61,14 +68,17 @@ sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ```
+To be able to run pure localization, the following step is essential:
+```
+cd src/cartographer/
+git checkout master
+```
 
 ## Building
 After you completed all of the above steps, run
 ```
 catkin build
 ```
-(This may very well take more than 30 minutes; check the github issues if it fails!)
-
 
 # HOW-TO
 
@@ -79,12 +89,17 @@ catkin build
 [Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
 ## Obstacle_Detector
+[Obstacle Detector](https://github.com/tysik/obstacle_detector) is a ROS package for 2D obstacle detection based on laser range data.
 
+## Intel Realsense Camera
+[Intel(R) RealSense(TM) ROS Wrapper](https://github.com/intel-ros/realsense) for D400 series and SR300 Camera http://wiki.ros.org/RealSense
+
+Follow *Usage Instructions* in provided link for first steps.
 
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
 ```
-roslaunch sick_scan sick_lms_1xx.launch -use_binary_protocol hostname:=192.168.0.42 
+roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
 
 
