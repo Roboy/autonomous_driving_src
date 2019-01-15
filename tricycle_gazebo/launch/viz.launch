@@ -1,0 +1,14 @@
+<launch>
+  <arg name="model"
+       default="$(find tricycle_gazebo)/urdf_models/tricycle.urdf"/>
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder $(arg model)"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher"
+        name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0"/>
+  </node>
+  <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher">
+    <param name="use_gui" type="boolean" value="false"/>
+  </node>
+</launch>

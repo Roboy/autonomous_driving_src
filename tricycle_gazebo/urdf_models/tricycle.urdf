@@ -1,14 +1,18 @@
 <?xml version='1.0'?>
 <robot name="tricycle">
-  <material name="black">
-    <color rgba="0 0 0 1"/>
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
   </material>
-  <link name='chassis'>
+  <material name="white">
+    <color rgba="1 1 1 1 "/>
+  </material>
+  <link name='base_link'>
     <visual>
       <geometry>
         <box size=".4 .2 .1"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0.1"/>
+      <material name="white"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.1"/>
@@ -28,7 +32,7 @@
       <geometry>
         <cylinder length=".05" radius=".1"/>
       </geometry>
-      <material name="black"/>
+      <material name="grey"/>
     </visual>
     <collision>
       <geometry>
@@ -41,9 +45,9 @@
     </inertial>
   </link>
   <joint type="revolute" name="front_wheel_hinge">
-    <origin rpy="0 1.5707 1.5707" xyz="-0.2 0 0.1"/>
+    <origin rpy="0 -1.5707 1.5707" xyz="0.2 0 0.1"/>
     <child link="front_wheel"/>
-    <parent link="chassis"/>
+    <parent link="base_link"/>
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="-1.0" upper="1.0" velocity="0.5"/>
   </joint>
@@ -70,7 +74,7 @@
       <geometry>
         <cylinder length=".05" radius=".1"/>
       </geometry>
-      <material name="black"/>
+      <material name="grey"/>
     </visual>
     <collision>
       <geometry>
@@ -83,9 +87,9 @@
     </inertial>
   </link>
   <joint type="revolute" name="left_wheel_hinge">
-    <origin rpy="0 -1.5707 1.5707" xyz="0.1 0.13 0.1"/>
+    <origin rpy="0 1.5707 1.5707" xyz="-0.1 0.13 0.1"/>
     <child link="left_wheel"/>
-    <parent link="chassis"/>
+    <parent link="base_link"/>
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" velocity="0.5" lower="0" upper="10"/>
   </joint>
@@ -112,7 +116,7 @@
       <geometry>
         <cylinder length=".05" radius=".1"/>
       </geometry>
-      <material name="black"/>
+      <material name="grey"/>
     </visual>
     <collision>
       <geometry>
@@ -125,9 +129,9 @@
     </inertial>
   </link>
   <joint type="revolute" name="right_wheel_hinge">
-    <origin rpy="0 -1.5707 1.5707" xyz="0.1 -0.13 0.1"/>
+    <origin rpy="0 1.5707 1.5707" xyz="-0.1 -0.13 0.1"/>
     <child link="right_wheel"/>
-    <parent link="chassis"/>
+    <parent link="base_link"/>
     <axis xyz="0 0 1"/>
     <limit effort="1000.0" velocity="0.5" lower="0" upper="10"/>
   </joint>

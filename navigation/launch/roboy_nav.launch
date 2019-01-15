@@ -20,10 +20,10 @@
            value="base_local_planner/TrajectoryPlannerROS"/>
     <!-- <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> -->
   </node>
-  <node pkg="navigation" type="viz.py" name="tricycle_viz" respawn="false"
+  <!--<node pkg="navigation" type="viz.py" name="tricycle_viz" respawn="false"
         ns="tricycle_viz" output="screen">
     <rosparam file="$(find navigation)/config/tricycle.yaml" command="load"/>
-  </node>
+  </node>-->
 
   <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find navigation)/nav.rviz" />

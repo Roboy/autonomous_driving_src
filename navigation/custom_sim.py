@@ -19,7 +19,7 @@ Position = namedtuple('Position', ['x', 'y', 'th', 'phi'])
 Velocity = namedtuple('Velocity', ['x', 'y', 'th'])
 
 WORLD_FRAME = '/map'
-TRICYCLE_FRAME = 'tricycle_frame'
+TRICYCLE_FRAME = 'base_link'
 
 last_update = time.time()
 
