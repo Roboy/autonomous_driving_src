@@ -47,6 +47,11 @@ sudo apt-get update
 sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
 ```
 
+... for gazebo
+```
+sudo apt-get install libgazebo7-dev ros-kinetic-gazebo-ros-pkgs 
+ros-kinetic-gazebo-ros-control ros-kinetic-ros-controllers
+```
 ### Git Submodules
 ```
 git submodule init
