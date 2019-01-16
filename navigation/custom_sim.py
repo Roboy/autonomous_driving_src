@@ -15,11 +15,11 @@ from nav_msgs.msg import Odometry
 from navigation.msg import Controls
 import time
 
-Position = namedtuple('Position', ['x', 'y', 'th', 'phi'])
-Velocity = namedtuple('Velocity', ['x', 'y', 'th'])
-
 WORLD_FRAME = '/map'
 TRICYCLE_FRAME = 'base_link'
+
+Position = namedtuple('Position', ['x', 'y', 'th', 'phi'])
+Velocity = namedtuple('Velocity', ['x', 'y', 'th'])
 
 last_update = time.time()
 

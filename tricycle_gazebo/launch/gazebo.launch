@@ -3,7 +3,7 @@
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
-  <arg name="gui" default="true"/>
+  <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="model"
@@ -50,7 +50,9 @@
 
   <!-- Start a node that will forward navigation stack commands to the
   simulation -->
-  <node name="navigation_stack_bridge" pkg="tricycle_gazebo"
-        type="controller.py"/>
+  <node name="tricycle_controller" pkg="tricycle_gazebo" type="controller.py"/>
+  <!-- Start a node that will publish model position and handle
+  initial_position command -->
+  <node name="rviz_bridge" pkg="tricycle_gazebo" type="rviz_bridge.py"/>
 
 </launch>
