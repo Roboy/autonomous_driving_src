@@ -16,3 +16,4 @@
 [submodule "calibration_tools"]
 	path = calibration_tools
 	url = https://github.com/Roboy/calibration_tools.git
+	branch = master
