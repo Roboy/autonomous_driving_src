@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>tricycle_gazebo</name>
-  <version>0.0.0</version>
-  <description>Package that creates a tricycle model in gazebo
-    that is controllable by the ROS Navigation Stack
+  <name>roboy_models</name>
+  <version>1.0.0</version>
+  <description>Package contains different models that can be simulated in Gazebo
+    and controlled by the ROS Navigation Stack
   </description>
 
   <maintainer email="sasha.melkonyan@gmail.com">Alex Melkonyan</maintainer>
