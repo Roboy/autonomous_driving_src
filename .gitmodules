@@ -13,3 +13,6 @@
 [submodule "cartographer_ros"]
 	path = cartographer_ros
 	url = https://github.com/Roboy/cartographer_ros.git
+[submodule "calibration_tools"]
+	path = calibration_tools
+	url = https://github.com/Roboy/calibration_tools.git
