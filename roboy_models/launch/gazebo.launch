@@ -28,6 +28,8 @@
 
   <!-- Start a node that will publish model position and handle
   initial_position command -->
-  <node name="rviz_bridge" pkg="roboy_models" type="rviz_bridge.py"/>
+  <node name="rviz_bridge" pkg="roboy_models" type="rviz_bridge.py">
+      <param name="model_name" type="string" value="$(arg model_name)"/>
+  </node>
 
 </launch>
