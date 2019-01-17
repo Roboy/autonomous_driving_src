@@ -62,8 +62,8 @@
     </joint>
   </transmission>
   <gazebo reference="front_wheel">
-    <mu1 value="20.0"/>
-    <mu2 value="10.0"/>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
     <kp value="10000000.0"/>
     <kd value="1.0"/>
     <material>Gazebo/Grey</material>
@@ -91,7 +91,7 @@
     <child link="left_wheel"/>
     <parent link="base_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="1000.0" velocity="0.5" lower="0" upper="10"/>
+    <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="left_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -104,8 +104,8 @@
     </joint>
   </transmission>
   <gazebo reference="left_wheel">
-    <mu1 value="20.0"/>
-    <mu2 value="10.0"/>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
     <kp value="10000000.0"/>
     <kd value="1.0"/>
     <material>Gazebo/Grey</material>
@@ -133,7 +133,7 @@
     <child link="right_wheel"/>
     <parent link="base_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="1000.0" velocity="0.5" lower="0" upper="10"/>
+    <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="right_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -146,8 +146,8 @@
     </joint>
   </transmission>
   <gazebo reference="right_wheel">
-    <mu1 value="20.0"/>
-    <mu2 value="10.0"/>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
     <kp value="10000000.0"/>
     <kd value="1.0"/>
     <material>Gazebo/Grey</material>

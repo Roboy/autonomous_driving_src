@@ -1,0 +1,241 @@
+<robot name="rickshaw">
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1 "/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1 "/>
+  </material>
+
+  <!-- Base link -->
+  <link name="chassis">
+    <inertial>
+      <mass value="21.81948036288467"/>
+      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
+      <inertia ixx="10.27568843951201" ixy="-0.013973690995530063"
+               ixz="-0.24730354425384926" iyy="13.85328568075199"
+               iyz="-3.7960118868960127" izz="4.2009117489265355"/>
+    </inertial>
+    <collision name="bike_collision">
+      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/collisions/bike.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="bike_visual">
+      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
+      <geometry>
+        <mesh filename="package://roboy_models/rickshaw/meshes/visuals/bike.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <link name="left_wheel">
+    <inertial>
+      <mass value="13.340163929097852"/>
+      <origin rpy="0 0 0" xyz="0    -0.046  0"/>
+      <inertia ixx="2.6886582542943342" ixy="-3.73354366648907"
+               ixz="1.0631600153408745" iyy="12.355706573664577"
+               iyz="2.986802675143825" izz="12.327019793799982"/>
+    </inertial>
+    <collision name="left_wheel_collision">
+      <origin rpy="0 0 0" xyz="0    -0.046  0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/collisions/left_wheel.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_visual">
+      <origin rpy="0 0 0" xyz="0 -0.046  0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/visuals/left_wheel.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="joint_wheel_left" type="continuous">
+    <parent link="front_part"/>
+    <child link="left_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.052  -0.304   0.0345"/>
+    <axis xyz="0 -1  0"/>
+    <limit effort="1000.0" velocity="10.0"/>
+  </joint>
+  <transmission name="trans_wheel_left">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="$left_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="joint_wheel_left">
+      <hardwareInterface>hardware_interface/VelocityJointInterface
+      </hardwareInterface>
+    </joint>
+  </transmission>
+  <gazebo reference="left_wheel">
+    <mu1 value="20.0"/>
+    <mu2 value="10.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <link name="right_wheel">
+    <inertial>
+      <mass value="13.340163929097853"/>
+      <origin rpy="0 0 0" xyz="0    0.004 0"/>
+      <inertia ixx="3.24940928013889" ixy="4.452078024336449"
+               ixz="-1.2677691125288901" iyy="12.355706573664742"
+               iyz="2.98680267514417" izz="12.887770819644302"/>
+    </inertial>
+    <collision name="right_wheel_collision">
+      <origin rpy="0 0 0" xyz="0    0.004 0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/collisions/right_wheel.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="right_wheel_visual">
+      <origin rpy="0 0 0" xyz="0    0.004 0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/visuals/right_wheel.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="joint_wheel_right" type="continuous">
+    <parent link="front_part"/>
+    <child link="right_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.052   0.338   0.0345"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1000.0" velocity="10.0"/>
+  </joint>
+  <transmission name="trans_wheel_right">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="$right_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="joint_wheel_right">
+      <hardwareInterface>hardware_interface/VelocityJointInterface
+      </hardwareInterface>
+    </joint>
+  </transmission>
+  <gazebo reference="right_wheel">
+    <mu1 value="20.0"/>
+    <mu2 value="10.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <link name="front_part">
+    <inertial>
+      <mass value="16.81067246555305"/>
+      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
+      <inertia ixx="5.465362927092518" ixy="0.5110207238615475"
+               ixz="-0.28741684892541264" iyy="14.406342111944207"
+               iyz="2.937985200324096" izz="11.463900381107678"/>
+    </inertial>
+    <collision name="front_part_collision">
+      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/collisions/front_part.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="front_part_visual">
+      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/visuals/front_part.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <joint name="joint_front" type="revolute">
+    <parent link="chassis"/>
+    <child link="front_part"/>
+    <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.218"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="0.0" lower="-0.523598775598" upper="0.523598775598"
+           velocity="0.0"/>
+  </joint>
+  <transmission name="trans_front">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="$front_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="joint_front">
+      <hardwareInterface>hardware_interface/PositionJointInterface
+      </hardwareInterface>
+    </joint>
+  </transmission>
+
+  <link name="wheel_back">
+    <inertial>
+      <mass value="13.340163929098479"/>
+      <origin rpy="0 0 0" xyz="0    0.069 0"/>
+      <inertia ixx="1.40432084227607" ixy="-0.32812134268378185"
+               ixz="-0.12963248650394468" iyy="7.5043811804219125"
+               iyz="-2.2172043078944745" izz="6.140471373352849"/>
+    </inertial>
+    <collision name="wheel_back_collision">
+      <origin rpy="0 0 0" xyz="0    0.069 0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/collisions/wheel_back.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="wheel_back_visual">
+      <origin rpy="0 0 0" xyz="0    0.069 0"/>
+      <geometry>
+        <mesh
+            filename="package://roboy_models/rickshaw/meshes/visuals/wheel_back.stl"
+            scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="joint_wheel_back" type="continuous">
+    <parent link="chassis"/>
+    <child link="wheel_back"/>
+    <origin rpy="0 0 0" xyz="0.6486  -0.03107  0.25624"/>
+    <axis xyz="0 -1  0"/>
+    <limit effort="1000.0" velocity="10.0"/>
+  </joint>
+  <transmission name="trans_wheel_back">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="back_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="joint_wheel_back">
+      <hardwareInterface>hardware_interface/VelocityJointInterface
+      </hardwareInterface>
+    </joint>
+  </transmission>
+  <gazebo reference="wheel_back">
+    <mu1 value="20.0"/>
+    <mu2 value="10.0"/>
+    <kp value="10000000.0"/>
+    <kd value="1.0"/>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+</robot>

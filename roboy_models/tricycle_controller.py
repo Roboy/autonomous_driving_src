@@ -2,7 +2,7 @@
 """
 A controller that listens to cmd_vel topics and forwards commands to the
 tricycle model running in gazebo. Model's definition can be found in
-navigation/gazebo/tricycle.urdf
+roboy_models/tricycle/model.urdf
 """
 import rospy
 from std_msgs.msg import Float64MultiArray, Float64
