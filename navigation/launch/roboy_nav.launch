@@ -1,17 +1,27 @@
 <launch>
-     <node name="map_server" pkg="map_server" type="map_server" args="$(find navigation)/config/utum_map_server.yaml "/>
-     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <rosparam file="$(find navigation)/config/base_local_planner.yaml" command="load" />
-        <rosparam file="$(find navigation)/config/base_global_planner.yaml" command="load" />
-        <rosparam file="$(find navigation)/config/global_costmap.yaml" command="load" />
-        <rosparam file="$(find navigation)/config/local_costmap.yaml" command="load" />
-        <rosparam file="$(find navigation)/config/common_costmap.yaml" command="load" ns="global_costmap"/>
-        <rosparam file="$(find navigation)/config/common_costmap.yaml" command="load" ns="local_costmap"/>
-        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
-        <!-- <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> -->
+  <arg name="map_config" default="$(find navigation)/config/utum_map_server.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server"
+        args="$(arg map_config)"/>
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base"
+        output="screen">
+    <rosparam file="$(find navigation)/config/base_local_planner.yaml"
+              command="load"/>
+    <rosparam file="$(find navigation)/config/base_global_planner.yaml"
+              command="load"/>
+    <rosparam file="$(find navigation)/config/global_costmap.yaml"
+              command="load"/>
+    <rosparam file="$(find navigation)/config/local_costmap.yaml"
+              command="load"/>
+    <rosparam file="$(find navigation)/config/common_costmap.yaml"
+              command="load" ns="global_costmap"/>
+    <rosparam file="$(find navigation)/config/common_costmap.yaml"
+              command="load" ns="local_costmap"/>
+    <param name="base_local_planner"
+           value="base_local_planner/TrajectoryPlannerROS"/>
+    <!-- <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /> -->
+  </node>
 
-     </node>
-     <node pkg="navigation" type="viz.py" name="tricycle_viz" respawn="false" ns="tricycle_viz" output="screen">
-        <rosparam file="$(find navigation)/config/tricycle.yaml" command="load" />
-     </node>
+  <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find navigation)/nav.rviz" />
+
 </launch>
