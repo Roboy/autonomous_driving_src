@@ -22,13 +22,13 @@
             file="$(find roboy_models)/rickshaw/config/front_part_controller.yaml"
             ns="rickshaw_front_part_controller"/>
   <rosparam command="load"
-            file="$(find roboy_models)/rickshaw/config/rear_wheel_controller.yaml"
-            ns="rickshaw_rear_wheel_controller"/>
+            file="$(find roboy_models)/rickshaw/config/wheels_controller.yaml"
+            ns="rickshaw_wheels_controller"/>
   <node name="rickshaw_controller_spawner" pkg="controller_manager"
         type="spawner"
         args="rickshaw_joint_state_controller
         rickshaw_front_part_controller
-        rickshaw_rear_wheel_controller
+        rickshaw_wheels_controller
           --shutdown-timeout 3"/>
   <node name="rickshaw_controller" pkg="roboy_models"
         type="rickshaw_controller.py"/>

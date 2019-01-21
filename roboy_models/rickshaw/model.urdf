@@ -117,7 +117,7 @@
     <parent link="front_part"/>
     <child link="right_wheel"/>
     <origin rpy="0 0 0" xyz="-0.052   0.338   0.0345"/>
-    <axis xyz="0 1 0"/>
+    <axis xyz="0 -1 0"/>
     <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="trans_wheel_right">

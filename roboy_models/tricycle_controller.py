@@ -20,11 +20,11 @@ class TricycleControlGazebo:
 
     def start(self):
         rospy.init_node('tricycle_control_gazebo', log_level=rospy.DEBUG)
-        rear_wheels_pub = rospy.Publisher(
-            '/tricycle_rear_wheels_controller/command', Float64MultiArray,
+        wheels_pub = rospy.Publisher(
+            '/tricycle_wheels_controller/command', Float64MultiArray,
             queue_size=10)
-        front_wheel_pub = rospy.Publisher(
-            '/tricycle_front_wheel_controller/command', Float64,
+        steering_pub = rospy.Publisher(
+            '/tricycle_steering_controller/command', Float64,
             queue_size=10)
 
         def handle_velocity(twist):
@@ -33,12 +33,13 @@ class TricycleControlGazebo:
                 rospy.logerr('Non-holomonic velocity found vy=%.2f', vy)
             phi = twist.angular.z
             rospy.logdebug('Command(vel=%.2f, steering=%.2f) received', vx, phi)
-            front_wheel_pub.publish(phi)
+            steering_pub.publish(phi)
             wheel_p = 2.0 * WHEEL_RADIUS * pi
             wheel_rot_vel = vx / wheel_p
-            lin_vel = Float64MultiArray(data=[wheel_rot_vel, wheel_rot_vel])
+            lin_vel = Float64MultiArray(data=[wheel_rot_vel, wheel_rot_vel,
+                                              wheel_rot_vel])
 
-            rear_wheels_pub.publish(lin_vel)
+            wheels_pub.publish(lin_vel)
 
         rospy.Subscriber('cmd_vel', Twist, handle_velocity, queue_size=1)
         rospy.spin()

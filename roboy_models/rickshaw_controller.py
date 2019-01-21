@@ -5,7 +5,7 @@ rickshaw model running in gazebo. Model's definition can be found in
 roboy_models/rickshaw/model.urdf
 """
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Float64MultiArray
 from geometry_msgs.msg import Twist
 from math import pi
 
@@ -20,8 +20,8 @@ class RickshawControlGazebo:
 
     def start(self):
         rospy.init_node('rickshaw_control_gazebo', log_level=rospy.DEBUG)
-        rear_wheel_pub = rospy.Publisher(
-            '/rickshaw_rear_wheel_controller/command', Float64,
+        wheels_pub = rospy.Publisher(
+            '/rickshaw_wheels_controller/command', Float64MultiArray,
             queue_size=10)
         front_part_pub = rospy.Publisher(
             '/rickshaw_front_part_controller/command', Float64,
@@ -37,8 +37,10 @@ class RickshawControlGazebo:
             front_part_pub.publish(phi)
             wheel_p = 2.0 * WHEEL_RADIUS * pi
             wheel_rot_vel = vx / wheel_p
-            rospy.logdebug('Try setting wheel speed to %.2f', wheel_rot_vel)
-            rear_wheel_pub.publish(wheel_rot_vel)
+            rospy.logdebug('Try setting wheels speed to %.2f', wheel_rot_vel)
+            lin_vel = Float64MultiArray(data=[wheel_rot_vel, wheel_rot_vel,
+                                              wheel_rot_vel])
+            wheels_pub.publish(lin_vel)
 
 
         rospy.Subscriber('cmd_vel', Twist, handle_velocity, queue_size=1)
