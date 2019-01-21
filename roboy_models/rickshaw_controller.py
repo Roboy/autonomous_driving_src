@@ -33,10 +33,13 @@ class RickshawControlGazebo:
                 rospy.logerr('Non-holomonic velocity found vy=%.2f', vy)
             phi = twist.angular.z
             rospy.logdebug('Command(vel=%.2f, steering=%.2f) received', vx, phi)
+            rospy.logdebug('Try setting steering angle to %.2f', phi)
             front_part_pub.publish(phi)
             wheel_p = 2.0 * WHEEL_RADIUS * pi
             wheel_rot_vel = vx / wheel_p
+            rospy.logdebug('Try setting wheel speed to %.2f', wheel_rot_vel)
             rear_wheel_pub.publish(wheel_rot_vel)
+
 
         rospy.Subscriber('cmd_vel', Twist, handle_velocity, queue_size=1)
         rospy.spin()

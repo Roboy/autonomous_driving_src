@@ -57,7 +57,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="front_wheel_hinge">
-      <hardwareInterface>hardware_interface/PositionJointInterface
+      <hardwareInterface>hardware_interface/VelocityJointInterface
       </hardwareInterface>
     </joint>
   </transmission>

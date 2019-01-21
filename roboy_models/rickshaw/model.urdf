@@ -10,7 +10,7 @@
   </material>
 
   <!-- Base link -->
-  <link name="chassis">
+  <link name="base_link">
     <inertial>
       <mass value="21.81948036288467"/>
       <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
@@ -48,7 +48,7 @@
       <origin rpy="0 0 0" xyz="0    -0.046  0"/>
       <geometry>
         <mesh
-            filename="package://roboy_models/rickshaw/meshes/collisions/left_wheel.stl"
+            filename="package://roboy_models/rickshaw/meshes/visuals/left_wheel.stl"
             scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
@@ -99,7 +99,7 @@
       <origin rpy="0 0 0" xyz="0    0.004 0"/>
       <geometry>
         <mesh
-            filename="package://roboy_models/rickshaw/meshes/collisions/right_wheel.stl"
+            filename="package://roboy_models/rickshaw/meshes/visuals/right_wheel.stl"
             scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
@@ -165,12 +165,12 @@
     </visual>
   </link>
   <joint name="joint_front" type="revolute">
-    <parent link="chassis"/>
+    <parent link="base_link"/>
     <child link="front_part"/>
     <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.218"/>
     <axis xyz="0 0 1"/>
-    <limit effort="0.0" lower="-0.523598775598" upper="0.523598775598"
-           velocity="0.0"/>
+    <limit effort="1000" lower="-0.523598775598" upper="0.523598775598"
+           velocity=".5"/>
   </joint>
   <transmission name="trans_front">
     <type>transmission_interface/SimpleTransmission</type>
@@ -178,7 +178,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="joint_front">
-      <hardwareInterface>hardware_interface/PositionJointInterface
+      <hardwareInterface>hardware_interface/VelocityJointInterface
       </hardwareInterface>
     </joint>
   </transmission>
@@ -195,7 +195,7 @@
       <origin rpy="0 0 0" xyz="0    0.069 0"/>
       <geometry>
         <mesh
-            filename="package://roboy_models/rickshaw/meshes/collisions/wheel_back.stl"
+            filename="package://roboy_models/rickshaw/meshes/visuals/wheel_back.stl"
             scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
@@ -210,7 +210,7 @@
     </visual>
   </link>
   <joint name="joint_wheel_back" type="continuous">
-    <parent link="chassis"/>
+    <parent link="base_link"/>
     <child link="wheel_back"/>
     <origin rpy="0 0 0" xyz="0.6486  -0.03107  0.25624"/>
     <axis xyz="0 -1  0"/>

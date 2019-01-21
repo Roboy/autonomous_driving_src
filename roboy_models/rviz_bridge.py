@@ -50,10 +50,7 @@ class RVIZBridge:
             robot_state = ModelState()
             robot_state.model_name = self.model_name
             robot_state.pose = pos
-            success, status_msg = set_robot_pos.publish(robot_state)
-            if not success:
-                rospy.logerr('Position change failed. Error:\n %s',
-                             status_msg)
+            set_robot_pos.publish(robot_state)
 
         rospy.Subscriber('initialpose', PoseWithCovarianceStamped,
                          handle_initialpose, queue_size=1)

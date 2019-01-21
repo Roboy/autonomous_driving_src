@@ -1,2 +1,2 @@
-type: "position_controllers/JointPositionController"
+type: "velocity_controllers/JointVelocityController"
 joint: front_wheel_hinge

@@ -7,12 +7,7 @@
   <include file="$(find roboy_models)/launch/model.launch">
     <arg name="model_urdf" value="$(arg model_urdf)"/>
   </include>
-  <!-- Rickshaw model was designed oriented in the backwards direction. To fix
-  that we add another frame, and will be moving its position when visualizing
-   -->
-  <node pkg="tf" type="static_transform_publisher" name="rickshaw_chassis"
-        args="0 0 0 0 0 1 0.000796 base_link chassis 100" />
-  <!-- include the file that starts gazebo simulation -->
+
   <include file="$(find roboy_models)/launch/gazebo.launch">
     <arg name="model_urdf" value="$(arg model_urdf)"/>
     <arg name="model_name" value="$(arg model_name)"/>
