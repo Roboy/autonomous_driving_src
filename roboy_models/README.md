@@ -7,5 +7,9 @@ This ROS package has several main functions:
 
 ## Usage 
 
-Run `roslaunch roboy_models rickshaw.launch` and `roslaunch navigation 
-roboy_nav.launch`. Now you can control the model in RVIZ
+1. `roslaunch roboy_models rickshaw.launch` 
+2. `roslaunch navigation roboy_nav.launch`
+
+Note: commands should be executed in the order specified. 
+
+After that you can control the model in RVIZ by selecting __2D Nav Goal__  in the toolbar and placing it to the desired location on the map. 
