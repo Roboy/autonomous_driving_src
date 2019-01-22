@@ -13,12 +13,14 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 
 ## Things to do before building
 
+### Install...
+
 To simply install all packages listed below run
 ```
 sudo ./package_requirements.sh
 ```
+Otherwise, go through this list manually:
 
-### Install...
 ... Map Server:
 ```
 sudo apt-get install ros-kinetic-map-server
