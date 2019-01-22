@@ -1,5 +1,7 @@
 # Automated Driving `/src/`
-`/src/` directory of `catkin_ws` for Roboys' automated driving project. Note that this purely is a conglomeration of code that by no means enables true autonomy. 
+`/src/` directory of `catkin_ws` for Roboys' automated driving project. It consists of a conglomeration of code enabling us to achieve our next goal of Roboy riding his rickshaw from the subway station to UTUM. This ranges from from sensor setup for environmental perception to mapping, navigation and finally control output.
+
+To build, follow the instructions below or create a Docker as described [here](https://github.com/Roboy/autonomous_driving/tree/devel/dockers).
 
 # Getting ready to go
 
@@ -10,6 +12,11 @@ git clone https://github.com/Roboy/autonomous_driving_src.git .
 ```
 
 ## Things to do before building
+
+To simply install all packages listed below run
+```
+sudo ./package_requirements.sh
+```
 
 ### Install...
 ... Map Server:
