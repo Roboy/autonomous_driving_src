@@ -15,16 +15,16 @@
             file="$(find roboy_models)/tricycle/config/joints_state.yaml"
             ns="tricycle_joint_state_controller"/>
   <rosparam command="load"
-            file="$(find roboy_models)/tricycle/config/front_wheel_controller.yaml"
-            ns="tricycle_front_wheel_controller"/>
+            file="$(find roboy_models)/tricycle/config/steering_controller.yaml"
+            ns="tricycle_steering_controller"/>
   <rosparam command="load"
-            file="$(find roboy_models)/tricycle/config/rear_wheels_controller.yaml"
-            ns="tricycle_rear_wheels_controller"/>
+            file="$(find roboy_models)/tricycle/config/wheels_controller.yaml"
+            ns="tricycle_wheels_controller"/>
   <node name="trycicle_controller_spawner" pkg="controller_manager"
         type="spawner"
         args="tricycle_joint_state_controller
-          tricycle_front_wheel_controller
-          tricycle_rear_wheels_controller
+          tricycle_steering_controller
+          tricycle_wheels_controller
           --shutdown-timeout 3"/>
    <!-- Start a node that will forward navigation stack commands to the
   simulation -->

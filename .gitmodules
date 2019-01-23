@@ -17,3 +17,6 @@
 [submodule "radlocc_calibration"]
 	path = radlocc_calibration
 	url = https://github.com/bernardomig/radlocc_calibration.git
+[submodule "sick_scan"]
+	path = sick_scan
+	url = https://github.com/SICKAG/sick_scan.git

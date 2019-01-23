@@ -15,6 +15,7 @@ DEFAULT_MODEL_NAME = 'tricycle'
 DEFAULT_WORLD_FRAME = '/map'
 DEFAULT_MODEL_FRAME = 'base_link'
 
+START_DELAY = 3 # sec
 
 class RVIZBridge:
 
@@ -25,16 +26,17 @@ class RVIZBridge:
         rospy.init_node('gazebo_rviz_bridge',
                         log_level=rospy.DEBUG)
         self.get_params()
+        rospy.sleep(START_DELAY)
         self.handle_initial_position()
         self.publish_model_position()
         rospy.spin()
 
     def get_params(self):
-        self.model_name = rospy.get_param('model_name',
-                                          default=DEFAULT_MODEL_NAME)
-        self.model_frame = rospy.get_param('model_frame',
+        self.name = rospy.get_name()
+        self.model_name = rospy.get_param('%s/model_name' % self.name)
+        self.model_frame = rospy.get_param('%s/model_frame' % self.name,
                                            default=DEFAULT_MODEL_FRAME)
-        self.world_frame = rospy.get_param('world_frame',
+        self.world_frame = rospy.get_param('%s/world_frame' % self.name,
                                            default=DEFAULT_WORLD_FRAME)
 
     def handle_initial_position(self):
@@ -42,15 +44,13 @@ class RVIZBridge:
                                         ModelState, queue_size=1)
 
         def handle_initialpose(pose):
-            rospy.loginfo('Resetting poisition of the %s', self.model_name)
+            rospy.loginfo('rviz_bridge.py: Resetting poisition of the %s',
+                          self.model_name)
             pos = pose.pose.pose
             robot_state = ModelState()
             robot_state.model_name = self.model_name
             robot_state.pose = pos
-            success, status_msg = set_robot_pos.publish(robot_state)
-            if not success:
-                rospy.logerr('Position change failed. Error:\n %s',
-                             status_msg)
+            set_robot_pos.publish(robot_state)
 
         rospy.Subscriber('initialpose', PoseWithCovarianceStamped,
                          handle_initialpose, queue_size=1)
@@ -87,7 +87,8 @@ class RVIZBridge:
                 if model_name == self.model_name:
                     publish_odom(pose, twist)
                     return
-            rospy.logerr('Could not find position and velocity of %s',
+            rospy.logerr('rviz_bridge.py: Could not find position and '
+                         'velocity of %s',
                          self.model_name)
 
         rospy.Subscriber('/gazebo/model_states/', ModelStates,
