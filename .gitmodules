@@ -10,12 +10,13 @@
 [submodule "realsense"]
 	path = realsense
 	url = https://github.com/intel-ros/realsense.git
+	branch = development
 [submodule "cartographer_ros"]
 	path = cartographer_ros
 	url = https://github.com/Roboy/cartographer_ros.git
-[submodule "calibration_tools"]
-	path = calibration_tools
-	url = https://github.com/Roboy/calibration_tools.git
+[submodule "radlocc_calibration"]
+	path = radlocc_calibration
+	url = https://github.com/bernardomig/radlocc_calibration.git
 [submodule "sick_scan"]
 	path = sick_scan
 	url = https://github.com/SICKAG/sick_scan.git

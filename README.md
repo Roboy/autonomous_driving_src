@@ -40,6 +40,12 @@ sudo apt-get install ros-kinetic-geometry2
 sudo apt-get install libarmadillo-dev
 sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
 ```
+
+#### ... for radlocc_calibration:
+```
+sudo apt-get install ros-kinetic-cv-bridge
+```
+
 #### ... for communication messages:
 ```
 sudo apt-get install ros-kinetic-moveit-msgs
@@ -107,6 +113,9 @@ catkin build
 [Intel(R) RealSense(TM) ROS Wrapper](https://github.com/intel-ros/realsense) for D400 series and SR300 Camera http://wiki.ros.org/RealSense
 
 Follow *Usage Instructions* in provided link for first steps.
+
+## Calibration
+The submodule [radlocc_calibration](https://github.com/bernardomig/radlocc_calibration) contains a tool that can be used to record camera and lidar data for extrinsic-calibration between camera an lidar. For more info about how to do the calibration visit the [wiki article](https://github.com/Roboy/autonomous_driving/wiki/Calibration:-Extrinsic-calibration-between-camera-and-lidar) of the [Roboy autonomous_driving repository](https://github.com/Roboy/autonomous_driving).
 
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
