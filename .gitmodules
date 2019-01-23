@@ -16,3 +16,6 @@
 [submodule "calibration_tools"]
 	path = calibration_tools
 	url = https://github.com/Roboy/calibration_tools.git
+[submodule "sick_scan"]
+	path = sick_scan
+	url = https://github.com/SICKAG/sick_scan.git

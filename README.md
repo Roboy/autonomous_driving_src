@@ -25,10 +25,7 @@ Otherwise, go through this list manually:
 ```
 sudo apt-get install ros-kinetic-map-server
 ```
-#### ... LIDAR:
-```
-sudo apt-get install ros-kinetic-sick-scan
-```
+
 #### ... Cartographer
 ```
 sudo apt-get install -y python-wstool python-rosdep ninja-build
