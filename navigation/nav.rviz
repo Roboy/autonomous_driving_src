@@ -3,11 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Grid1
-        - /Marker1
-        - /Marker1/Namespaces1
-        - /Local costmap1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 463
   - Class: rviz/Selection
@@ -28,7 +24,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -50,14 +46,6 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: map
       Value: false
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: tricycle_viz/visualization_marker
-      Name: Marker
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
     - Alpha: 0.699999988
       Class: rviz/Map
       Color Scheme: costmap
@@ -88,7 +76,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /move_base/TrajectoryPlannerROS/global_plan
+      Topic: /move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -246,12 +234,12 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        chassis:
+        base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_wheel:
+        front_part:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -262,6 +250,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -297,25 +290,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 1.45173693
+      Distance: 23.0194778
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.228989512
-        Y: -0.340571523
-        Z: 9.33146293e-05
+        X: 11.2642498
+        Y: 0.646731138
+        Z: 9.29794405e-05
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.114797108
+      Pitch: 0.534796238
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 5.16484737
+      Yaw: 6.12803125
     Saved: ~
 Window Geometry:
   Displays:
