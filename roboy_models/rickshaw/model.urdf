@@ -12,14 +12,14 @@
   <!-- Base link -->
   <link name="base_link">
     <inertial>
-      <mass value="21.81948036288467"/>
-      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
-      <inertia ixx="10.27568843951201" ixy="-0.013973690995530063"
-               ixz="-0.24730354425384926" iyy="13.85328568075199"
-               iyz="-3.7960118868960127" izz="4.2009117489265355"/>
+      <mass value="21.81947805717533"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <inertia ixx="5.886482099704385" ixy="0.05246604407007407"
+               ixz="-0.14605334861846847" iyy="9.145464405182723"
+               iyz="2.3093169469685275" izz="3.8627096944427937"/>
     </inertial>
     <collision name="bike_collision">
-      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/collisions/bike.stl"
@@ -27,7 +27,7 @@
       </geometry>
     </collision>
     <visual name="bike_visual">
-      <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.037"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
         <mesh filename="package://roboy_models/rickshaw/meshes/visuals/bike.stl"
               scale="0.001 0.001 0.001"/>
@@ -38,14 +38,15 @@
 
   <link name="left_wheel">
     <inertial>
-      <mass value="13.340163929097852"/>
-      <origin rpy="0 0 0" xyz="0    -0.046  0"/>
-      <inertia ixx="2.6886582542943342" ixy="-3.73354366648907"
-               ixz="1.0631600153408745" iyy="12.355706573664577"
-               iyz="2.986802675143825" izz="12.327019793799982"/>
+      <mass value="13.34016392909787"/>
+      <origin rpy="0  0  0" xyz="0     0.046  0"/>
+      <inertia ixx="2.171169531427472" ixy="-4.661713033463371"
+               ixz="-0.21322209220250452" iyy="14.34232616188963"
+               iyz="-0.608246286975269" izz="15.441547158388817"/>
+
     </inertial>
     <collision name="left_wheel_collision">
-      <origin rpy="0 0 0" xyz="0    -0.046  0"/>
+      <origin rpy="0 0 0" xyz="0    0.046  0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/left_wheel.stl"
@@ -53,7 +54,7 @@
       </geometry>
     </collision>
     <visual name="left_wheel_visual">
-      <origin rpy="0 0 0" xyz="0 -0.046  0"/>
+      <origin rpy="0 0 0" xyz="0 0.046  0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/left_wheel.stl"
@@ -65,8 +66,8 @@
   <joint name="joint_wheel_left" type="continuous">
     <parent link="front_part"/>
     <child link="left_wheel"/>
-    <origin rpy="0 0 0" xyz="-0.052  -0.304   0.0345"/>
-    <axis xyz="0 -1  0"/>
+    <origin rpy="0  0  0" xyz="0.052   0.304   0.0345"/>
+    <axis xyz="0 1  0"/>
     <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="trans_wheel_left">
@@ -89,14 +90,14 @@
 
   <link name="right_wheel">
     <inertial>
-      <mass value="13.340163929097853"/>
-      <origin rpy="0 0 0" xyz="0    0.004 0"/>
-      <inertia ixx="3.24940928013889" ixy="4.452078024336449"
-               ixz="-1.2677691125288901" iyy="12.355706573664742"
-               iyz="2.98680267514417" izz="12.887770819644302"/>
+      <mass value="13.34016392909787"/>
+      <origin rpy="0  0  0" xyz="0    -0.004  0"/>
+      <inertia ixx="2.097317024732184" ixy="4.55515786054409"
+               ixz="0.2083483651538148" iyy="14.342326161889634"
+               iyz="-0.6082462869756708" izz="15.367694651693467"/>
     </inertial>
     <collision name="right_wheel_collision">
-      <origin rpy="0 0 0" xyz="0    0.004 0"/>
+      <origin rpy="0 0 0" xyz="0    -0.004 0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/right_wheel.stl"
@@ -104,7 +105,7 @@
       </geometry>
     </collision>
     <visual name="right_wheel_visual">
-      <origin rpy="0 0 0" xyz="0    0.004 0"/>
+      <origin rpy="0 0 0" xyz="0    -0.004 0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/right_wheel.stl"
@@ -116,8 +117,8 @@
   <joint name="joint_wheel_right" type="continuous">
     <parent link="front_part"/>
     <child link="right_wheel"/>
-    <origin rpy="0 0 0" xyz="-0.052   0.338   0.0345"/>
-    <axis xyz="0 -1 0"/>
+    <origin rpy="0  0  0" xyz="0.052  -0.338   0.0345"/>
+    <axis xyz="0 1 0"/>
     <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="trans_wheel_right">
@@ -140,14 +141,14 @@
 
   <link name="front_part">
     <inertial>
-      <mass value="16.81067246555305"/>
-      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
-      <inertia ixx="5.465362927092518" ixy="0.5110207238615475"
-               ixz="-0.28741684892541264" iyy="14.406342111944207"
-               iyz="2.937985200324096" izz="11.463900381107678"/>
+      <mass value="16.810672465638184"/>
+      <origin rpy="0  0  0" xyz="-0.23003 -0.01038  0.20527"/>
+      <inertia ixx="3.2092296528945967" ixy="0.18113615628275678"
+               ixz="0.006723073533121614" iyy="14.66296026711583"
+               iyz="-1.241970673631743" izz="13.91291969418297"/>
     </inertial>
     <collision name="front_part_collision">
-      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
+      <origin rpy="0  0  0" xyz="-0.23003 -0.01038  0.20527"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/collisions/front_part.stl"
@@ -155,7 +156,7 @@
       </geometry>
     </collision>
     <visual name="front_part_visual">
-      <origin rpy="0 0 0" xyz="0.23003 0.01038 0.20527"/>
+      <origin rpy="0 0 0" xyz="-0.23003 -0.01038 0.20527"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/front_part.stl"
@@ -167,9 +168,9 @@
   <joint name="joint_front" type="revolute">
     <parent link="base_link"/>
     <child link="front_part"/>
-    <origin rpy="0 0 0" xyz="-0.83471  0.03437  0.218"/>
+    <origin rpy="0  0  0" xyz="0.94642  0       0.01116"/>
     <axis xyz="0 0 1"/>
-    <limit effort="1000" lower="-0.523598775598" upper="0.523598775598"
+    <limit effort="1000" lower="-1.57" upper="1.57"
            velocity=".5"/>
   </joint>
   <transmission name="trans_front">
@@ -185,14 +186,14 @@
 
   <link name="wheel_back">
     <inertial>
-      <mass value="13.340163929098479"/>
-      <origin rpy="0 0 0" xyz="0    0.069 0"/>
-      <inertia ixx="1.40432084227607" ixy="-0.32812134268378185"
-               ixz="-0.12963248650394468" iyy="7.5043811804219125"
-               iyz="-2.2172043078944745" izz="6.140471373352849"/>
+      <mass value="13.340163929098493"/>
+      <origin rpy="0  0  0" xyz="0    -0.069  0"/>
+      <inertia ixx="0.5419188938328757" ixy="-0.025425846119324413"
+               ixz="0.0023401868697195947" iyy="4.894303401629517"
+               iyz="0.35393127318782075" izz="4.354763468464214"/>
     </inertial>
     <collision name="wheel_back_collision">
-      <origin rpy="0 0 0" xyz="0    0.069 0"/>
+      <origin rpy="0 0 0" xyz="0    -0.069 0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/wheel_back.stl"
@@ -200,7 +201,7 @@
       </geometry>
     </collision>
     <visual name="wheel_back_visual">
-      <origin rpy="0 0 0" xyz="0    0.069 0"/>
+      <origin rpy="0 0 0" xyz="0    -0.069 0"/>
       <geometry>
         <mesh
             filename="package://roboy_models/rickshaw/meshes/visuals/wheel_back.stl"
@@ -212,8 +213,8 @@
   <joint name="joint_wheel_back" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_back"/>
-    <origin rpy="0 0 0" xyz="0.6486  -0.03107  0.25624"/>
-    <axis xyz="0 -1  0"/>
+    <origin rpy="0  0  0" xyz="-0.53689  0.06544  0.04941"/>
+    <axis xyz="0 1  0"/>
     <limit effort="1000.0" velocity="10.0"/>
   </joint>
   <transmission name="trans_wheel_back">
