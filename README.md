@@ -70,7 +70,7 @@ catkin build
 Follow *Usage Instructions* in provided link for first steps.
 
 ## Sick_Scan
-[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
+[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching, it is required to set the LIDAR IP adress accordingly in the `launch` file (i.e. 192.168.0.42). 
 ```
 roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
