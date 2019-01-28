@@ -19,3 +19,6 @@
 [submodule "sick_scan"]
 	path = sick_scan
 	url = https://github.com/SICKAG/sick_scan.git
+[submodule "ros_comm"]
+	path = ros_comm
+	url = https://github.com/ros/ros_comm.git
