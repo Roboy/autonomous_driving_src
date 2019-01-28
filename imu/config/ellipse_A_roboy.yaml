@@ -30,11 +30,11 @@ sensorParameters:
   # Initial altitude (above WGS84 ellipsoid) (m)
   initAlt: 100.0
   # Year at startup
-  year: 2018
+  year: 2019
   # month in year at startup
-  month: 03
+  month: 01
   # day in month at startup
-  day: 10
+  day: 01
 
   # Montion profile ID
   # 1 GENERAL_PURPOSE Should be used as a default when other profiles do not apply
