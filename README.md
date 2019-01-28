@@ -19,46 +19,7 @@ To simply install all packages listed below run
 ```
 sudo ./package_requirements.sh
 ```
-Otherwise, go through this list manually:
 
-#### ... Map Server:
-```
-sudo apt-get install ros-kinetic-map-server
-```
-
-#### ... Cartographer
-```
-sudo apt-get install -y python-wstool python-rosdep ninja-build
-sudo apt-get install ros-kinetic-abseil-cpp
-```
-#### ... TF2
-```
-sudo apt-get install ros-kinetic-geometry2
-```
-#### ... for obstacle_detector:
-```
-sudo apt-get install libarmadillo-dev
-sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
-```
-#### ... for communication messages:
-```
-sudo apt-get install ros-kinetic-moveit-msgs
-```
-#### ... for Intel Realsense Camera (steps copied from [official documentation](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)):
-```
-sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
-sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
-sudo rm -f /etc/apt/sources.list.d/realsense-public.list
-sudo apt-get update
-sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
-sudo apt-get install ros-kinetic-rgbd-launch
-```
-
-#### ... for gazebo
-```
-sudo apt-get install libgazebo7-dev ros-kinetic-gazebo-ros-pkgs 
-ros-kinetic-gazebo-ros-control ros-kinetic-ros-controllers
-```
 ### Git Submodules
 ```
 git submodule init
