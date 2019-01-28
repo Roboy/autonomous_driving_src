@@ -9,12 +9,17 @@ import rospy
 from sensor_msgs.msg import Imu
 from sbg_driver.msg import SbgImuData
 
-def IMU_Converter():
+class Converter:
+    def __init__(self):
+        rospy.init_node('imu_data_converter', anonymous=False)
+    	self.pub = rospy.Publisher('imu', Imu, queue_size=10)
+    	rospy.Subscriber('imu_data', SbgImuData, self.callback)
+    	rospy.spin()
 
-    rospy.init_node('imu_data_converter', anonymous=False)
-    pub = rospy.Publisher('imu', Imu, queue_size=10)
+    def callback(self, msg):
+    	ROS_IMU_msg = self.mapping(msg)
 
-    def mapping(SBG_IMU_msg):
+    def mapping(self, SBG_IMU_msg):
             ROS_IMU_msg = Imu()
 	    ROS_IMU_msg.linear_acceleration = SBG_IMU_msg.accel
 	    ROS_IMU_msg.angular_velocity = SBG_IMU_msg.gyro
@@ -24,26 +29,11 @@ def IMU_Converter():
 	    print("SBG Gyro: ", SBG_IMU_msg.gyro)
 	    print("ROS Gyro: ", ROS_IMU_msg.angular_velocity)
 
-	    pub.publish(ROS_IMU_msg)
-
-
-    def callback(msg):
-    	global SBG_IMU_msg
-    	SBG_IMU_msg = msg
-
-    	ROS_IMU_msg = mapping(SBG_IMU_msg)
-
-
-    rospy.Subscriber('imu_data', SbgImuData, callback)
-
-    rospy.spin()
-
-
-
+	    self.pub.publish(ROS_IMU_msg)
 
 if __name__ == '__main__':
     try:
-        IMU_Converter()
+	Converter()
     except rospy.ROSInterruptException:
         pass
 
