@@ -9,13 +9,19 @@ import rospy
 from sensor_msgs.msg import Imu
 from sbg_driver.msg import SbgImuData
 
+#SBG_IMU_msg = None
+
+
+
+global ROS_IMU_msg
+ROS_IMU_msg = Imu
+
 def callback(msg):
+    global SBG_IMU_msg
+    SBG_IMU_msg = msg
     try:
-        print("Acceleration: ", msg.accel)
-    except:
-        pass
-    try:
-        print("Acceleration: ", msg.linear_acceleration)
+        print("SBG Acceleration: ", SBG_IMU_msg.accel)
+        print("SBG Gyro: ", SBG_IMU_msg.gyro)
     except:
         pass
 
@@ -25,13 +31,15 @@ def callback(msg):
 def mapping(SBG_IMU_msg):
     
     ROS_IMU_msg.linear_acceleration = SBG_IMU_msg.accel
-    #ROS_IMU_msg.acceleration = SBG_IMU_msg.gyro
-    callback(ROS_IMU_msg)
+    ROS_IMU_msg.angular_velocity = SBG_IMU_msg.gyro
+
+    print("ROS Acceleration: ", ROS_IMU_msg.linear_acceleration)
+    print("ROS Gyro: ", ROS_IMU_msg.angular_velocity)
 
     return ROS_IMU_msg
 
 def IMU_publisher(ROS_IMU_msg, pub):
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(25) # X hz
     while not rospy.is_shutdown():
         rospy.loginfo(ROS_IMU_msg)
         pub.publish(ROS_IMU_msg)
