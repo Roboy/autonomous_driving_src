@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>navigation</name>
+  <name>roboy_navigation</name>
   <version>0.0.0</version>
   <description>ROS navigation stack, configured to work with Roboy</description>
 
