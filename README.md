@@ -69,6 +69,9 @@ catkin build
 
 Follow *Usage Instructions* in provided link for first steps.
 
+## Calibration
+The submodule [radlocc_calibration](https://github.com/bernardomig/radlocc_calibration) contains a tool that can be used to record camera and lidar data for extrinsic-calibration between camera an lidar. For more info about how to do the calibration visit the [wiki article](https://github.com/Roboy/autonomous_driving/wiki/Calibration:-Extrinsic-calibration-between-camera-and-lidar) of the [Roboy autonomous_driving repository](https://github.com/Roboy/autonomous_driving).
+
 ## Sick_Scan
 [Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching, it is required to set the LIDAR IP adress accordingly in the `launch` file (i.e. 192.168.0.42). 
 ```
