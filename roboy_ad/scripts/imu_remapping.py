@@ -24,6 +24,7 @@ class Converter:
 		ROS_IMU_msg = Imu()
 		ROS_IMU_msg.linear_acceleration = SBG_IMU_msg.accel
 		ROS_IMU_msg.angular_velocity = SBG_IMU_msg.gyro
+		ROS_IMU_msg.header.frame_id = 'imu'
 
 		self.pub.publish(ROS_IMU_msg)
 
