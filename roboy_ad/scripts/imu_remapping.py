@@ -22,9 +22,14 @@ class Converter:
 
 		# remap data from SBG_IMU_msg to ROS_IMU_msg and publish
 		ROS_IMU_msg = Imu()
+		ROS_IMU_msg.header.frame_id = 'imu'
+		ROS_IMU_msg.header.seq = SBG_IMU_msg.header.seq
+		ROS_IMU_msg.header.stamp = SBG_IMU_msg.header.stamp
+		#ROS_IMU_msg.time_stamp = SBG_IMU_msg.time_stamp
+
 		ROS_IMU_msg.linear_acceleration = SBG_IMU_msg.accel
 		ROS_IMU_msg.angular_velocity = SBG_IMU_msg.gyro
-		ROS_IMU_msg.header.frame_id = 'imu'
+
 
 		self.pub.publish(ROS_IMU_msg)
 
