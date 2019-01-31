@@ -29,8 +29,8 @@ class Converter:
 		ROS_IMU_msg.linear_acceleration.x = - SBG_IMU_msg.accel.x
 		ROS_IMU_msg.linear_acceleration.y = SBG_IMU_msg.accel.y
 		ROS_IMU_msg.linear_acceleration.z = - SBG_IMU_msg.accel.z
-		ROS_IMU_msg.angular_velocity.x = SBG_IMU_msg.gyro.x
-		ROS_IMU_msg.angular_velocity.y = - SBG_IMU_msg.gyro.y
+		ROS_IMU_msg.angular_velocity.x = - SBG_IMU_msg.gyro.x
+		ROS_IMU_msg.angular_velocity.y = SBG_IMU_msg.gyro.y
 		ROS_IMU_msg.angular_velocity.z = - SBG_IMU_msg.gyro.z
 
 		self.pub.publish(ROS_IMU_msg)
