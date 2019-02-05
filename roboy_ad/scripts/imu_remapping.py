@@ -33,8 +33,7 @@ class Converter:
 		ROS_IMU_msg.angular_velocity.y = - SBG_IMU_msg.gyro.y
 		ROS_IMU_msg.angular_velocity.z = SBG_IMU_msg.gyro.z
 
-		ROS_IMU_msg.linear_acceleration_covariance[0] = -1
-		ROS_IMU_msg.angular_velocity_covariance[0] = -1
+		ROS_IMU_msg.orientation_covariance[0] = -1
 
 		self.pub.publish(ROS_IMU_msg)
 
