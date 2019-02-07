@@ -2,8 +2,6 @@
   <arg name="map_config" default="$(find roboy_navigation)/config/utum_map_server.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server"
         args="$(arg map_config)"/>
-  <node pkg="tf" type="static_transform_publisher" name="base_link_pose"
-        args="0 0 0 0 0 0 1 /map base_link 100"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
         output="screen">
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
@@ -20,8 +18,6 @@
               command="load" ns="local_costmap"/>
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-    <param name="base_global_planner" value="rrt_planner::RRTPlanner"/>
   </node>
 
   <node name="rviz" pkg="rviz" type="rviz"
