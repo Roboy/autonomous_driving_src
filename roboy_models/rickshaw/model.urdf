@@ -170,7 +170,7 @@
     <child link="front_part"/>
     <origin rpy="0  0  0" xyz="0.94642  0       0.01116"/>
     <axis xyz="0 0 1"/>
-    <limit effort="1000" lower="-1.57" upper="1.57"
+    <limit effort="1000" lower="-0.78" upper="0.78"
            velocity=".5"/>
   </joint>
   <transmission name="trans_front">

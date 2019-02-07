@@ -20,3 +20,6 @@
 [submodule "sick_scan"]
 	path = sick_scan
 	url = https://github.com/SICKAG/sick_scan.git
+[submodule "ros_navigation_stack"]
+	path = ros_navigation_stack
+	url = https://github.com/ros-planning/navigation.git
