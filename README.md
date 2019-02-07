@@ -19,52 +19,7 @@ To simply install all packages listed below run
 ```
 sudo ./package_requirements.sh
 ```
-Otherwise, go through this list manually:
 
-#### ... Map Server:
-```
-sudo apt-get install ros-kinetic-map-server
-```
-
-#### ... Cartographer
-```
-sudo apt-get install -y python-wstool python-rosdep ninja-build
-sudo apt-get install ros-kinetic-abseil-cpp
-```
-#### ... TF2
-```
-sudo apt-get install ros-kinetic-geometry2
-```
-#### ... for obstacle_detector:
-```
-sudo apt-get install libarmadillo-dev
-sudo apt-get install ros-kinetic-rviz # only needed if you install ROS-Base or build from docker image
-```
-
-#### ... for radlocc_calibration:
-```
-sudo apt-get install ros-kinetic-cv-bridge
-```
-
-#### ... for communication messages:
-```
-sudo apt-get install ros-kinetic-moveit-msgs
-```
-#### ... for Intel Realsense Camera (steps copied from [official documentation](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)):
-```
-sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
-sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
-sudo rm -f /etc/apt/sources.list.d/realsense-public.list
-sudo apt-get update
-sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
-sudo apt-get install ros-kinetic-rgbd-launch
-```
-
-#### ... for gazebo
-```
-sudo apt-get install libgazebo7-dev ros-kinetic-gazebo-ros-pkgs 
-ros-kinetic-gazebo-ros-control ros-kinetic-ros-controllers
-```
 ### Git Submodules
 ```
 git submodule init
@@ -85,11 +40,6 @@ src/cartographer/scripts/install_proto3.sh
 sudo rosdep init
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
-```
-To be able to run pure localization, the following step is essential:
-```
-cd src/cartographer/
-git checkout master
 ```
 
 ## Building
@@ -118,7 +68,7 @@ Follow *Usage Instructions* in provided link for first steps.
 The submodule [radlocc_calibration](https://github.com/bernardomig/radlocc_calibration) contains a tool that can be used to record camera and lidar data for extrinsic-calibration between camera an lidar. For more info about how to do the calibration visit the [wiki article](https://github.com/Roboy/autonomous_driving/wiki/Calibration:-Extrinsic-calibration-between-camera-and-lidar) of the [Roboy autonomous_driving repository](https://github.com/Roboy/autonomous_driving).
 
 ## Sick_Scan
-[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching the according file, it is required to set the LIDAR IP adress accordingly (i.e. 192.168.0.42). Alternatively you can provide the parameter as an argument with roslaunch.
+[Sick Scan](http://wiki.ros.org/sick_scan) is the ROS-package provided by the manufacturer of the LiDAR. Before launching, it is required to set the LIDAR IP adress accordingly in the `launch` file (i.e. 192.168.0.42). 
 ```
 roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
