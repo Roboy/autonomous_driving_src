@@ -14,7 +14,7 @@ sudo adduser username dialout
 ```
 Clone this repository into your catkin/src folder and build using
 ```
-catkin build imu
+catkin build roboy_ad
 source devel/setup.bash
 ```
 
@@ -23,22 +23,16 @@ Launch IMU script:
 ```
 roslaunch roboy_ad imu_converter.launch
 ```
+The IMU will publish topic `/imu_data` which is converted to `/imu` by our script.
 
 ## Lidar
 Before launching, it is required to set the LIDAR IP adress accordingly in the `launch` file (i.e. 192.168.0.42). 
-
-### Install
-```
-sudo apt-get install ros-kinetic-sick-scan
-```
-
-#### Run
 ```
 roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
 
 ## Cartographer Visualization
-You will need to [`build cartographer_ros`](https://github.com/Roboy/cartographer_ros/tree/roboy) on your machine for this to work.
+You will need to [`build cartographer_rviz`](https://github.com/Roboy/cartographer_ros/tree/roboy) on your machine for this to work.
 
 ```
 roslaunch roboy_ad rviz_cartographer.launch
