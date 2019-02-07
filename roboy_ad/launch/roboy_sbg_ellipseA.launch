@@ -1,5 +1,5 @@
 <launch>
   <node name="sbg_ellipse" pkg="sbg_driver" type="ellipse" output="screen">
-  	<rosparam command="load" file="$(find roboy_ad)/config/ellipse_A_roboy.yaml" />
+  	<rosparam command="load" file="$(find roboy_ad)/imu/ellipse_A_roboy.yaml" />
   </node>
 </launch>
