@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Path1
+        - /Local Path1
       Splitter Ratio: 0.5
     Tree Height: 463
   - Class: rviz/Selection
@@ -77,7 +78,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /move_base/TebLocalPlannerROS/global_plan
+      Topic: /move_base/TrajectoryPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -291,25 +292,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 20.7969818
+      Distance: 7.67863226
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 11.2642498
-        Y: 0.646731138
-        Z: 9.29794405e-05
+        X: 0.508791566
+        Y: -0.806825161
+        Z: 9.03568362e-05
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.29479623
+      Pitch: 0.564796388
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 0.0548496395
+      Yaw: 2.89484763
     Saved: ~
 Window Geometry:
   Displays:
