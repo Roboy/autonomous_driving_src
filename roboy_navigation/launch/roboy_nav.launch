@@ -18,6 +18,7 @@
               command="load" ns="local_costmap"/>
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
+    <param name="base_global_planner" value="astar_planner::AStarPlanner"/>
   </node>
 
   <node name="rviz" pkg="rviz" type="rviz"
