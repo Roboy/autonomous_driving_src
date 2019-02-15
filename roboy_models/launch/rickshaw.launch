@@ -24,6 +24,9 @@
   <rosparam command="load"
             file="$(find roboy_models)/rickshaw/config/wheels_controller.yaml"
             ns="rickshaw_wheels_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/rickshaw/config/ros_control.yaml"
+            ns="/gazebo_ros_control"/>
   <node name="rickshaw_controller_spawner" pkg="controller_manager"
         type="spawner"
         args="rickshaw_joint_state_controller
