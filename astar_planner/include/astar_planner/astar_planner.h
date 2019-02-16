@@ -8,12 +8,13 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
-
 // Costmap used for the map representation
 #include <costmap_2d/costmap_2d_ros.h>
-
 // Abstract global planner from move_base
 #include <nav_core/base_global_planner.h>
+#include <vector>
+
+#include "astar_planner/utils.h"
 
 namespace astar_planner {
 
@@ -39,9 +40,12 @@ namespace astar_planner {
         bool makePlan(const geometry_msgs::PoseStamped &start,
                       const geometry_msgs::PoseStamped &goal,
                       std::vector <geometry_msgs::PoseStamped> &plan);
+        std::vector<PoseWithDist> getNeighbors(const geometry_msgs::PoseStamped &pose);
+
     private:
         std::string name_;
         costmap_2d::Costmap2DROS *costmap_ros_;
+
     };
 
 

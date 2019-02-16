@@ -2,12 +2,17 @@
 // Created by alex on 13.02.19.
 //
 
-#include <astar_planner/astar_planner.h>
 #include <pluginlib/class_list_macros.h>
-#include <ros/console.h>
 
+#include <ros/console.h>
+#include <queue>
+
+#include <astar_planner/astar_planner.h>
+#include <astar_planner/utils.h>
 
 PLUGINLIB_EXPORT_CLASS(astar_planner::AStarPlanner, nav_core::BaseGlobalPlanner)
+
+using namespace std;
 
 namespace astar_planner {
 
@@ -31,7 +36,7 @@ namespace astar_planner {
         double goal_x = goal.pose.position.x;
         double goal_y = goal.pose.position.y;
 
-        int num_points = 10;
+        int num_points = 2;
         ros::Time plan_time = ros::Time::now();
 
         for(int i=0; i <= num_points; i++) {
@@ -51,5 +56,24 @@ namespace astar_planner {
         }
 
         return true;
+    }
+
+    bool AStarPlanner::makeNewPlan(const geometry_msgs::PoseStamped &start,
+                                   const geometry_msgs::PoseStamped &goal,
+                                   std::vector <geometry_msgs::PoseStamped> &plan) {
+        priority_queue<PoseWithDist> candidatePoses;
+        while (!candidatePoses.empty()) {
+            PoseWithDist cand = candidatePoses.top();
+            candidatePoses.pop();
+            vector<PoseWithDist> neighbors = getNeighbors(cand.pose);
+            for (vector<PoseWithDist>::iterator it = neighbors.begin(); it != neighbors.end(); it++) {
+
+            }
+        }
+
+    }
+
+    vector<PoseWithDist> AStarPlanner::getNeighbors(const geometry_msgs::PoseStamped &pose) {
+
     }
 }

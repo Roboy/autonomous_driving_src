@@ -126,10 +126,10 @@ add_library(${PROJECT_NAME} src/astar_planner.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 add_library(${PROJECT_NAME}_visualizer src/astar_planner_visualizer.cpp)
-target_link_libraries(${PROJECT_NAME}_visualizer ${catkin_LIBRARIES} astar_planner)
+target_link_libraries(${PROJECT_NAME}_visualizer ${catkin_LIBRARIES} ${PROJECT_NAME})
 
 add_executable(${PROJECT_NAME}_node src/astar_planner_node.cpp)
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} astar_planner astar_planner_visualizer)
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${PROJECT_NAME}_visualizer)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -196,10 +196,10 @@ target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} astar_planner ast
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_astar_planner.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(${PROJECT_NAME}-test test/test_astar_planner.cpp)
+if(TARGET ${PROJECT_NAME}-test)
+    target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
