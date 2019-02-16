@@ -1,7 +1,10 @@
 #!/usr/bin/python
 """
-A node that handles initial_position command that can be issued from RVIZ and
-publishes model position to odom and tf topics.
+A node that handles allows visualizing models that are being simulated in gazebo
+in RVIZ. Does the following:
+ * listens initial_position command that can be issued from RVIZ and updates
+ models position in gazebo accordingly
+ * publishes model position from gazebo to odom and tf topics.
 """
 
 import rospy
@@ -16,6 +19,7 @@ DEFAULT_WORLD_FRAME = '/map'
 DEFAULT_MODEL_FRAME = 'base_link'
 
 START_DELAY = 3 # sec
+
 
 class RVIZBridge:
 
