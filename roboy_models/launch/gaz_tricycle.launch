@@ -1,3 +1,7 @@
+<!--
+A launch file to instantiate a tricycle model, start gazebo simulation and
+run all controllers required to control the tricycle over /cmd_vel topic.
+-->
 <launch>
   <arg name="model_urdf"
        default="$(find roboy_models)/tricycle/model.urdf"/>
