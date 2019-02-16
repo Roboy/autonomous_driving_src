@@ -8,7 +8,9 @@ A customized [ROS Navigation Stack](http://wiki.ros.org/navigation) for Rickshaw
 
 ## Usage
 
-To start navigation stack run `roslaunch navigation roboy_nav.launch`
+To start navigation stack with the real hardware run `roslaunch roboy_navigation nav_lidar.launch`
 
-To start a simulation you should run `roslaunch roboy_models tricycle.launch`
- **before** running navigation stack.
+To start a simulation you should run
+ 1. `roslaunch roboy_models gaz_rickshaw.launch`
+ 2. `roslaunch roboy_navigation nav_static.launch`
+ 

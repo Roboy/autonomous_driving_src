@@ -2,7 +2,8 @@
 Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
-  <arg name="map_config" default="$(find roboy_navigation)/config/utum_map_server.yaml"/>
+  <arg name="map_config"
+       default="$(find roboy_navigation)/config/utum_map_server.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server"
         args="$(arg map_config)"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
@@ -22,8 +23,9 @@ Launch the navigation stack to run on a static map published by map server.
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
   </node>
-
+  <node pkg="roboy_navigation" type="tf_to_odom.py" respawn="false"
+        name="fake_odom" output="screen"/>
   <node name="rviz" pkg="rviz" type="rviz"
-        args="-d $(find roboy_navigation)/nav.rviz" />
+        args="-d $(find roboy_navigation)/nav.rviz"/>
 
 </launch>

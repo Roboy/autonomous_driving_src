@@ -32,7 +32,8 @@ A launch file to start a gezebo simulation and a node that will publish
 
   <!-- Start a node that will publish model position and handle
   initial_position command -->
-  <node name="rviz_bridge" pkg="roboy_models" type="rviz_bridge.py">
+  <node name="rviz_bridge" pkg="roboy_models" type="rviz_bridge.py"
+        output="screen">
       <param name="model_name" type="string" value="$(arg model_name)"/>
       <param name="model_frame" type="string" value="$(arg model_frame)"/>
   </node>
