@@ -13,7 +13,9 @@
 // Abstract global planner from move_base
 #include <nav_core/base_global_planner.h>
 #include <vector>
+#include <unordered_map>
 
+#include "astar_planner/costmap.h"
 #include "astar_planner/utils.h"
 
 namespace astar_planner {
@@ -21,14 +23,18 @@ namespace astar_planner {
     class AStarPlanner : public nav_core::BaseGlobalPlanner {
     public:
         AStarPlanner();
+
         ~AStarPlanner();
+
         /**
           * @brief  Initialization function for the RRTPLaner object
           * @param  name The name of this planner
           * @param  costmap_ros A pointer to the ROS wrapper of the costmap to use
           */
         void initialize(std::string name,
-                        costmap_2d::Costmap2DROS *costmap_ros);
+                        costmap_2d::Costmap2DROS *costmap_ros) override;
+
+        void initialize(std::string name, Costmap *costmap);
 
         /**
        * @brief Given a goal pose in the world, compute a plan
@@ -39,13 +45,25 @@ namespace astar_planner {
        */
         bool makePlan(const geometry_msgs::PoseStamped &start,
                       const geometry_msgs::PoseStamped &goal,
-                      std::vector <geometry_msgs::PoseStamped> &plan);
-        std::vector<PoseWithDist> getNeighbors(const geometry_msgs::PoseStamped &pose);
+                      std::vector<geometry_msgs::PoseStamped> &plan) override;
+
+        bool makeNewPlan(const geometry_msgs::PoseStamped &start,
+                         const geometry_msgs::PoseStamped &goal,
+                         std::vector<geometry_msgs::PoseStamped> &plan);
+
+        std::vector<PoseWithDist> &getNeighbors(const geometry_msgs::PoseStamped &pose);
+
+        double distEstimate(const geometry_msgs::PoseStamped &pose);
+
+        std::pair<uint, uint> getCell(const geometry_msgs::PoseStamped &pos);
+
+        void getPath(const std::unordered_map <geometry_msgs::PoseStamped, geometry_msgs::PoseStamped> &parents,
+                     std::vector <geometry_msgs::PoseStamped> &path);
 
     private:
         std::string name_;
+        Costmap *costmap_;
         costmap_2d::Costmap2DROS *costmap_ros_;
-
     };
 
 

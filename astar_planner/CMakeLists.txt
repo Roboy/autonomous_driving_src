@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(astar_planner)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -122,7 +122,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME} src/astar_planner.cpp)
+add_library(${PROJECT_NAME} src/astar_planner.cpp src/costmap.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 add_library(${PROJECT_NAME}_visualizer src/astar_planner_visualizer.cpp)

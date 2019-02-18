@@ -10,14 +10,20 @@
 namespace astar_planner {
 
     struct PoseWithDist {
-        float dist;
+        double dist;
         geometry_msgs::PoseStamped pose;
-        PoseWithDist(float dist, const geometry_msgs::PoseStamped &pose): dist(dist), pose(pose) {}
+        PoseWithDist(double dist, const geometry_msgs::PoseStamped &pose): dist(dist), pose(pose) {}
 
-        bool operator<(const PoseWithDist &other) {
+        bool operator<(const PoseWithDist &other) const {
             return dist < other.dist;
         }
+
+        bool operator==(const PoseWithDist &other) const {
+            return pose == other.pose;
+        }
     };
+
+
 
     struct Position {
         float x;
