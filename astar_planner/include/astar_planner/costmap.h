@@ -11,15 +11,17 @@ namespace astar_planner {
 
     class Costmap {
     public:
-        virtual unsigned getCost(unsigned int x, unsigned int y) = 0;
+        virtual unsigned getCost(unsigned int x, unsigned int y) const = 0;
 
-        virtual double getSizeInMetersX() = 0;
+        virtual double getSizeInMetersX() const = 0;
 
-        virtual double getSizeInMetersY() = 0;
+        virtual double getSizeInMetersY() const = 0;
 
-        virtual unsigned int getSizeInCellsX() = 0;
+        virtual unsigned int getSizeInCellsX() const = 0;
 
-        virtual unsigned int getSizeInCellsY() = 0;
+        virtual unsigned int getSizeInCellsY() const = 0;
+
+        virtual bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const = 0;
 
         virtual ~Costmap() = default;
     };
@@ -32,15 +34,25 @@ namespace astar_planner {
     public:
         EmptyCostmap(unsigned int sizeX, unsigned int sizeY, unsigned int resolution);
 
-        unsigned int getCost(unsigned int x, unsigned int y) override;
+        unsigned int getCost(unsigned int x, unsigned int y) const override;
 
-        double getSizeInMetersX() override;
+        double getSizeInMetersX() const override;
 
-        double getSizeInMetersY() override;
+        double getSizeInMetersY() const override;
 
-        unsigned int getSizeInCellsX() override;
+        unsigned int getSizeInCellsX() const override;
 
-        unsigned int getSizeInCellsY() override;
+        unsigned int getSizeInCellsY() const override;
+
+        /**
+          * @brief  Convert from world coordinates to map coordinates
+          * @param  wx The x world coordinate
+          * @param  wy The y world coordinate
+          * @param  mx Will be set to the associated map x coordinate
+          * @param  my Will be set to the associated map y coordinate
+          * @return True if the conversion was successful (legal bounds) false otherwise
+          */
+        bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const override;
 
         ~EmptyCostmap() override;
     };

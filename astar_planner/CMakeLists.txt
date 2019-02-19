@@ -122,7 +122,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME} src/astar_planner.cpp src/costmap.cpp)
+add_library(${PROJECT_NAME} src/astar_planner.cpp src/costmap.cpp src/utils.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 add_library(${PROJECT_NAME}_visualizer src/astar_planner_visualizer.cpp)

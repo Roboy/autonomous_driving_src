@@ -47,23 +47,28 @@ namespace astar_planner {
                       const geometry_msgs::PoseStamped &goal,
                       std::vector<geometry_msgs::PoseStamped> &plan) override;
 
+        bool makePlan(const Position &start, const Position &goal, std::vector<Position> &path);
+
         bool makeNewPlan(const geometry_msgs::PoseStamped &start,
                          const geometry_msgs::PoseStamped &goal,
                          std::vector<geometry_msgs::PoseStamped> &plan);
 
-        std::vector<PoseWithDist> &getNeighbors(const geometry_msgs::PoseStamped &pose);
+        std::vector<PosWithDist> getNeighbors(const Position &pose) const;
 
-        double distEstimate(const geometry_msgs::PoseStamped &pose);
+        double distEstimate(const Position &pose1, const Position &pose2) const;
 
-        std::pair<uint, uint> getCell(const geometry_msgs::PoseStamped &pos);
+        Cell getCell(const Position &pos) const;
 
-        void getPath(const std::unordered_map <geometry_msgs::PoseStamped, geometry_msgs::PoseStamped> &parents,
-                     std::vector <geometry_msgs::PoseStamped> &path);
+        void getPath(const std::unordered_map<Position, Position> &parents,
+                     const Position &goal_pos,
+                     std::vector<Position> &path) const;
 
     private:
         std::string name_;
         Costmap *costmap_;
         costmap_2d::Costmap2DROS *costmap_ros_;
+        double step_size_;
+        double turning_radius_;
     };
 
 

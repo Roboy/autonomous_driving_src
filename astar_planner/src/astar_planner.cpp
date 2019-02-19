@@ -4,6 +4,7 @@
 
 #include <pluginlib/class_list_macros.h>
 
+#include <math.h>
 #include <ros/console.h>
 #include <queue>
 #include <unordered_map>
@@ -17,12 +18,12 @@ using namespace std;
 
 namespace astar_planner {
 
-    AStarPlanner::AStarPlanner(): name_(""), costmap_ros_(nullptr) {}
+    AStarPlanner::AStarPlanner() : name_(""), costmap_ros_(nullptr), step_size_(0.0), turning_radius_(0.0) {}
 
     AStarPlanner::~AStarPlanner() {}
 
     void AStarPlanner::initialize(std::string name,
-                                costmap_2d::Costmap2DROS *costmap_ros) {
+                                  costmap_2d::Costmap2DROS *costmap_ros) {
         name_ = name;
         costmap_ros_ = costmap_ros;
         ROS_INFO("AStarPlanner initialized.");
@@ -34,8 +35,8 @@ namespace astar_planner {
     }
 
     bool AStarPlanner::makePlan(const geometry_msgs::PoseStamped &start,
-                              const geometry_msgs::PoseStamped &goal,
-                              std::vector <geometry_msgs::PoseStamped> &plan) {
+                                const geometry_msgs::PoseStamped &goal,
+                                std::vector<geometry_msgs::PoseStamped> &plan) {
         double start_x = start.pose.position.x;
         double start_y = start.pose.position.y;
 
@@ -45,7 +46,7 @@ namespace astar_planner {
         int num_points = 2;
         ros::Time plan_time = ros::Time::now();
 
-        for(int i=0; i <= num_points; i++) {
+        for (int i = 0; i <= num_points; i++) {
             double x = start_x + (goal_x - start_x) / num_points * i;
             double y = start_y + (goal_y - start_y) / num_points * i;
             geometry_msgs::PoseStamped pose;
@@ -66,18 +67,30 @@ namespace astar_planner {
 
     bool AStarPlanner::makeNewPlan(const geometry_msgs::PoseStamped &start,
                                    const geometry_msgs::PoseStamped &goal,
-                                   std::vector <geometry_msgs::PoseStamped> &plan) {
+                                   std::vector<geometry_msgs::PoseStamped> &plan) {
+        std::vector<Position> positions;
+        bool foundPlan = makePlan(Position(start), Position(goal), positions);
+        if (!foundPlan) {
+            return false;
+        }
+        for (auto position : positions) {
+            plan.push_back(position.toPoseStamped());
+        }
+        return true;
+    }
+
+    bool AStarPlanner::makePlan(const Position &start, const Position &goal, vector<Position> &path) {
         auto cell_start = getCell(start);
         auto cell_goal = getCell(goal);
-        set<PoseWithDist> candidatePoses;
-        unordered_map<pair<uint, uint>, double> pathLength; //= { {cell_start, 0.0} };
+        set<PosWithDist> candidatePoses;
+        unordered_map<Cell, double> pathLength; //= { {cell_start, 0.0} };
         //TODO(melkonyan): this is potentially very unoptimal, because poses will be copied many times.
-        unordered_map<geometry_msgs::PoseStamped, geometry_msgs::PoseStamped> parents;
-        geometry_msgs::PoseStamped reached_pose;
+        unordered_map<Position, Position> parents;
+        Position reached_pose;
         bool reached_goal = false;
 
         while (!candidatePoses.empty()) {
-            PoseWithDist cand = *candidatePoses.begin();
+            PosWithDist cand = *candidatePoses.begin();
             auto cell_cand = getCell(cand.pose);
             if (cell_cand == cell_goal) {
                 reached_pose = cand.pose;
@@ -87,40 +100,63 @@ namespace astar_planner {
             double l_cand = pathLength[cell_cand];
 
             candidatePoses.erase(cand);
-            vector<PoseWithDist> neighbors = getNeighbors(cand.pose);
+            vector<PosWithDist> neighbors = getNeighbors(cand.pose);
             for (auto &nbr : neighbors) {
                 auto cell_nbr = getCell(nbr.pose);
                 if (cell_cand == cell_nbr) {
                     ROS_WARN("AStarPlanner: Oops, ended up in the same cell.");
                 }
-                if (costmap_->getCost(cell_nbr.first, cell_nbr.second) > 0) {
+                if (costmap_->getCost(cell_nbr.x, cell_nbr.y) > 0) {
                     continue;
                 }
-                if (pathLength.find(cell_nbr) == pathLength.end() || l_cand + nbr.dist > pathLength[cell_nbr]) {
+                if (pathLength.find(cell_nbr) == pathLength.end() || l_cand + nbr.dist < pathLength[cell_nbr]) {
                     pathLength[cell_nbr] = l_cand + nbr.dist;
                     parents[nbr.pose] = cand.pose;
-                    candidatePoses.insert(PoseWithDist(l_cand + nbr.dist + distEstimate(nbr.pose), cand.pose));
+                    candidatePoses.insert(PosWithDist(l_cand + nbr.dist + distEstimate(nbr.pose, goal), cand.pose));
                 }
 
             }
         }
         if (reached_goal) {
-            getPath(parents, plan);
+            getPath(parents, reached_pose, path);
         }
         return reached_goal;
 
     }
 
-    void AStarPlanner::getPath(const unordered_map<geometry_msgs::PoseStamped, geometry_msgs::PoseStamped> &parents,
-            vector<geometry_msgs::PoseStamped> &path) {
-
+    void AStarPlanner::getPath(const unordered_map<Position, Position> &parents,
+                               const Position &goal_pose,
+                               vector<Position> &path) const {
+        auto curr_pose = goal_pose;
+        while (true) {
+            path.push_back(curr_pose);
+            auto search = parents.find(curr_pose);
+            if (search == parents.end()) {
+                break;
+            }
+            curr_pose = search->second;
+        }
+        reverse(path.begin(), path.end());
     }
 
-    vector<PoseWithDist>& AStarPlanner::getNeighbors(const geometry_msgs::PoseStamped &pose) {
-
+    vector<PosWithDist> AStarPlanner::getNeighbors(const Position &pose) const {
+        double dth = step_size_ / turning_radius_;
+        auto go_straight = Position();
+        go_straight.x = pose.x + step_size_ * cos(dth);
+        go_straight.y = pose.y + step_size_ * sin(dth);
+        go_straight.th = pose.th;
+        return {PosWithDist(step_size_, go_straight)};
+        // TODO(melkonyan): implement turning;
     }
 
-    pair<uint, uint> AStarPlanner::getCell(const geometry_msgs::PoseStamped &pos) {
+    Cell AStarPlanner::getCell(const Position &pos) const {
+        Cell cell;
+        costmap_->worldToMap(pos.x, pos.y, cell.x, cell.y);
+        return cell;
+    }
 
+    double
+    AStarPlanner::distEstimate(const Position &pose1, const Position &pose2) const {
+        return euclid_dist(pose1, pose2);
     }
 }

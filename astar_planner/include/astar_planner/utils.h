@@ -9,34 +9,73 @@
 
 namespace astar_planner {
 
-    struct PoseWithDist {
-        double dist;
-        geometry_msgs::PoseStamped pose;
-        PoseWithDist(double dist, const geometry_msgs::PoseStamped &pose): dist(dist), pose(pose) {}
-
-        bool operator<(const PoseWithDist &other) const {
-            return dist < other.dist;
-        }
-
-        bool operator==(const PoseWithDist &other) const {
-            return pose == other.pose;
-        }
-    };
-
-
 
     struct Position {
-        float x;
-        float y;
-        float th;
-        Position(float x, float y, float th): x(x), y(y), th(th) {}
+        double x;
+        double y;
+        double th;
+
+        Position();
+
+        Position(double x, double y, double th);
+
+        Position(const geometry_msgs::PoseStamped &pose);
+
+        geometry_msgs::PoseStamped toPoseStamped();
+
+        bool operator==(const Position &other) const;
+
     };
 
-    struct Point {
-        float x;
-        float y;
-        Point(float x, float y): x(x), y(y) {}
+
+    struct PosWithDist {
+        double dist;
+        Position pose;
+
+        PosWithDist(double dist, const Position &pose) : dist(dist), pose(pose) {}
+
+        bool operator<(const PosWithDist &other) const;
+
+        bool operator==(const PosWithDist &other) const;
     };
+
+
+    struct Cell {
+        uint x;
+        uint y;
+
+        Cell(): Cell(0, 0) {}
+
+        Cell(uint x, uint y) : x(x), y(y) {}
+
+        bool operator==(const Cell &p) const {
+            return x == p.x && y == p.y;
+        }
+    };
+
+    double euclid_dist(const Position &pose1, const Position &pose2);
 }
+
+namespace std {
+
+    template<>
+    struct hash<astar_planner::Cell> {
+        std::size_t operator()(const astar_planner::Cell &p) const {
+            return (p.x << 10) + p.y;
+        }
+    };
+
+    template<>
+    struct hash<astar_planner::Position> {
+        // TODO: think carefully about the hash function
+        std::size_t operator()(const astar_planner::Position &pose) const {
+            return (size_t(pose.x) << 20) +
+                   (size_t(pose.y) << 10) + size_t(pose.th);
+        }
+    };
+
+}
+
+
 
 #endif //ASTAR_PLANNER_UTILS_H
