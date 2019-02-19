@@ -6,6 +6,7 @@ from std_msgs.msg import Bool
 
 EPS = 1e-04
 
+
 class SteeringController:
 
     def update_steering(self, target_steering):
@@ -41,7 +42,7 @@ class ControlNode:
         def handle_velocity(twist):
             vx, vy = twist.linear.x, twist.linear.y
             if vy > EPS:
-                rospy.logerror('Non-holomonic velocity found vy=%.2f', vy)
+                rospy.logerr('Non-holomonic velocity found vy=%.2f', vy)
             phi = twist.angular.z
             rospy.logdebug('Command(vel=%.2f, steering=%.2f) received', vx, phi)
             self.steering.update_steering(phi)
