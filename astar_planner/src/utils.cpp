@@ -37,16 +37,19 @@ namespace astar_planner {
 
     }
 
+    std::ostream& operator<<(std::ostream &out, const Position &pos) {
+        out << std::setprecision(3) << "Pos(" << pos.x << ", " << pos.y << ", " << pos.th / M_PI << "pi)";
+    }
+
     bool PosWithDist::operator==(const PosWithDist &other) const {
         return std::equal_to<Position>()(pose, other.pose);
     }
 
     bool PosWithDist::operator<(const PosWithDist &other) const {
         return dist < other.dist;
-    }
+}
 
     double euclid_dist(const Position &pose1, const Position &pose2) {
-        return sqrt(pow(pose1.x - pose2.x, 2)
-               + pow(pose1.y - pose2.y, 2));
+        return sqrt(pow(pose1.x - pose2.x, 2)+ pow(pose1.y - pose2.y, 2));
     }
 }

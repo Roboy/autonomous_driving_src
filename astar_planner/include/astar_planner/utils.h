@@ -6,6 +6,7 @@
 #define ASTAR_PLANNER_UTILS_H
 
 #include <geometry_msgs/PoseStamped.h>
+#include <ostream>
 
 namespace astar_planner {
 
@@ -24,6 +25,8 @@ namespace astar_planner {
         geometry_msgs::PoseStamped toPoseStamped();
 
         bool operator==(const Position &other) const;
+
+        friend std::ostream& operator<<(std::ostream &out, const Position &pos);
 
     };
 

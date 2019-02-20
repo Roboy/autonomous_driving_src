@@ -49,24 +49,36 @@ namespace astar_planner {
 
         bool makePlan(const Position &start, const Position &goal, std::vector<Position> &path);
 
-        bool makeNewPlan(const geometry_msgs::PoseStamped &start,
-                         const geometry_msgs::PoseStamped &goal,
-                         std::vector<geometry_msgs::PoseStamped> &plan);
+        void getPath(const std::unordered_map<Position, Position> &parents,
+                     const Position &goal_pos,
+                     std::vector<Position> &path) const;
 
-        std::vector<PosWithDist> getNeighbors(const Position &pose) const;
+
+        std::vector<PosWithDist> getNeighbors(const Position &pos) const;
 
         double distEstimate(const Position &pose1, const Position &pose2) const;
 
         Cell getCell(const Position &pos) const;
 
-        void getPath(const std::unordered_map<Position, Position> &parents,
-                     const Position &goal_pos,
-                     std::vector<Position> &path) const;
+        void loadParameters();
+
+        bool validateParameters() const;
+
+        bool checkBounds(const Position &pos) const;
+
+        PosWithDist goStraight(const Position &pos) const;
+
+        PosWithDist turnLeft(const Position &pos, double angle) const;
+
+        PosWithDist turnRight(const Position &pos, double angle) const;
+
+
 
     private:
         std::string name_;
         Costmap *costmap_;
-        costmap_2d::Costmap2DROS *costmap_ros_;
+        std::string global_frame_;
+
         double step_size_;
         double turning_radius_;
     };

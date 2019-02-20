@@ -21,6 +21,16 @@ namespace astar_planner {
 
         virtual unsigned int getSizeInCellsY() const = 0;
 
+        virtual double getResolution() const = 0;
+
+        /**
+          * @brief  Convert from world coordinates to map coordinates
+          * @param  wx The x world coordinate
+          * @param  wy The y world coordinate
+          * @param  mx Will be set to the associated map x coordinate
+          * @param  my Will be set to the associated map y coordinate
+          * @return True if the conversion was successful (legal bounds) false otherwise
+          */
         virtual bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const = 0;
 
         virtual ~Costmap() = default;
@@ -30,9 +40,9 @@ namespace astar_planner {
     private:
         unsigned int sizeX;
         unsigned int sizeY;
-        unsigned int resolution;
+        double resolution;
     public:
-        EmptyCostmap(unsigned int sizeX, unsigned int sizeY, unsigned int resolution);
+        EmptyCostmap(unsigned int sizeX, unsigned int sizeY, double resolution);
 
         unsigned int getCost(unsigned int x, unsigned int y) const override;
 
@@ -44,14 +54,8 @@ namespace astar_planner {
 
         unsigned int getSizeInCellsY() const override;
 
-        /**
-          * @brief  Convert from world coordinates to map coordinates
-          * @param  wx The x world coordinate
-          * @param  wy The y world coordinate
-          * @param  mx Will be set to the associated map x coordinate
-          * @param  my Will be set to the associated map y coordinate
-          * @return True if the conversion was successful (legal bounds) false otherwise
-          */
+        double getResolution() const override;
+
         bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const override;
 
         ~EmptyCostmap() override;
@@ -61,17 +65,23 @@ namespace astar_planner {
     private:
         costmap_2d::Costmap2D *costmap_;
     public:
-        CostmapAdapter(costmap_2d::Costmap2D costmap);
+        CostmapAdapter(costmap_2d::Costmap2D *costmap);
 
-        unsigned int getCost();
+        unsigned int getCost(unsigned int x, unsigned int y) const override;
 
-        double getSizeInMetersX();
+        double getSizeInMetersX() const override;
 
-        double getSizeInMetersY();
+        double getSizeInMetersY() const override;
 
-        unsigned int getSizeInCellsX();
+        unsigned int getSizeInCellsX() const override;
 
-        unsigned int getSizeInCellsY();
+        unsigned int getSizeInCellsY() const override;
+
+        double getResolution() const override;
+
+        bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const override;
+
+        ~CostmapAdapter() override;
     };
 }
 #endif //ASTAR_PLANNER_COSTMAP_H
