@@ -12,6 +12,7 @@ from geometry_msgs.msg import Point, Quaternion
 
 DEFAULT_WORLD_FRAME = '/map'
 DEFAULT_MODEL_FRAME = 'base_link'
+DEFAULT_STEERING_FRAME = 'front_part'
 
 
 class TFToOdom:
@@ -31,15 +32,18 @@ class TFToOdom:
                                            default=DEFAULT_MODEL_FRAME)
         self.world_frame = rospy.get_param('%s/world_frame' % self.name,
                                            default=DEFAULT_WORLD_FRAME)
+        self.steering_frame = rospy.get_param('%s/steering_frame' % self.name,
+                                              default=DEFAULT_STEERING_FRAME)
 
     def forward_odom(self):
         listener = tf.TransformListener()
         odom_pub = rospy.Publisher('odom', Odometry, queue_size=10)
         while not rospy.is_shutdown():
             try:
-                (trans, rot) = listener.lookupTransform(self.world_frame,
-                                                        self.model_frame,
-                                                        rospy.Time(0))
+                (trans, _) = listener.lookupTransform(
+                    self.world_frame, self.model_frame, rospy.Time(0))
+                (_, rot) = listener.lookupTransform(
+                    self.world_frame, self.steering_frame, rospy.Time(0))
                 # publish to 'odom' topic
                 curr_time = rospy.Time.now()
                 odom_msg = Odometry()
@@ -52,7 +56,7 @@ class TFToOdom:
                                                             rot[2], rot[3])
                 odom_pub.publish(odom_msg)
             except (tf.LookupException, tf.ConnectivityException,
-                        tf.ExtrapolationException):
+                    tf.ExtrapolationException):
                 continue
 
 
