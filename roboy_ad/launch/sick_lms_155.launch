@@ -4,8 +4,8 @@
   <node name="sick_lms_1xx" pkg="sick_scan" type="sick_generic_caller" respawn="false" output="screen">
   	<!--<include file="$(find sick_scan)/launch/sick_lms_1xx.launch">-->
         <!--</include>-->
-	<param name="min_ang" type="double" value="-2.356" />
-	<param name="max_ang" type="double" value="2.356" />
+	<param name="min_ang" type="double" value="-2.0944" />
+	<param name="max_ang" type="double" value="2.0944" />
 	<param name="scanner_type" type="string" value="sick_lms_1xx"/>
 	<param name="range_max" type="double" value="25.0" />
 	<param name="hostname" type="string" value="192.168.0.42" />    
