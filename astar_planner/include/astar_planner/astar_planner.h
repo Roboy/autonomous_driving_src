@@ -27,52 +27,76 @@ namespace astar_planner {
         ~AStarPlanner();
 
         /**
-          * @brief  Initialization function for the RRTPLaner object
+          * Initialization function for the AStarPlanner object
           * @param  name The name of this planner
           * @param  costmap_ros A pointer to the ROS wrapper of the costmap to use
           */
         void initialize(std::string name,
                         costmap_2d::Costmap2DROS *costmap_ros) override;
 
-        void initialize(std::string name, Costmap *costmap);
-
         /**
-       * @brief Given a goal pose in the world, compute a plan
-       * @param start The start pose
-       * @param goal The goal pose
-       * @param plan The plan... filled by the planner
-       * @return True if a valid plan was found, false otherwise
-       */
+         * Given a goal pose in the world, compute a plan
+         * @param start The start pose
+         * @param goal The goal pose
+         * @param plan The plan... filled by the planner
+         * @return True if a valid plan was found, false otherwise
+        */
         bool makePlan(const geometry_msgs::PoseStamped &start,
                       const geometry_msgs::PoseStamped &goal,
                       std::vector<geometry_msgs::PoseStamped> &plan) override;
 
-        bool makePlan(const Position &start, const Position &goal, std::vector<Position> &path);
+    public:
+        // Methods that are left public for unit tests
 
-        void getPath(const std::unordered_map<Position, Position> &parents,
-                     const Position &goal_pos,
-                     std::vector<Position> &path) const;
+        /**
+         * Initialization function for the AStarPlanner object
+         */
+        void initialize(std::string name, Costmap *costmap);
 
+        bool makePlan(const Pose &start, const Pose &goal, std::vector<Pose> &path);
 
-        std::vector<PosWithDist> getNeighbors(const Position &pos) const;
+        /**
+         * Get poses reachable from the given pose by integrating a discrete set of controls
+         * over a short period of time.
+         * @param pos Pose from which to start.
+         * @return a vector of reachable poses.
+         */
+        std::vector<PoseWithDist> getNeighbors(const Pose &pos) const;
 
-        double distEstimate(const Position &pose1, const Position &pose2) const;
+    private:
+        /**
+         * Reconstruct the path to the goal position given a set of child/parent pairs.
+         * A child position was visited from the parent position when running the planning algorithm.
+         * @param parents a map of child/parent relationships. Keys are children, values are parents.
+         * @param goal_pos goal position, is assumed to have no children.
+         * @param path conainer where the path is be stored.
+         *              The first element is the start position, the last element - goal position.
+         */
+        void getPath(const std::unordered_map<Pose, Pose> &parents,
+                     const Pose &goal_pos,
+                     std::vector<Pose> &path) const;
 
-        Cell getCell(const Position &pos) const;
+        /**
+         * Estimated distance between two poses.
+         */
+        double distEstimate(const Pose &pose1, const Pose &pose2) const;
+
+        /**
+         * Snap pose to a costmap cell.
+         */
+        Cell getCell(const Pose &pos) const;
 
         void loadParameters();
 
         bool validateParameters() const;
 
-        bool checkBounds(const Position &pos) const;
+        bool checkBounds(const Pose &pos) const;
 
-        PosWithDist goStraight(const Position &pos) const;
+        PoseWithDist goStraight(const Pose &pos) const;
 
-        PosWithDist turnLeft(const Position &pos, double angle) const;
+        PoseWithDist turnLeft(const Pose &pos, double angle) const;
 
-        PosWithDist turnRight(const Position &pos, double angle) const;
-
-
+        PoseWithDist turnRight(const Pose &pos, double angle) const;
 
     private:
         std::string name_;
