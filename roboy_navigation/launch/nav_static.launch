@@ -10,7 +10,7 @@ Launch the navigation stack to run on a static map published by map server.
         output="screen">
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
               command="load"/>
-    <rosparam file="$(find roboy_navigation)/config/base_global_planner.yaml"
+    <rosparam file="$(find roboy_navigation)/config/astar_planner.yaml"
               command="load"/>
     <rosparam file="$(find roboy_navigation)/config/global_costmap.yaml"
               command="load"/>
@@ -22,6 +22,7 @@ Launch the navigation stack to run on a static map published by map server.
               command="load" ns="local_costmap"/>
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
+    <param name="base_global_planner" value="astar_planner::AStarPlanner"/>
   </node>
   <node pkg="roboy_navigation" type="tf_to_odom.py" respawn="false"
         name="fake_odom" output="screen"/>
