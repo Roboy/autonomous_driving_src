@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-A node that will republish tf transform information to the odometry node.
+A node that will republish tf transform information to the odometry topic.
 Can be used instead of doing actual odometry but it will not provide model
 velocity.
 """
