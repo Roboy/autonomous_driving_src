@@ -32,10 +32,15 @@ A launch file to start a gezebo simulation and a node that will publish
 
   <!-- Start a node that will publish model position and handle
   initial_position command -->
-  <node name="rviz_bridge" pkg="roboy_models" type="rviz_bridge.py"
+  <node name="gazebo_to_tf" pkg="roboy_models" type="gazebo_to_tf.py"
         output="screen">
       <param name="model_name" type="string" value="$(arg model_name)"/>
       <param name="model_frame" type="string" value="$(arg model_frame)"/>
+  </node>
+
+  <node name="gazebo_initial_pos" pkg="roboy_models"
+        type="handle_initial_pos.py" output="screen">
+      <param name="model_name" type="string" value="$(arg model_name)"/>
   </node>
 
 </launch>
