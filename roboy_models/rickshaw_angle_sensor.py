@@ -13,7 +13,7 @@ STEERING_JOINT = 'joint_front'
 class RickshawSteeringSensor:
 
     def __init__(self):
-        self.latest_sensor_value = None
+        self.latest_sensor_value = 0
 
     def start(self):
         rospy.Subscriber('/joint_states', JointState,

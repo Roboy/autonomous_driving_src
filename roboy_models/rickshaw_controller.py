@@ -7,12 +7,14 @@ roboy_models/rickshaw/model.urdf
 import rospy
 
 from math import pi, atan
-from simple_pid import PID
+
 
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64, Float64MultiArray
 
 from rickshaw_angle_sensor import RickshawSteeringSensor
+from roboy_navigation.async_pid import AsyncPID
+
 
 EPS = 1e-04
 WHEEL_RADIUS = 0.25
@@ -30,44 +32,47 @@ def convert_trans_rot_vel_to_steering_angle(lin_vel, ang_vel, wheelbase):
 class RickshawControlGazebo:
 
     def __init__(self):
+        self.target_steering_angle = 0
+        target_steering_anble_fn = lambda: self.target_steering_angle
         self.steering_sensor = RickshawSteeringSensor()
+        self.steering_controller = AsyncPID(
+            target_steering_anble_fn,
+            self.steering_sensor.get_latest_sensor_value,
+            self.set_steering_velocity,
+            sample_rate=20
+        )
 
     def start(self):
         rospy.init_node('rickshaw_control_gazebo', log_level=rospy.DEBUG)
         self.steering_sensor.start()
-        wheels_pub = rospy.Publisher(
+        self.wheels_pub = rospy.Publisher(
             '/rickshaw_wheels_controller/command', Float64MultiArray,
             queue_size=10)
-        front_part_pub = rospy.Publisher(
+        self.steering_pub = rospy.Publisher(
             '/rickshaw_front_part_controller/command', Float64,
             queue_size=10)
-        #self.angle_sensor.start()
-        def handle_velocity_command(twist):
-            vx, vy = twist.linear.x, twist.linear.y
-            if vy > EPS:
-                rospy.logerr('Non-holomonic velocity found vy=%.2f', vy)
-            phi = twist.angular.z
-            steering_vel = self.get_steering_velocity(vx, phi)
-            rospy.logdebug('Command(vel=%.2f, steering=%.2f) received', vx, phi)
-            rospy.logdebug('Try setting steering angle to %.2f', phi)
-            front_part_pub.publish(steering_vel)
-            wheel_p = 2.0 * WHEEL_RADIUS * pi
-            wheel_rot_vel = vx / wheel_p
-            rospy.logdebug('Try setting wheels speed to %.2f', wheel_rot_vel)
-            lin_vel = Float64MultiArray(data=[wheel_rot_vel, wheel_rot_vel,
-                                              wheel_rot_vel])
-            wheels_pub.publish(lin_vel)
-
-        rospy.Subscriber('cmd_vel', Twist, handle_velocity_command, queue_size=1)
+        rospy.Subscriber('cmd_vel', Twist, self.handle_velocity_command, queue_size=1)
+        self.steering_controller.start()
         rospy.spin()
 
-    def get_steering_velocity(self, lin_vel, angular_vel):
-        target_angle = convert_trans_rot_vel_to_steering_angle(
-            lin_vel, angular_vel, WHEEL_BASE
-        )
-        pid = PID(1, 0.1, 0.05, setpoint=target_angle)
-        steering_vel = pid(self.steering_sensor.get_latest_sensor_value())
-        return steering_vel
+    def handle_velocity_command(self, twist):
+        target_lin_vel, vy = twist.linear.x, twist.linear.y
+        if vy > EPS:
+            rospy.logerr('Non-holomonic velocity found vy=%.2f', vy)
+        target_rot_vel = twist.angular.z
+        self.target_steering_angle = convert_trans_rot_vel_to_steering_angle(
+            target_lin_vel, target_rot_vel, WHEEL_BASE)
+        rospy.logdebug('Command(lin_vel=%.2f, rot_vel=%.2f) received',
+                       target_lin_vel, target_rot_vel)
+        wheel_p = 2.0 * WHEEL_RADIUS * pi
+        wheel_rot_vel = target_lin_vel / wheel_p
+        rospy.logdebug('Try setting wheels speed to %.2f', wheel_rot_vel)
+        wheels_vel = Float64MultiArray(data=[wheel_rot_vel, wheel_rot_vel,
+                                             wheel_rot_vel])
+        self.wheels_pub.publish(wheels_vel)
+
+    def set_steering_velocity(self, steering_vel):
+        self.steering_pub.publish(steering_vel)
 
 
 if __name__ == '__main__':
