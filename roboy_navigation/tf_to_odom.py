@@ -12,7 +12,6 @@ from geometry_msgs.msg import Point, Quaternion
 
 DEFAULT_WORLD_FRAME = '/map'
 DEFAULT_MODEL_FRAME = 'base_link'
-DEFAULT_STEERING_FRAME = 'front_part'
 
 
 class TFToOdom:
@@ -21,7 +20,7 @@ class TFToOdom:
         pass
 
     def start(self):
-        rospy.init_node('gazebo_rviz_bridge',
+        rospy.init_node('tf_to_odom',
                         log_level=rospy.DEBUG)
         self.get_params()
         self.forward_odom()
@@ -32,18 +31,14 @@ class TFToOdom:
                                            default=DEFAULT_MODEL_FRAME)
         self.world_frame = rospy.get_param('%s/world_frame' % self.name,
                                            default=DEFAULT_WORLD_FRAME)
-        self.steering_frame = rospy.get_param('%s/steering_frame' % self.name,
-                                              default=DEFAULT_STEERING_FRAME)
 
     def forward_odom(self):
         listener = tf.TransformListener()
         odom_pub = rospy.Publisher('odom', Odometry, queue_size=10)
         while not rospy.is_shutdown():
             try:
-                (trans, _) = listener.lookupTransform(
+                (trans, rot) = listener.lookupTransform(
                     self.world_frame, self.model_frame, rospy.Time(0))
-                (_, rot) = listener.lookupTransform(
-                    self.world_frame, self.steering_frame, rospy.Time(0))
                 # publish to 'odom' topic
                 curr_time = rospy.Time.now()
                 odom_msg = Odometry()
