@@ -10,39 +10,45 @@
 
 namespace astar_planner {
 
-
-    struct Position {
+    /**
+     * Container for storing pose of a 2D object in space.
+     */
+    struct Pose {
         double x;
         double y;
         double th;
 
-        Position();
+        Pose();
 
-        Position(double x, double y, double th);
+        Pose(double x, double y, double th);
 
-        Position(const geometry_msgs::PoseStamped &pose);
+        Pose(const geometry_msgs::PoseStamped &pose);
 
         geometry_msgs::PoseStamped toPoseStamped();
 
-        bool operator==(const Position &other) const;
+        bool operator==(const Pose &other) const;
 
-        friend std::ostream& operator<<(std::ostream &out, const Position &pos);
+        friend std::ostream& operator<<(std::ostream &out, const Pose &pos);
 
     };
 
-
-    struct PosWithDist {
+    /**
+     * Container for storing object position and associated cost.
+     */
+    struct PoseWithDist {
         double dist;
-        Position pose;
+        Pose pose;
 
-        PosWithDist(double dist, const Position &pose) : dist(dist), pose(pose) {}
+        PoseWithDist(double dist, const Pose &pose) : dist(dist), pose(pose) {}
 
-        bool operator<(const PosWithDist &other) const;
+        bool operator<(const PoseWithDist &other) const;
 
-        bool operator==(const PosWithDist &other) const;
+        bool operator==(const PoseWithDist &other) const;
     };
 
-
+    /**
+     * Conainer for storing Costmap coordinates.
+     */
     struct Cell {
         uint x;
         uint y;
@@ -56,7 +62,10 @@ namespace astar_planner {
         }
     };
 
-    double euclid_dist(const Position &pose1, const Position &pose2);
+    /**
+     * Compute Euclidean distance between two positions.
+     */
+    double euclid_dist(const Pose &pose1, const Pose &pose2);
 }
 
 namespace std {
@@ -69,9 +78,9 @@ namespace std {
     };
 
     template<>
-    struct hash<astar_planner::Position> {
+    struct hash<astar_planner::Pose> {
         // TODO: think carefully about the hash function
-        std::size_t operator()(const astar_planner::Position &pose) const {
+        std::size_t operator()(const astar_planner::Pose &pose) const {
             return (size_t(pose.x) << 20) +
                    (size_t(pose.y) << 10) + size_t(pose.th);
         }

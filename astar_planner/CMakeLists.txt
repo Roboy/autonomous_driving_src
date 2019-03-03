@@ -125,12 +125,6 @@ include_directories(
 add_library(${PROJECT_NAME} src/astar_planner.cpp src/costmap.cpp src/utils.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
-add_library(${PROJECT_NAME}_visualizer src/astar_planner_visualizer.cpp)
-target_link_libraries(${PROJECT_NAME}_visualizer ${catkin_LIBRARIES} ${PROJECT_NAME})
-
-add_executable(${PROJECT_NAME}_node src/astar_planner_node.cpp)
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${PROJECT_NAME} ${PROJECT_NAME}_visualizer)
-
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
