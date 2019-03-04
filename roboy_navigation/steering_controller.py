@@ -41,7 +41,7 @@ class SteeringController:
         return self.clip_bounds(angle)
 
     def get_actual_angle(self):
-        return self.angle_sensor_listener.get_latest_actual_angle()
+        return self.angle_sensor_listener.get_latest_smooth_angle()
 
     def set_muscle_effort(self, effort):
         effort_left, effort_right = (RELAXED_EFFORT, -effort) if effort < 0 \

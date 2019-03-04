@@ -22,13 +22,18 @@ class AnglePublisher:
         self.angle_sensor_listener.start()
         self.actual_angle_publisher = rospy.Publisher('/actual_angle', Float64,
                                                       queue_size=10)
+        self.smooth_angle_publisher = rospy.Publisher('smooth_angle', Float64,
+                                                      queue_size=10)
         self.target_angle_listener.start()
         self.target_angle_publisher = rospy.Publisher('/target_angle', Float64,
                                                       queue_size=10)
+
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             actual_angle = self.angle_sensor_listener.get_latest_actual_angle()
             self.actual_angle_publisher.publish(rad_to_deg(actual_angle))
+            smooth_angle = self.angle_sensor_listener.get_latest_smooth_angle()
+            self.smooth_angle_publisher.publish(rad_to_deg(smooth_angle))
             target_angle = self.target_angle_listener.get_latest_target_angle()
             self.target_angle_publisher.publish(rad_to_deg(target_angle))
             rate.sleep()

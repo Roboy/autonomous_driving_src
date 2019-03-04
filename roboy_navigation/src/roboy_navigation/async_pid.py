@@ -26,9 +26,7 @@ class AsyncPID:
         self.input_provider = actual_val_provider
         self.control_callback = control_callback
         self.sample_rate = sample_rate
-        self.Kp = Kp
-        self.Kd = Kd
-        self.Ki = Ki
+        self.pid = PID(Kp, Ki, Kd)
 
     def start(self):
         rospy.Service('pid_config', PIDConfig, self.update_pid_config)
@@ -38,15 +36,14 @@ class AsyncPID:
         rate = rospy.Rate(self.sample_rate)
         while not rospy.is_shutdown():
             setpoint = self.setpoint_provider()
-            pid = PID(self.Kp, self.Ki, self.Kd, setpoint=setpoint)
-            control = pid(self.input_provider())
+            input = self.input_provider()
+            error = input - setpoint
+            control = self.pid(error)
             self.control_callback(control)
             rate.sleep()
 
     def update_pid_config(self, cfg):
-        self.Kp = cfg.Kp
-        self.Kd = cfg.Kd
-        self.Ki = cfg.Ki
+        self.pid = PID(cfg.Kp, cfg.Ki, cfg.Kd)
         rospy.loginfo('PID reconfigured (%.2f, %.2f %.2f)',
-                      self.Kp, self.Kd, self.Ki)
+                      cfg.Kp, cfg.Kd, cfg.Ki)
         return PIDConfigResponse(True)

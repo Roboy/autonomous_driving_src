@@ -71,8 +71,12 @@ class TargetAngleListener:
 
 class AngleSensorListener:
 
-    def __init__(self):
+    def __init__(self, decay=0.95, threshold=0.3 / 180 * pi):
         self.actual_angle = 0
+        self.smooth_angle = 0
+        self.last_smooth_angle = 0
+        self.decay = decay
+        self.threshold = threshold
 
     def start(self):
         self.listen_to_angle_sensor()
@@ -81,15 +85,25 @@ class AngleSensorListener:
         def angle_receiver(raw_angle):
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
-            self.actual_angle = float(
+            angle = float(
                 raw_angle.raw_angles[0] - INITIAL_RAW_ANGLE_OFFSET) \
                                 / 4096 * 2 * pi
+            self.actual_angle = angle
+            self.smooth_angle = self.smooth_out(angle)
+            if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
+                self.last_smooth_angle = self.smooth_angle
 
         rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle,
                          angle_receiver)
 
     def get_latest_actual_angle(self):
         return self.actual_angle
+
+    def get_latest_smooth_angle(self):
+        return self.last_smooth_angle
+
+    def smooth_out(self, angle):
+        return self.decay * self.smooth_angle + (1 - self.decay) * angle
 
 
 class MyoMuscleController:
