@@ -23,7 +23,8 @@ class SteeringController:
             target_val_provider=self.get_target_angle,
             actual_val_provider=self.get_actual_angle,
             control_callback=self.set_muscle_effort,
-            sample_rate=20
+            sample_rate=20,
+            Kp=5000.0
         )
 
     def start(self):
@@ -43,11 +44,11 @@ class SteeringController:
         return self.angle_sensor_listener.get_latest_actual_angle()
 
     def set_muscle_effort(self, effort):
-        print(effort)
-        effort_left, effort_right = (RELAXED_EFFORT, effort) if effort > 0 \
-            else (-effort, RELAXED_EFFORT)
+        effort_left, effort_right = (RELAXED_EFFORT, -effort) if effort < 0 \
+            else (effort, RELAXED_EFFORT)
         effort_left = max(effort_left, RELAXED_EFFORT)
         effort_right = max(effort_right, RELAXED_EFFORT)
+        print(effort)
         self.muscle_controller.send_command(effort_left, effort_right)
 
     def clip_bounds(self, angle):
