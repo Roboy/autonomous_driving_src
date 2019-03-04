@@ -2,12 +2,19 @@
 Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
-  <arg name="map_config"
-       default="$(find roboy_navigation)/config/utum_map_server.yaml"/>
-  <node name="map_server" pkg="map_server" type="map_server"
-        args="$(arg map_config)"/>
+  <arg name="viz_map_config"
+       default="$(find roboy_navigation)/config/utum_map.yaml"/>
+  <arg name="nav_map_config"
+       default="$(find roboy_navigation)/config/utum_map_annotated.yaml"/>
+  <node name="viz_map_server" pkg="map_server" type="map_server"
+        args="$(arg viz_map_config)" output="screen"/>
+  <node name="nav_map_server" pkg="map_server" type="map_server"
+          args="$(arg nav_map_config) /map:=/nav_map /map_metadata:=/nav_map_metadata"
+        output="screen"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
+        args="/map:=/nav_map /map_metadata:=/nav_map_metadata"
         output="screen">
+
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
               command="load"/>
     <rosparam file="$(find roboy_navigation)/config/astar_planner.yaml"

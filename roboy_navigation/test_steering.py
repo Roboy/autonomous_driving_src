@@ -1,11 +1,16 @@
 #!/usr/bin/python
+import threading, Queue
+
+from math import pi
 import rospy
+
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
 
-import threading, Queue
 
 from steering_helper import MyoMuscleController, AngleSensorListener
+
+MAX_STEERING_ANGLE = 10.0 / 180 * pi
 
 
 class SteeringTesterThread(threading.Thread):
@@ -14,7 +19,9 @@ class SteeringTesterThread(threading.Thread):
         super(SteeringTesterThread, self).__init__()
         self.stop_request = threading.Event()
         self.timeout = timeout
-        self.muscle_controller = MyoMuscleController(4, 7, 8)
+        self.muscle_controller = MyoMuscleController(
+            fpga_id=3, left_motor_id=10, right_motor_id=9
+        )
 
     def start(self):
         self.cmd_listener = rospy.Subscriber(
@@ -26,9 +33,9 @@ class SteeringTesterThread(threading.Thread):
     def process_command(self, twist):
         z = twist.angular.z
         if z < -1:
-            self.muscle_controller.send_command(100, 10)
+            self.muscle_controller.send_command(1000, 10)
         elif z > 1:
-            self.muscle_controller.send_command(10, 100)
+            self.muscle_controller.send_command(10, 1000)
 
 
 class AnglePublisher(threading.Thread):
@@ -45,10 +52,10 @@ class AnglePublisher(threading.Thread):
         rate = rospy.Rate(self.rate)
         while not self.stop_request.is_set():
             actual_angle = self.angle_sensor_listener.get_latest_actual_angle()
-            self.publisher.publish(actual_angle)
+            self.publisher.publish(actual_angle / pi * 180)
             rate.sleep()
 
-    def stop(self, timeout=None):
+    def stop(self, timeout=3):
         self.stop_request.set()
         super(AnglePublisher, self).join(timeout)
 
