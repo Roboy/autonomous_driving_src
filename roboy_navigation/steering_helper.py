@@ -14,7 +14,7 @@
 
 """
 import rospy
-from math import atan
+from math import atan, pi
 
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle
 from roboy_middleware_msgs.srv import ControlMode
@@ -26,6 +26,8 @@ MOTOR_CONTROL_VELOCITY = 1
 MOTOR_CONTROL_DISPLACEMENT = 2
 
 INIT_DISPLACEMENT = 10
+
+INITIAL_RAW_ANGLE_OFFSET = 2690
 
 
 # Taken from http://docs.ros.org/kinetic/api/teb_local_planner/html/cmd__vel__to__ackermann__drive_8py_source.html
@@ -57,6 +59,8 @@ class TargetAngleListener:
 
         rospy.Subscriber('/cmd_vel', Twist, navigation_commands_receiver)
 
+
+
     def get_latest_target_angle(self):
         return self.target_angle
 
@@ -75,8 +79,9 @@ class AngleSensorListener:
             # TODO(melkonyan): double-check the correct angle field.
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
-            angle = float(raw_angle.raw_angles[0]) / 4096 * 360
-            self.target_angle = angle
+            angle = float(raw_angle.raw_angles[0] - INITIAL_RAW_ANGLE_OFFSET) \
+                    / 4096 * 2 * pi
+            self.actual_angle = angle
 
         rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle,
                          angle_receiver)
