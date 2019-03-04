@@ -4,14 +4,8 @@ import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
+
 EPS = 1e-04
-
-
-class SteeringController:
-
-    def update_steering(self, target_steering):
-        # TODO(melkonyan): implement steering control
-        pass
 
 
 class MotorController:
