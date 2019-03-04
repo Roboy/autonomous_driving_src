@@ -285,6 +285,16 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Alpha: 0.699999988
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Navigation Map
+      Topic: /nav_map
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -310,7 +320,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 42.5786934
+      Distance: 79.6155548
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -325,10 +335,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.1147964
+      Pitch: 1.54479599
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 1.75984883
+      Yaw: 3.15485048
     Saved: ~
 Window Geometry:
   Displays:
