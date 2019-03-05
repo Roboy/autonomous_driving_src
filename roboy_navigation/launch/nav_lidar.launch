@@ -6,7 +6,7 @@ Launch the navigation stack to run on a map obtained from the lidar.
         output="screen">
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
               command="load"/>
-    <rosparam file="$(find roboy_navigation)/config/base_global_planner.yaml"
+    <rosparam file="$(find roboy_navigation)/config/astar_planner.yaml"
               command="load"/>
     <rosparam file="$(find roboy_navigation)/config/global_costmap.yaml"
               command="load"/>
