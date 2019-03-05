@@ -8,6 +8,7 @@ from roboy_navigation.steering_helper import TargetAngleListener, \
     AngleSensorListener, MyoMuscleController, rad_to_deg
 
 RELAXED_EFFORT = 10
+MAX_EFFORT = 1000
 MAX_STEERING_ANGLE = 10.0 / 180 * pi
 
 
@@ -48,6 +49,8 @@ class SteeringController:
             else (effort, RELAXED_EFFORT)
         effort_left = max(effort_left, RELAXED_EFFORT)
         effort_right = max(effort_right, RELAXED_EFFORT)
+        effort_left = min(effort_left, MAX_EFFORT)
+        effort_right = min(effort_right, MAX_EFFORT)
         print(effort)
         self.muscle_controller.send_command(effort_left, effort_right)
 

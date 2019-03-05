@@ -71,7 +71,7 @@ class TargetAngleListener:
 
 class AngleSensorListener:
 
-    def __init__(self, decay=0.95, threshold=0.3 / 180 * pi):
+    def __init__(self, decay=0.95, threshold=0.1 / 180 * pi):
         self.actual_angle = 0
         self.smooth_angle = 0
         self.last_smooth_angle = 0
