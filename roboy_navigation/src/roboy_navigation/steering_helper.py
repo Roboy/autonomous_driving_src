@@ -121,7 +121,7 @@ class MyoMuscleController:
 
     def set_control_mode(self):
         config_motors_service = rospy.ServiceProxy(
-            '/roboy/shoulder_left/middleware/MotorConfig',
+            '/roboy/shoulder_right/middleware/MotorConfig',
             MotorConfigService
         )
         config = MotorConfig(

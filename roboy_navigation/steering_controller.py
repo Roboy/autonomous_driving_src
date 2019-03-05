@@ -18,7 +18,7 @@ class SteeringController:
         self.angle_sensor_listener = AngleSensorListener()
         self.target_angle_listener = TargetAngleListener()
         self.muscle_controller = MyoMuscleController(
-            fpga_id=3, left_motor_id=10, right_motor_id=9
+            fpga_id=4, left_motor_id=10, right_motor_id=9
         )
         self.async_pid = AsyncPID(
             target_val_provider=self.get_target_angle,
