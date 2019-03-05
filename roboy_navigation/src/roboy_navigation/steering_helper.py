@@ -16,8 +16,8 @@
 import rospy
 from math import atan, pi
 
-from roboy_middleware_msgs.msg import MotorCommand, MotorAngle
-from roboy_middleware_msgs.srv import ControlMode
+from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
+from roboy_middleware_msgs.srv import MotorConfigService
 from geometry_msgs.msg import Twist
 
 MOTOR_CONTROL_POSITION = 0
@@ -117,17 +117,32 @@ class MyoMuscleController:
         self.publisher = rospy.Publisher('/roboy/middleware/MotorCommand',
                                          MotorCommand,
                                          queue_size=1)
-        # self.set_control_mode()
+        self.set_control_mode()
 
     def set_control_mode(self):
-        set_control_mode = rospy.ServiceProxy(
-            '/roboy/shoulder_right/middleware/ControlMode',
-            ControlMode)
-        set_control_mode(
-            MOTOR_CONTROL_DISPLACEMENT, INIT_DISPLACEMENT, self.left_motor_id)
-        set_control_mode(
-            MOTOR_CONTROL_DISPLACEMENT, INIT_DISPLACEMENT, self.right_motor_id
+        config_motors_service = rospy.ServiceProxy(
+            '/roboy/shoulder_left/middleware/MotorConfig',
+            MotorConfigService
         )
+        config = MotorConfig(
+            id=self.fpga_id,
+            motors=[self.left_motor_id, self.right_motor_id],
+            control_mode=[MOTOR_CONTROL_DISPLACEMENT, MOTOR_CONTROL_DISPLACEMENT],
+            output_pos_max=[1000, 1000],
+            output_neg_max=[-1000, -1000],
+            sp_pos_max=[1000000, 1000000],
+            sp_neg_max=[-1000000, -1000000],
+            integral_pos_max=[1000, 1000],
+            integral_neg_max=[-1000, -1000],
+            kp=[200, 200],
+            ki=[0, 0],
+            kd=[0, 0],
+            forward_gain=[0, 0],
+            dead_band=[0, 0],
+            output_divider=[1, 1],
+            setpoint=[INIT_DISPLACEMENT, INIT_DISPLACEMENT]
+        )
+        config_motors_service(config)
 
     def send_command(self, effort_left, effort_right):
         command = MotorCommand()
