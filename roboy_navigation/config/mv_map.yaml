@@ -1,4 +1,4 @@
-image: map.pgm
+image: ../data/mv_map.pgm
 resolution: 0.050000
 origin: [-10.444243, -188.054736, 0.0]
 negate: 0
