@@ -1,10 +1,16 @@
 # Roboy AD ROS package
-This package can do many things needed for Roboy AD project.
+This package can do many things needed for Roboy AD project. To build run
+```
+catkin build roboy_ad
+```
+
+# Connecting to Hardware
 
 ## IMU 
 This is to convert the [custom ROS message](http://docs.ros.org/api/sbg_driver/html/msg/SbgImuData.html) of a [SBG Systems Ellipse2-A](https://www.sbg-systems.com/products/ellipse-2-series/) IMU unit to a standard [ROS Kinetic IMU sensor message](http://docs.ros.org/kinetic/api/sensor_msgs/html/msg/Imu.html) for the use in [Google Cartographer](https://github.com/Roboy/cartographer_ros/tree/roboy).
 
 ### Install
+You should already have this package but to double check run:
 ```
 sudo apt-get install ros-kinetic-sbg-driver
 ```
@@ -14,7 +20,6 @@ sudo adduser username dialout
 ```
 Clone this repository into your catkin/src folder and build using
 ```
-catkin build roboy_ad
 source devel/setup.bash
 ```
 
@@ -31,9 +36,22 @@ Before launching, it is required to set the LIDAR IP adress accordingly in the `
 roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
 
-## Cartographer Visualization
-You will need to [`build cartographer_rviz`](https://github.com/Roboy/cartographer_ros/tree/roboy) on your machine for this to work.
+# Visualization of whats happening
 
+## Cartographer
+You will need to [`build cartographer_rviz`](https://github.com/Roboy/cartographer_ros/tree/roboy) on your machine for this to work.
 ```
 roslaunch roboy_ad rviz_cartographer.launch
+```
+
+## Tricycle Simulation
+```
+roslaunch roboy_models display.launch
+roslaunch roboy_navigation nav_lidar.launch
+```
+
+## Pure Localization Simulation
+If you have a cartographer pure localization in _idle_, you can run a simulation of the tricycle using
+```
+roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
