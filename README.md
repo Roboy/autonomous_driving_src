@@ -3,28 +3,28 @@
 
 To build, follow the instructions below or create a Docker as described [here](https://github.com/Roboy/autonomous_driving/tree/devel/dockers).
 
-## Cloning
+## Clone
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
 ```
 git clone https://github.com/Roboy/autonomous_driving_src.git .
 ```
 
-## Things to do before building
+## ToDo
 
-### Install...
+### Install Packages
 
 To simply install all packages listed below run
 ```
 sudo ./package_requirements.sh
 ```
 
-### Git Submodules
+### Prepare Git Submodules
 ```
 git submodule init
 git submodule update
 ```
 
-## Building
+## Build
 After you completed all of the above steps, run
 ```
 catkin build roboy_ad
