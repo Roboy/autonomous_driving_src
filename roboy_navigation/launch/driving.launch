@@ -1,0 +1,8 @@
+<launch>
+  <node name="steering_controller" pkg="roboy_navigation"
+        type="steering_controller.py" output="screen"/>
+  <node name="rickshaw_controller" pkg="roboy_navigation"
+        type="rickshaw_controller.py" output="screen"/>
+  <node name="angle_publisher" pkg="roboy_navigation"
+        type="angle_publisher.py" output="screen"/>
+</launch>
