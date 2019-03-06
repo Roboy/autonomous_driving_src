@@ -4,11 +4,7 @@ Launch the navigation stack to run on a map obtained from the lidar.
 <launch>
   <arg name="nav_map_config"
        default="$(find roboy_navigation)/config/mv_map.yaml"/>
-  <node name="nav_map_server" pkg="map_server" type="map_server"
-        args="$(arg nav_map_config) /map:=/nav_map /map_metadata:=/nav_map_metadata"
-        output="screen"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
-	args="/map:=/nav_map /map_metadata:=/nav_map_metadata"        
 	output="screen">
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
               command="load"/>
