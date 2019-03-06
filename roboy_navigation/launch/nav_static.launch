@@ -3,9 +3,9 @@ Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
   <arg name="viz_map_config"
-       default="$(find roboy_navigation)/config/utum_map.yaml"/>
+       default="$(find roboy_navigation)/config/mv_map.yaml"/>
   <arg name="nav_map_config"
-       default="$(find roboy_navigation)/config/utum_map_annotated.yaml"/>
+       default="$(find roboy_navigation)/config/mv_map.yaml"/>
   <node name="viz_map_server" pkg="map_server" type="map_server"
         args="$(arg viz_map_config)" output="screen"/>
   <node name="nav_map_server" pkg="map_server" type="map_server"
