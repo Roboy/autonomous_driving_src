@@ -18,14 +18,15 @@ class SteeringController:
         self.angle_sensor_listener = AngleSensorListener()
         self.target_angle_listener = TargetAngleListener()
         self.muscle_controller = MyoMuscleController(
-            fpga_id=4, left_motor_id=10, right_motor_id=9
+            fpga_id=4, left_motor_id=9, right_motor_id=12
         )
         self.async_pid = AsyncPID(
             target_val_provider=self.get_target_angle,
             actual_val_provider=self.get_actual_angle,
             control_callback=self.set_muscle_effort,
-            sample_rate=20,
-            Kp=5000.0
+            sample_rate=100,
+            Kp=50000.0,
+            Kd=10000.0
         )
 
     def start(self):
@@ -45,8 +46,8 @@ class SteeringController:
         return self.angle_sensor_listener.get_latest_smooth_angle()
 
     def set_muscle_effort(self, effort):
-        effort_left, effort_right = (RELAXED_EFFORT, -effort) if effort < 0 \
-            else (effort, RELAXED_EFFORT)
+        effort_left, effort_right = (RELAXED_EFFORT, effort) if effort > 0 \
+            else (-effort, RELAXED_EFFORT)
         effort_left = max(effort_left, RELAXED_EFFORT)
         effort_right = max(effort_right, RELAXED_EFFORT)
         effort_left = min(effort_left, MAX_EFFORT)
