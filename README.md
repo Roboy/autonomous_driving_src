@@ -25,36 +25,14 @@ sudo ./package_requirements.sh
 git submodule init
 git submodule update
 ```
-### Compiling Cartographer_ROS
-**Before compiling, leave your src directory and go to your catkin_ws**
-
-Compiling Cartographer_ROS works similar to the [Cartographer_ROS documentation](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html) but some paths differ due to Roboy using its own fork of Cartographer_ROS.
-```
-wstool init src
-wstool merge -t src https://raw.githubusercontent.com/Roboy/cartographer_ros/roboy/cartographer_ros.rosinstall
-wstool update -t src
-```
-
-```
-src/cartographer/scripts/install_proto3.sh
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
-```
 
 ## Building
 After you completed all of the above steps, run
 ```
-catkin build
+catkin build roboy_ad
 ```
 
 # HOW-TO
-
-## Google Cartographer_ROS
-[Cartographer](https://github.com/googlecartographer/cartographer) is a system that provides real-time simultaneous localization and mapping [SLAM](https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping) in 2D and 3D across multiple platforms and sensor configurations. This project provides Cartographer's ROS integration.
-
-## Geometry2
-[Geometry2](http://wiki.ros.org/geometry2) is a metapackage to bring in the default packages second generation Transform Library in ROS. Make sure you get the version for kinetic when building (Switch branches!).
 
 ## Obstacle_Detector
 [Obstacle Detector](https://github.com/tysik/obstacle_detector) is a ROS package for 2D obstacle detection based on laser range data.
@@ -73,14 +51,3 @@ The submodule [radlocc_calibration](https://github.com/bernardomig/radlocc_calib
 roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
 ```
 
-
-# FAQ
-
-Q: My `catkin build` was successfull at first but when I execute it again there is an error for `cartographer_ros`, `cartogarpher` or it even wants some `Abseil-function`.
-
-A: You need to compile cartographer_ros again. First, do `catkin clean` and delete the following directories: `catkin_ws/src/cartographer` `catkin_ws/src/ceres-solver` and `catkin_ws/protobuf`. Then follow the steps to compile cartographer_ros.
-
-
-Q: `roslaunch` command not found
-
-A: run `source /devel/setup.bash` in your catkin directory. 
