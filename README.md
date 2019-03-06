@@ -3,8 +3,6 @@
 
 To build, follow the instructions below or create a Docker as described [here](https://github.com/Roboy/autonomous_driving/tree/devel/dockers).
 
-# Getting ready to go
-
 ## Cloning
 Clone this repository to your catkin workspace's source directory by running the following command (notice the dot in the end!).
 ```
