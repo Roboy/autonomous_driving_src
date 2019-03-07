@@ -27,7 +27,7 @@ A launch file to start a gezebo simulation and a node that will publish
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
         args="-x 0 -y 0 -z 0 -unpause -urdf -model $(arg model_name)
-        -param roboy/robot_description"
+        -param robot_description"
         respawn="false" output="screen"/>
 
   <!-- Start a node that will publish model position and handle
