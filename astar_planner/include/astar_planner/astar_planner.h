@@ -105,6 +105,7 @@ namespace astar_planner {
         Costmap *costmap_;
         std::string global_frame_;
         ros::Publisher plan_publisher_;
+        int max_allowed_time_;
 
         double step_size_;
         double turning_radius_;
