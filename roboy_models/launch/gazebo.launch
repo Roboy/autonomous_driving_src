@@ -10,7 +10,7 @@ A launch file to start a gezebo simulation and a node that will publish
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="model_urdf"
-       default="$(find roboy_models)/tricycle/model.urdf"/>
+       default="$(find roboy_models)/rickshaw/model.urdf"/>
   <arg name="model_name" default="tricycle"/>
   <arg name="model_frame" default="base_link"/>
 

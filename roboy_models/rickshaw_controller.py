@@ -39,7 +39,8 @@ class RickshawControlGazebo:
             target_steering_anble_fn,
             self.steering_sensor.get_latest_sensor_value,
             self.set_steering_velocity,
-            sample_rate=20
+            Kp=1.0, Kd=0.0, Ki=0.0,
+            sample_rate = 20
         )
 
     def start(self):

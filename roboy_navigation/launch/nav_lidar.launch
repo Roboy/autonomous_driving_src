@@ -21,6 +21,7 @@ Launch the navigation stack to run on a map obtained from the lidar.
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
     <param name="base_global_planner" value="astar_planner::AStarPlanner"/>
+    <!--<param name="base_global_planner" value="global_planner/GlobalPlanner"/>-->
   </node>
 
   <node name="rviz" pkg="rviz" type="rviz"

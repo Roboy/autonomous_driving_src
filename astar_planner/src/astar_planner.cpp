@@ -7,10 +7,11 @@
 #include <chrono>
 #include <ctime>
 #include <math.h>
-#include <ros/console.h>
 #include <queue>
 #include <unordered_map>
 
+#include <ros/console.h>
+#include <nav_msgs/Path.h>
 #include <astar_planner/astar_planner.h>
 #include <astar_planner/utils.h>
 
@@ -28,6 +29,8 @@ namespace astar_planner {
         name_ = name;
         costmap_ = new CostmapAdapter(costmap_ros->getCostmap());
         global_frame_ = costmap_ros->getGlobalFrameID();
+        ros::NodeHandle n;
+        plan_publisher_ = n.advertise<nav_msgs::Path>(name+"/global_plan", 1);
         loadParameters();
         ROS_INFO("AStarPlanner initialized with name '%s'", name_.c_str());
     };
@@ -49,7 +52,7 @@ namespace astar_planner {
                                 const geometry_msgs::PoseStamped &goal,
                                 std::vector<geometry_msgs::PoseStamped> &plan) {
         std::vector<Pose> positions;
-        bool foundPlan = false;
+        bool foundPlan;
         try {
             foundPlan = makePlan(Pose(start), Pose(goal), positions);
         } catch (exception &ex) {
@@ -66,31 +69,19 @@ namespace astar_planner {
             pose.header.frame_id = global_frame_;
             plan.push_back(pose);
         }
+        publishPlan(plan);
         return true;
     }
 
-//    bool AStarPlanner::makePlan(const Pose &start,
-//                                const Pose &goal,
-//                                std::vector<Pose> &plan) {
-//        double start_x = start.x;
-//        double start_y = start.y;
-//        double start_th = start.th;
-//
-//        double goal_x = goal.x;
-//        double goal_y = goal.y;
-//        double goal_th = goal.th;
-//
-//        int num_points = 2;
-//
-//        for (int i = 0; i <= num_points; i++) {
-//            double x = start_x + (goal_x - start_x) / num_points * i;
-//            double y = start_y + (goal_y - start_y) / num_points * i;
-//            double th = start_th + (goal_th - start_th) / num_points * i;
-//            plan.push_back(Pose(x, y, th));
-//        }
-//
-//        return true;
-//    }
+    void AStarPlanner::publishPlan(std::vector<geometry_msgs::PoseStamped> &path) {
+        nav_msgs::Path gui_path;
+        gui_path.header.frame_id = global_frame_;
+        gui_path.header.stamp = ros::Time::now();
+        gui_path.poses.resize(path.size());
+        std::copy(path.begin(), path.end(), gui_path.poses.begin());
+        plan_publisher_.publish(gui_path);
+    }
+
 
     bool AStarPlanner::makePlan(const Pose &start, const Pose &goal, vector<Pose> &path) {
         if (!validateParameters()) {
@@ -147,7 +138,8 @@ namespace astar_planner {
         }
         auto end_time = chrono::system_clock::now();
         chrono::duration<double> spent_time = end_time - start_time;
-        ROS_INFO("AStarPlanner finished in %.2fs, generated %d nodes", spent_time.count(), num_nodes_visited);
+        ROS_INFO("AStarPlanner finished in %.2fs, generated %d nodes, reached goal: %s",
+            spent_time.count(), num_nodes_visited, reached_goal ? "true" : "false");
         return reached_goal;
 
     }

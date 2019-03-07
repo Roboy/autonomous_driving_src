@@ -76,6 +76,8 @@ namespace astar_planner {
                      const Pose &goal_pos,
                      std::vector<Pose> &path) const;
 
+        void publishPlan(std::vector<geometry_msgs::PoseStamped> &path);
+
         /**
          * Estimated distance between two poses.
          */
@@ -102,6 +104,7 @@ namespace astar_planner {
         std::string name_;
         Costmap *costmap_;
         std::string global_frame_;
+        ros::Publisher plan_publisher_;
 
         double step_size_;
         double turning_radius_;
