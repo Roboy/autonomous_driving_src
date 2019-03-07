@@ -46,6 +46,7 @@ namespace astar_planner {
         ros::NodeHandle nh("~" + name_);
         nh.param<double>(std::string("turning_radius"), turning_radius_, 0.0);
         nh.param<double>("step_size", step_size_, 0.0);
+        nh.param<int>("max_allowed_time", max_allowed_time_, 20.0);
     }
 
     bool AStarPlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -102,6 +103,11 @@ namespace astar_planner {
         int num_nodes_visited = 0;
 
         while (!candidatePoses.empty()) {
+            auto curr_time = chrono::system_clock::now();
+            chrono::duration<double> spent_time = curr_time - start_time;
+            if (max_allowed_time_ > 0 && spent_time.count() > max_allowed_time_) {
+                break;
+            }
             num_nodes_visited++;
             PoseWithDist cand = *candidatePoses.begin();
             auto cell_cand = getCell(cand.pose);
