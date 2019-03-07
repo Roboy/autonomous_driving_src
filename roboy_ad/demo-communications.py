@@ -1,5 +1,7 @@
 #!/usr/bin/python
 """
+THIS IS HOW THE DEMO WORKS:
+
 1. "pick_up_requested" (/dr_to_ad): will be sent after Raf texts a 'Pick-me-up' message on the telegram channel
     -> Bike drives to hard-coded pickup point
     (will probably take 2-3 seconds until it starts to drive because planning takes some time after nav goal was set)
@@ -9,7 +11,7 @@
 
 Backup: if something goes wrong we manually set navigation goals and send messages
 - navigation goal can be set in RVIZ
-- manual sending of messages
+- manual sending of messages -> see demo-backup.py
     1. rostopic pub -1 /dr_to_ad std_msgs/String pick_up_requested
     2. rostopic pub -1 /ad_to_dr std_msgs/String arrived_at_pick_up_point
     3. rostopic pub -1 /dr_to_ad std_msgs/String start_driving
@@ -24,112 +26,116 @@ from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 import tf
 
 MIN_DISTANCE = 0.5  # distance in meters to navigation goal so that the message is sent
+RATE = 30.0
 NAV_GOAL1 = [[1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]  # hard coded positions of the pickup and dropoff point #TODO
 NAV_GOAL2 = [[2.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]  # set position (3D euler) and rotation (4D quaternion)
 PRINT_DISTANCE = True  # print distance for debugging
-global distance_i
-distance_i = 0
+PRINT_DISTANCE_N = 15  # only print distance every n iteration
 
 
-global monitoring_tf, pub_goal  # need to be globalled because they are used in callbacks
+class Demo:
+    def __init__(self):
+        print("DEMO:\n"
+              "1. 'pick_up_requested' receive from /dr_to_ad\n"
+              "[NAV GOAL SET FOR PICKUP POINT]\n"
+              "[WAIT UNTIL BIKE REACHES NAV GOAL]\n"
+              "2. 'arrived_at_pick_up_point' send to /ad_to_dr\n"
+              "[RAF GETS ON BIKE]\n"
+              "[RAF TELLS ROBOY TO DRIVE TO DROPOFF POINT]\n"
+              "3. 'start_driving' receive from /dr_to_ad\n"
+              "[NAV GOAL SET FOR DROPOFF POINT]\n"
+              "[WAIT UNTIL BIKE REACHES NAV GOAL]\n"
+              "4. 'arrived_at_drop_off_point' send to /ad_to_dr\n"
+              "[DEMO AD FINISHED. DIALOG REVOLUTION CONTINUES]\n")
+        rospy.init_node("demo_roboy")
+        self.pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
+        self.pub_communication = rospy.Publisher('/ad_to_dr', String, queue_size=10)
+        rospy.Subscriber("/dr_to_ad", String, self.callback_DR_messages)
+        self.tf_listener = tf.TransformListener()
+        # variables
+        self.monitoring_tf = False  # set to true once first msg was received; before that we don't need to monitor tf messages
+        self.arrived_at_pickup = False
+        self.nav_goal = NAV_GOAL1[0]  # already set first nav goal
+        self.printdistance_i = 0
 
+    def callback_DR_messages(self, msg):
+        if msg.data == 'pick_up_requested':
+            self.move_to_pickup()
+        elif msg.data == 'start_driving':
+            self.move_to_dropoff()
+        else:
+            print('\n\n\n-------------------------------------------------------------------------------------------\n  '
+                  'UNKNOWN MESSAGE RECEIVED: %s'
+                  '-------------------------------------------------------------------------------------------\n\n\n' % msg)
 
-def init():
-    global pub_goal
-    rospy.init_node("demo_roboy")
-    pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
-    pub_communication = rospy.Publisher('/ad_to_dr', String, queue_size=10)
-    rospy.Subscriber("/dr_to_ad", String, callback_DR_messages)
-    tf_listener = tf.TransformListener()
-    return tf_listener, pub_goal, pub_communication
+    def set_nav_goal(self, ng):
+        msg = PoseStamped()
+        msg.pose = Pose(Point(ng[0][0], ng[0][1], ng[0][2]), Quaternion(ng[1][0], ng[1][1], ng[1][2], ng[1][3]))
+        msg.header.frame_id = "map"
+        msg.header.stamp = rospy.Time.now()
+        self.pub_goal.publish(msg)
 
+    def move_to_pickup(self):
+        self.monitoring_tf = True
+        print('1. pick_up_requested received: setting nav goal and start to drive to pickup')
+        self.set_nav_goal(NAV_GOAL1)
 
-def callback_DR_messages(msg):
-    if msg.data == 'pick_up_requested':
-        move_to_pickup()
-    elif msg.data == 'start_driving':
-        move_to_dropoff()
-    else:
-        print('\n\n\n-------------------------------------------------------------------------------------------\n  '
-              'UNKNOWN MESSAGE SENT: %s'
-              '-------------------------------------------------------------------------------------------\n\n\n' % msg)
+    def move_to_dropoff(self):
+        self.monitoring_tf = True
+        print('3. start_driving received: setting nav goal and start to drive to dropoff')
+        self.set_nav_goal(NAV_GOAL2)
 
+    def check_if_goal_is_reached(self, translation):
+        x1 = self.navgoal[0]
+        y1 = self.navgoal[1]
+        x2 = translation[0]
+        y2 = translation[1]
+        d = ((x1 - x2)**2 + (y1 - y2)**2)**0.5
+        if PRINT_DISTANCE:
+            self.printdistance_i += 1
+            if self.printdistance_i == 15:
+                print d
+                self.printdistance_i = 0
+        if d < MIN_DISTANCE:
+            return True
+        else:
+            return False
 
-def set_nav_goal(ng):
-    global pub_goal
-    msg = PoseStamped()
-    msg.pose = Pose(Point(ng[0][0], ng[0][1], ng[0][2]), Quaternion(ng[1][0], ng[1][1], ng[1][2], ng[1][3]))
-    msg.header.frame_id = "map"
-    msg.header.stamp = rospy.Time.now()
-    pub_goal.publish(msg)
-
-
-def move_to_pickup():
-    global monitoring_tf
-    monitoring_tf = True
-    print('1. pick_up_requested received: setting nav goal and start to drive to pickup')
-    set_nav_goal(NAV_GOAL1)
-
-
-def move_to_dropoff():
-    global monitoring_tf
-    monitoring_tf = True
-    print('3. start_driving received: setting nav goal and start to drive to dropoff')
-    set_nav_goal(NAV_GOAL2)
-
-
-def check_if_goal_is_reached(navgoal, translation):
-    global distance_i
-    x1 = navgoal[0]
-    y1 = navgoal[1]
-    x2 = translation[0]
-    y2 = translation[1]
-    d = ((x1 - x2)**2 + (y1 - y2)**2)**0.5
-    if PRINT_DISTANCE:
-        distance_i += 1
-        if distance_i == 15:
-            print d
-            distance_i = 0
-    if d < MIN_DISTANCE:
-        return True
-    else:
-        return False
+    def run(self):
+        try:
+            rate = rospy.Rate(RATE)
+            while not rospy.is_shutdown():
+                if self.monitoring_tf:  # only need to monitor if we are driving at the moment
+                    # get tf message of bike
+                    try:
+                        (trans, rot) = self.tf_listener.lookupTransform('/map', '/odom', rospy.Time(0))
+                    except (tf.LookupException):
+                        print('tf exception: lookup (probably odom not published) -> continuing')
+                        continue
+                    except (tf.ConnectivityException, tf.ExtrapolationException):
+                        print('tf exception:other -> continuing')
+                        continue
+                    # send messages when nav goal is reached
+                    if self.check_if_goal_is_reached(trans):
+                        # stage 1 arrive at pickup
+                        if not self.arrived_at_pickup:
+                            self.arrived_at_pickup = True
+                            self.pub_communication.publish('arrived_at_pick_up_point')
+                            print('2. arrived_at_pick_up_point sent: waiting for instructions to drive off again')
+                            self.monitoring_tf = False
+                            self.nav_goal = NAV_GOAL2[0]
+                        # stage 2 arrive at dropoff
+                        else:
+                            self.pub_communication.publish('arrived_at_pick_up_point')
+                            print('4. arrived_at_drop_off_point sent: AD demo has finished')
+                            print('You can quit this script now')
+                            self.monitoring_tf = False
+                rate.sleep()
+        except rospy.ROSInterruptException:
+            pass
 
 
 if __name__ == '__main__':
-    monitoring_tf = False  # set to true once first msg was received; before that we don't need to monitor tf messages
-    arrived_at_pickup = False
-    nav_goal = NAV_GOAL1[0] #already set first nav goal
-    tf_listener, pub_goal, pub_communication = init()
+    d = Demo()
     print("Started: waiting for message pick_up_requested")
-    try:
-        rate = rospy.Rate(30.0)
-        while not rospy.is_shutdown():
-            if monitoring_tf:  # only need to monitor if we are driving at the moment
-                # get tf message of bike
-                try:
-                    (trans, rot) = tf_listener.lookupTransform('/map', '/odom', rospy.Time(0))
-                except (tf.LookupException):
-                    print('tf exception: lookup (probably odom not published) -> continuing')
-                    continue
-                except (tf.ConnectivityException, tf.ExtrapolationException):
-                    print('tf exception:other -> continuing')
-                    continue
-                # send messages when nav goal is reached
-                if check_if_goal_is_reached(nav_goal, trans):
-                    # stage 1 arrive at pickup
-                    if not arrived_at_pickup:
-                        arrived_at_pickup = True
-                        pub_communication.publish('arrived_at_pick_up_point')
-                        print('2. arrived_at_pick_up_point sent: waiting for instructions to drive off again')
-                        monitoring_tf = False
-                        nav_goal = NAV_GOAL2[0]
-                    # stage 2 arrive at dropoff
-                    else:
-                        pub_communication.publish('arrived_at_pick_up_point')
-                        print('4. arrived_at_drop_off_point sent: AD demo has finished')
-                        print('You can quit this script now')
-                        monitoring_tf = False
-            rate.sleep()
-    except rospy.ROSInterruptException:
-        pass
+    d.run()
