@@ -1,10 +1,10 @@
 <launch>
   <arg name="enable_rickshaw_motor" default="true"/>
-  <arg name="left_motor_id" default="9"/>
+  <arg name="left_motor_id" default="11"/>
   <arg name="right_motor_id" default="10"/>
   <arg name="max_displacement" default="300"/>
   <arg name="min_displacement" default="10"/>
-  <arg name="zero_angle_raw" default="2640"/>
+  <arg name="zero_angle_raw" default="2990"/>
 
   <node name="steering_controller" pkg="roboy_navigation"
         type="steering_controller.py"
