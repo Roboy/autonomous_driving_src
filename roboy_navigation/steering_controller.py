@@ -88,7 +88,7 @@ if __name__ == '__main__':
     parser.add_argument('--max_steering_angle', type=int, default=10,
                         help='Max steering angle in degrees')
     args, _ = parser.parse_known_args()
-    print('Steering controller config:')
+    print('steering_controller config:')
     print(args)
     SteeringController(
         args.fpga_id, args.left_motor_id, args.right_motor_id,

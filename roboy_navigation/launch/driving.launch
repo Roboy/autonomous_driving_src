@@ -4,6 +4,7 @@
   <arg name="right_motor_id" default="10"/>
   <arg name="max_displacement" default="300"/>
   <arg name="min_displacement" default="10"/>
+  <arg name="zero_angle_raw" default="2640"/>
 
   <node name="steering_controller" pkg="roboy_navigation"
         type="steering_controller.py"
@@ -20,6 +21,8 @@
         type="rickshaw_controller.py" output="screen"/>
 
   <node name="angle_publisher" pkg="roboy_navigation"
-        type="angle_publisher.py" output="screen"/>
+        type="angle_publisher.py"
+        args="--zero_angle_raw=$(arg zero_angle_raw)"
+        output="screen"/>
 
 </launch>
