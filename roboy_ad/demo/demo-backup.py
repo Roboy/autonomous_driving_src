@@ -51,5 +51,13 @@ while True:
         os.system('rostopic pub -1 /ad_to_dr std_msgs/String arrived_at_drop_off_point')
         time.sleep(button_delay)
 
+    elif (char == "a"):
+	print("Pickup navigation goal published")
+        os.system('./publish_navgoal1.sh')
+
+    elif (char == "b"):
+	print("Dropoff navigation goal published")
+        os.system('./publish_navgoal2.sh')	
+
     else:
         print("unknown button pressed")
