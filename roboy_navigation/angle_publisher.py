@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import argparse
 import rospy
 
 from std_msgs.msg import Float64
@@ -10,9 +10,9 @@ from roboy_navigation.steering_helper import TargetAngleListener, \
 
 class AnglePublisher:
 
-    def __init__(self, rate=20):
+    def __init__(self, zero_angle_raw=2640, rate=20):
         self.rate = rate
-        self.angle_sensor_listener = AngleSensorListener()
+        self.angle_sensor_listener = AngleSensorListener(zero_angle_raw)
         self.target_angle_listener = TargetAngleListener()
 
     def start(self):
@@ -40,4 +40,11 @@ class AnglePublisher:
 
 
 if __name__ == '__main__':
-  AnglePublisher().start()
+    parser = argparse.ArgumentParser(description='ROS Node to publish steering '
+                                                 'and commanded angles.')
+    parser.add_argument('--zero_angle_raw', type=int, default=2640)
+    parser.add_argument('--sample_rate', type=int, default=20)
+    args, _ = parser.parse_known_args()
+    print('angle_publisher config:')
+    print(args)
+    AnglePublisher(args.zero_angle_raw, args.sample_rate).start()

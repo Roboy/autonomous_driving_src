@@ -24,10 +24,6 @@ MOTOR_CONTROL_POSITION = 0
 MOTOR_CONTROL_VELOCITY = 1
 MOTOR_CONTROL_DISPLACEMENT = 2
 
-INIT_DISPLACEMENT = 10
-
-INITIAL_RAW_ANGLE_OFFSET = 2450
-
 
 def rad_to_deg(val):
     return val / pi * 180
@@ -71,12 +67,22 @@ class TargetAngleListener:
 
 class AngleSensorListener:
 
-    def __init__(self, decay=0.95, threshold=0.1 / 180 * pi):
+    def __init__(self, zero_angle_raw=2450, decay=0.95, threshold=0.1 / 180 * pi):
+        """
+        :param zero_angle_raw: sensor value corresponding to zero steering angle.
+        :param decay: smooth_angle is computed as
+                      angle = decay*angle + (1-decay)*new_angle
+        :param threshold: smooth_angle is updated if difference between the new
+                          and the last value is larger than the provided
+                          threshold.
+
+        """
         self.actual_angle = 0
         self.smooth_angle = 0
         self.last_smooth_angle = 0
         self.decay = decay
         self.threshold = threshold
+        self.zero_angle_raw = zero_angle_raw
 
     def start(self):
         self.listen_to_angle_sensor()
@@ -86,7 +92,7 @@ class AngleSensorListener:
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
             angle = float(
-                raw_angle.raw_angles[0] - INITIAL_RAW_ANGLE_OFFSET) \
+                raw_angle.raw_angles[0] - self.zero_angle_raw) \
                                 / 4096 * 2 * pi
             self.actual_angle = angle
             self.smooth_angle = self.smooth_out(angle)
@@ -97,9 +103,18 @@ class AngleSensorListener:
                          angle_receiver)
 
     def get_latest_actual_angle(self):
+        """
+        Last known steering angle, not processed.
+        """
         return self.actual_angle
 
     def get_latest_smooth_angle(self):
+        """
+        Last known steering angle.
+        Smoothed using the exponential smoothing
+        https://en.wikipedia.org/wiki/Exponential_smoothing
+        to filter out the noise.
+        """
         return self.last_smooth_angle
 
     def smooth_out(self, angle):
@@ -108,15 +123,18 @@ class AngleSensorListener:
 
 class MyoMuscleController:
 
-    def __init__(self, fpga_id, left_motor_id, right_motor_id):
+    def __init__(self, fpga_id, left_motor_id, right_motor_id, init_disp=10):
         self.fpga_id = fpga_id
         self.left_motor_id = left_motor_id
         self.right_motor_id = right_motor_id
+        self.init_disp = init_disp
 
     def start(self):
         self.publisher = rospy.Publisher('/roboy/middleware/MotorCommand',
                                          MotorCommand,
                                          queue_size=1)
+        rospy.logwarn('CAREFUL! Myo-muscle controller is activated, '
+                      'rickshaw will start turning if cmd_vel command is set.')
         self.set_control_mode()
 
     def set_control_mode(self):
@@ -140,7 +158,7 @@ class MyoMuscleController:
             forward_gain=[0, 0],
             dead_band=[0, 0],
             output_divider=[1, 1],
-            setpoint=[INIT_DISPLACEMENT, INIT_DISPLACEMENT]
+            setpoint=[self.init_disp, self.init_disp]
         )
         config_motors_service(config)
 
