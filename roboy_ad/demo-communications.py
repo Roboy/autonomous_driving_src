@@ -24,6 +24,7 @@ import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 import tf
+import time
 
 MIN_DISTANCE = 0.5  # distance in meters to navigation goal so that the message is sent
 RATE = 30.0
@@ -31,6 +32,8 @@ NAV_GOAL1 = [[1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]  # hard coded positions of t
 NAV_GOAL2 = [[2.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]  # set position (3D euler) and rotation (4D quaternion)
 PRINT_DISTANCE = True  # print distance for debugging
 PRINT_DISTANCE_N = 15  # only print distance every n iteration
+
+SKIP_START = True
 
 
 class Demo:
@@ -57,6 +60,10 @@ class Demo:
         self.arrived_at_pickup = False
         self.nav_goal = NAV_GOAL1[0]  # already set first nav goal
         self.printdistance_i = 0
+        if SKIP_START:
+            self.monitoring_tf = True
+            time.sleep(1)  # make sure first tf messages are received
+
 
     def callback_DR_messages(self, msg):
         if msg.data == 'pick_up_requested':
@@ -86,15 +93,16 @@ class Demo:
         self.set_nav_goal(NAV_GOAL2)
 
     def check_if_goal_is_reached(self, translation):
-        x1 = self.navgoal[0]
-        y1 = self.navgoal[1]
+        x1 = self.nav_goal[0]
+        y1 = self.nav_goal[1]
         x2 = translation[0]
         y2 = translation[1]
         d = ((x1 - x2)**2 + (y1 - y2)**2)**0.5
         if PRINT_DISTANCE:
             self.printdistance_i += 1
             if self.printdistance_i == 15:
-                print d
+                print('Distance to nav goal: %f' % d)
+                print('Translation map->base_link: %f, %f, %f' % (translation[0], translation[1], translation[2]))
                 self.printdistance_i = 0
         if d < MIN_DISTANCE:
             return True
@@ -108,7 +116,7 @@ class Demo:
                 if self.monitoring_tf:  # only need to monitor if we are driving at the moment
                     # get tf message of bike
                     try:
-                        (trans, rot) = self.tf_listener.lookupTransform('/map', '/odom', rospy.Time(0))
+                        (trans, rot) = self.tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
                     except (tf.LookupException):
                         print('tf exception: lookup (probably odom not published) -> continuing')
                         continue
