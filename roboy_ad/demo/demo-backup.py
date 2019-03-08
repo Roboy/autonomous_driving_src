@@ -22,6 +22,10 @@ print('1. pick_up_requested -> /dr_to_ad')
 print('2. arrived_at_pick_up_point -> /ad_to_dr')
 print('3. start_driving -> /dr_to_ad')
 print('4. arrived_at_drop_off_point -> /ad_to_dr\n')
+print('If the nav goals are failed to set, press:')
+print('a. set navgoal of pickup point')
+print('b. set navgoal of dropoff point\n')
+print('---------------------------------')
  
 while True:
     char = getch()
@@ -52,12 +56,14 @@ while True:
         time.sleep(button_delay)
 
     elif (char == "a"):
-	print("Pickup navigation goal published")
-        os.system('./publish_navgoal1.sh')
+        print("Pickup navigation goal published")
+        folder = os.path.dirname(os.path.realpath(__file__))
+        os.system(folder + '/publish_navgoal1.sh')
 
     elif (char == "b"):
-	print("Dropoff navigation goal published")
-        os.system('./publish_navgoal2.sh')	
+        print("Dropoff navigation goal published")
+        folder = os.path.dirname(os.path.realpath(__file__))
+        os.system(folder + '/publish_navgoal2.sh')
 
     else:
         print("unknown button pressed")

@@ -31,9 +31,10 @@ RATE = 30.0
 NAV_GOAL1 = [[47.2464027405, -50.3722496033, 0.0], [0.0, 0.0, -0.49633316537, 0.868132126438]]  # hard coded positions of the pickup and dropoff point
 NAV_GOAL2 = [[66.0144729614, -76.4052886963, 0.0], [0.0, 0.0, -0.507478034911, 0.861664693534]]  # set position (3D euler) and rotation (4D quaternion)
 PRINT_DISTANCE = True  # print distance for debugging
+PRINT_DEBUG = False
 PRINT_DISTANCE_N = 15  # only print distance every n iteration
 
-SKIP_START = True
+SKIP_START = False
 
 
 class Demo:
@@ -121,7 +122,8 @@ class Demo:
                     try:
                         (trans, rot) = self.tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
                     except (tf.LookupException):
-                        print('tf exception: lookup (probably odom not published) -> continuing')
+                        if PRINT_DEBUG:
+                            print('tf exception: lookup (probably odom not published) -> continuing')
                         continue
                     except (tf.ConnectivityException, tf.ExtrapolationException):
                         print('tf exception:other -> continuing')
