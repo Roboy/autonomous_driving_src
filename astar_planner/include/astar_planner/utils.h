@@ -52,13 +52,14 @@ namespace astar_planner {
     struct Cell {
         uint x;
         uint y;
+        uint th;
 
-        Cell(): Cell(0, 0) {}
+        Cell(): Cell(0, 0, 0) {}
 
-        Cell(uint x, uint y) : x(x), y(y) {}
+        Cell(uint x, uint y, uint th) : x(x), y(y), th(th) {}
 
         bool operator==(const Cell &p) const {
-            return x == p.x && y == p.y;
+            return x == p.x && y == p.y && th == p.th;
         }
     };
 
@@ -66,6 +67,8 @@ namespace astar_planner {
      * Compute Euclidean distance between two positions.
      */
     double euclid_dist(const Pose &pose1, const Pose &pose2);
+
+    double normalize_angle(double angle);
 }
 
 namespace std {
@@ -73,16 +76,15 @@ namespace std {
     template<>
     struct hash<astar_planner::Cell> {
         std::size_t operator()(const astar_planner::Cell &p) const {
-            return (p.x << 10) + p.y;
+            return (p.x << 26) + (p.y << 13) + p.th;
         }
     };
 
     template<>
     struct hash<astar_planner::Pose> {
-        // TODO: think carefully about the hash function
         std::size_t operator()(const astar_planner::Pose &pose) const {
-            return (size_t(pose.x) << 20) +
-                   (size_t(pose.y) << 10) + size_t(pose.th);
+            return (size_t(pose.x) << 40) +
+                   (size_t(pose.y) << 20) + size_t(pose.th);
         }
     };
 

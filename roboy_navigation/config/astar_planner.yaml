@@ -1,6 +1,5 @@
-  # Allowed deviation from the goal point
 AStarPlanner:
   default_tolerance: 0.5
-  turning_radius: 2.0
-  step_size: 0.5
-  max_allowed_time: 10
+  turning_radius: 8.0
+  step_size: 0.2
+  max_allowed_time: 20

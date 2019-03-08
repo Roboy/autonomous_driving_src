@@ -52,4 +52,11 @@ namespace astar_planner {
     double euclid_dist(const Pose &pose1, const Pose &pose2) {
         return sqrt(pow(pose1.x - pose2.x, 2)+ pow(pose1.y - pose2.y, 2));
     }
+
+    /**
+     * Normalize angle to [0, 2pi]
+     */
+    double normalize_angle(double angle) {
+        return angle >= 0 ? fmod(angle, 2*M_PI) : 2 * M_PI - fmod(fabs(angle), 2*M_PI);
+    }
 }

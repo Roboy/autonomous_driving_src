@@ -22,31 +22,32 @@ using namespace std;
 namespace astar_planner {
 
     AStarPlanner::AStarPlanner() :
-            name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_("") {}
+        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_("") {}
 
     void AStarPlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
-        name_ = name;
-        costmap_ = new CostmapAdapter(costmap_ros->getCostmap());
         global_frame_ = costmap_ros->getGlobalFrameID();
-        ros::NodeHandle n;
-        plan_publisher_ = n.advertise<nav_msgs::Path>(name+"/global_plan", 1);
-        loadParameters();
-        ROS_INFO("AStarPlanner initialized with name '%s'", name_.c_str());
+        initialize(name, new CostmapAdapter(costmap_ros->getCostmap()));
     };
 
     void AStarPlanner::initialize(std::string name, astar_planner::Costmap *costmap) {
         name_ = name;
         costmap_ = costmap;
+        ros::NodeHandle n;
+        plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         loadParameters();
-        ROS_INFO("AStarPlanner initialized with name '%s'", name_.c_str());
+        double dth = step_size_ / turning_radius_;
+        angle_discretization_level_ = uint(ceil(2 * 2 * M_PI / dth));
+        ROS_INFO("AStarPlanner initialized with name '%s' and angle discretization level=%d.",
+                 name_.c_str(), angle_discretization_level_);
     }
 
     void AStarPlanner::loadParameters() {
         ros::NodeHandle nh("~" + name_);
         nh.param<double>(std::string("turning_radius"), turning_radius_, 0.0);
         nh.param<double>("step_size", step_size_, 0.0);
-        nh.param<int>("max_allowed_time", max_allowed_time_, 20.0);
+        nh.param<int>("max_allowed_time", max_allowed_time_, 20);
+        nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
     }
 
     bool AStarPlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -99,19 +100,17 @@ namespace astar_planner {
         bool reached_goal = false;
 
         // Create variables to log performance
-        auto start_time = chrono::system_clock::now();
+        time_t start_time = time(NULL);
         int num_nodes_visited = 0;
 
         while (!candidatePoses.empty()) {
-            auto curr_time = chrono::system_clock::now();
-            chrono::duration<double> spent_time = curr_time - start_time;
-            if (max_allowed_time_ > 0 && spent_time.count() > max_allowed_time_) {
+            if (max_allowed_time_ > 0 && difftime(time(NULL), start_time) > max_allowed_time_) {
                 break;
             }
             num_nodes_visited++;
             PoseWithDist cand = *candidatePoses.begin();
             auto cell_cand = getCell(cand.pose);
-            if (cell_cand == cell_goal) {
+            if (hasReachedGoal(cand.pose, goal)) {
                 reached_pose = cand.pose;
                 reached_goal = true;
                 break;
@@ -142,10 +141,9 @@ namespace astar_planner {
         if (reached_goal) {
             getPath(parents, reached_pose, path);
         }
-        auto end_time = chrono::system_clock::now();
-        chrono::duration<double> spent_time = end_time - start_time;
+
         ROS_INFO("AStarPlanner finished in %.2fs, generated %d nodes, reached goal: %s",
-            spent_time.count(), num_nodes_visited, reached_goal ? "true" : "false");
+                 difftime(time(NULL), start_time), num_nodes_visited, reached_goal ? "true" : "false");
         return reached_goal;
 
     }
@@ -161,11 +159,18 @@ namespace astar_planner {
                       step_size_);
             return false;
         }
-        double dth = step_size_ / turning_radius_;
-        if ((cos(0) - cos(dth)) * turning_radius_ <= 1.0 * costmap_->getResolution()) {
-            ROS_ERROR("AStarPlanner: provided step size=%.2f is too small for the given turning radius=%.2f and map resolution=%.2f",
-                      step_size_, turning_radius_, costmap_->getResolution());
+        if (goal_tolerance_ <= 0) {
+            ROS_ERROR("AStarPlanner: goal tolerance has invalid value=%.2f. Must be greater than zero",
+                      goal_tolerance_);
             return false;
+        }
+        if (goal_tolerance_ < step_size_) {
+            ROS_WARN("AStarPlanner: goal tolerance (=%.2f) is smaller than the step size (=%.2f). "
+                     "Planner might fail to find a path.", goal_tolerance_, step_size_);
+        }
+        if (step_size_ < costmap_->getResolution()) {
+            ROS_WARN("AStarPlannner: step size (=%.2f) is smaller than costmap resolution (=%.2f). "
+                     "Planner might fail to exlore the map properly.", step_size_, costmap_->getResolution());
         }
         return true;
     }
@@ -185,6 +190,9 @@ namespace astar_planner {
         reverse(path.begin(), path.end());
     }
 
+    bool AStarPlanner::hasReachedGoal(const Pose &pos, const Pose &goal) {
+        return euclid_dist(pos, goal) <= goal_tolerance_;
+    }
 
     PoseWithDist AStarPlanner::turnLeft(const Pose &pos, double dth) const {
         double pos_dx = -sin(pos.th) * turning_radius_;
@@ -229,6 +237,8 @@ namespace astar_planner {
     Cell AStarPlanner::getCell(const Pose &pos) const {
         Cell cell;
         costmap_->worldToMap(pos.x, pos.y, cell.x, cell.y);
+        // 0 <= cell.th <= angle_discretization_level
+        cell.th = uint(normalize_angle(pos.th) * angle_discretization_level_ / 2 / M_PI);
         return cell;
     }
 

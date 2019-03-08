@@ -92,6 +92,8 @@ namespace astar_planner {
 
         bool validateParameters() const;
 
+        bool hasReachedGoal(const Pose &pos, const Pose &goal);
+
         bool checkBounds(const Pose &pos) const;
 
         PoseWithDist goStraight(const Pose &pos) const;
@@ -109,6 +111,8 @@ namespace astar_planner {
 
         double step_size_;
         double turning_radius_;
+        double goal_tolerance_;
+        uint angle_discretization_level_;
     };
 
 

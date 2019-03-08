@@ -43,6 +43,7 @@ protected:
 TEST_F(AStarPlannerTest, testMakePlan) {
     nh.setParam("turning_radius", 1.0);
     nh.setParam("step_size", M_PI / 2);
+    nh.setParam("max_allowed_time", 2);
     planner.initialize("test_planner", costmap);
     std::vector<Pose> plan;
     double e = costmap->getResolution();
@@ -56,6 +57,7 @@ TEST_F(AStarPlannerTest, testMakePlan) {
 TEST_F(AStarPlannerTest, testMakePlan_StraightLine) {
     nh.setParam("turning_radius", 1.0);
     nh.setParam("step_size", 2);
+    nh.setParam("max_allowed_time", 2);
     planner.initialize("test_planner", costmap);
     std::vector<Pose> plan;
     ASSERT_TRUE(planner.makePlan(Pose(0, 0, 0), Pose(6, 0, 0), plan));
@@ -84,7 +86,6 @@ TEST_F(AStarPlannerTest, testGetNeighborsFaceForwards) {
                    [](astar_planner::PoseWithDist pos) { return pos.pose; });
     ASSERT_THAT(poses, ElementsAre(Pose(6, 4, -M_PI / 2), Pose(5 + M_PI / 2, 5, 0),
                                    Pose(6, 6, M_PI / 2)));
-
 }
 
 int main(int argc, char **argv) {
