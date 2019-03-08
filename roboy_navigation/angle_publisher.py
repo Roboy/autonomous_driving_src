@@ -2,7 +2,7 @@
 import argparse
 import rospy
 
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 
 from roboy_navigation.steering_helper import TargetAngleListener, \
     AngleSensorListener, rad_to_deg
@@ -20,12 +20,12 @@ class AnglePublisher:
         #TODO: refactor
         rospy.set_param('~wheel_base', 1.6)
         self.angle_sensor_listener.start()
-        self.actual_angle_publisher = rospy.Publisher('/actual_angle', Float32,
+        self.actual_angle_publisher = rospy.Publisher('/actual_angle', Float64,
                                                       queue_size=10)
-        self.smooth_angle_publisher = rospy.Publisher('smooth_angle', Float32,
+        self.smooth_angle_publisher = rospy.Publisher('smooth_angle', Float64,
                                                       queue_size=10)
         self.target_angle_listener.start()
-        self.target_angle_publisher = rospy.Publisher('/target_angle', Float32,
+        self.target_angle_publisher = rospy.Publisher('/target_angle', Float64,
                                                       queue_size=10)
 
         rate = rospy.Rate(self.rate)
