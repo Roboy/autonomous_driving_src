@@ -24,8 +24,6 @@ MOTOR_CONTROL_POSITION = 0
 MOTOR_CONTROL_VELOCITY = 1
 MOTOR_CONTROL_DISPLACEMENT = 2
 
-INIT_DISPLACEMENT = 10
-
 INITIAL_RAW_ANGLE_OFFSET = 2450
 
 
@@ -108,15 +106,18 @@ class AngleSensorListener:
 
 class MyoMuscleController:
 
-    def __init__(self, fpga_id, left_motor_id, right_motor_id):
+    def __init__(self, fpga_id, left_motor_id, right_motor_id, init_disp=10):
         self.fpga_id = fpga_id
         self.left_motor_id = left_motor_id
         self.right_motor_id = right_motor_id
+        self.init_disp = init_disp
 
     def start(self):
         self.publisher = rospy.Publisher('/roboy/middleware/MotorCommand',
                                          MotorCommand,
                                          queue_size=1)
+        rospy.logwarn('CAREFUL! Myo-muscle controller is activated, '
+                      'rickshaw will start turning if cmd_vel command is set.')
         self.set_control_mode()
 
     def set_control_mode(self):
@@ -140,7 +141,7 @@ class MyoMuscleController:
             forward_gain=[0, 0],
             dead_band=[0, 0],
             output_divider=[1, 1],
-            setpoint=[INIT_DISPLACEMENT, INIT_DISPLACEMENT]
+            setpoint=[self.init_disp, self.init_disp]
         )
         config_motors_service(config)
 

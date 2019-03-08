@@ -20,6 +20,9 @@ class RickshawController:
 
     def start(self):
         rospy.init_node('rickshaw_controller', log_level=rospy.DEBUG)
+        rospy.logwarn('CAREFUL! Rickshaw motor controller is activated, '
+                      'rickshaw will start driving if cmd_vel command is set.')
+
         self.motor_publisher = rospy.Publisher('/roboy/control/GPIO', Bool,
                                                queue_size=1)
         rospy.Subscriber('cmd_vel', Twist, self.handle_velocity_command,
