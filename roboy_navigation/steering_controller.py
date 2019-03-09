@@ -17,8 +17,11 @@ class SteeringController:
                  sample_rate=100, Kp=1, Ki=0, Kd=0,
                  min_displacement=10,
                  max_displacement=300,
-                 max_steering_angle_deg=10):
-        self.angle_sensor_listener = AngleSensorListener()
+                 max_steering_angle_deg=10,
+                 zero_angle_raw=2600):
+        self.angle_sensor_listener = AngleSensorListener(
+            zero_angle_raw=zero_angle_raw
+        )
         self.target_angle_listener = TargetAngleListener()
         self.muscle_controller = MyoMuscleController(
             fpga_id=fpga_id,
@@ -30,12 +33,12 @@ class SteeringController:
             actual_val_provider=self.get_actual_angle,
             control_callback=self.set_spring_displacement,
             sample_rate=sample_rate,
-            Kp=Kp, Ki=Ki, Kd = Kd
+            Kp=Kp, Ki=Ki, Kd=Kd
         )
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
-        self.max_steering_angle = max_steering_angle_deg / 180 * pi
+        self.max_steering_angle = float(max_steering_angle_deg) / 180 * pi
 
     def start(self):
         rospy.init_node('steering_controller')
@@ -54,8 +57,9 @@ class SteeringController:
         return self.angle_sensor_listener.get_latest_smooth_angle()
 
     def set_spring_displacement(self, displacement):
-        disp_left, disp_right = (self.min_displacement, -displacement) if displacement < 0 \
-            else (displacement, self.min_displacement)
+        print(displacement)
+        disp_left, disp_right = (self.min_displacement, displacement) if displacement > 0 \
+            else (-displacement, self.min_displacement)
         disp_left = max(disp_left, self.min_displacement)
         disp_right = max(disp_right, self.min_displacement)
         disp_left = min(disp_left, self.max_displacement)
@@ -68,7 +72,7 @@ class SteeringController:
         rospy.logwarn('steering_helper.py: Requested target angle=%.2f is not '
                       'in the admissible bounds (%.2f, %.2f)',
                       rad_to_deg(angle),
-                      self.max_steering_angle_deg,
+                      -self.max_steering_angle_deg,
                       self.max_steering_angle_deg
                       )
         return min(max(angle, -self.max_steering_angle), self.max_steering_angle)
@@ -87,11 +91,13 @@ if __name__ == '__main__':
     parser.add_argument('--min_disp', type=int, default=10)
     parser.add_argument('--max_steering_angle', type=int, default=10,
                         help='Max steering angle in degrees')
+    parser.add_argument('--zero_angle_raw', type=int, default=2600)
     args, _ = parser.parse_known_args()
     print('steering_controller config:')
     print(args)
     SteeringController(
         args.fpga_id, args.left_motor_id, args.right_motor_id,
         args.sample_rate, args.Kp, args.Ki, args.Kd,
-        args.min_disp, args.max_disp, args.max_steering_angle
+        args.min_disp, args.max_disp, args.max_steering_angle,
+        args.zero_angle_raw
     ).start()

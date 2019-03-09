@@ -12,7 +12,7 @@ from roboy_navigation.srv import *
 class AsyncPID:
 
     def __init__(self, target_val_provider, actual_val_provider,
-                 control_callback, sample_rate, Kp=100, Kd=0.1, Ki=0.05):
+                 control_callback, sample_rate, Kp=100, Ki=0.1, Kd=0.05):
         """
 
         :param target_val_provider: callable, returns the target value for the
@@ -38,6 +38,7 @@ class AsyncPID:
             setpoint = self.setpoint_provider()
             input = self.input_provider()
             error = input - setpoint
+            print('Error:', error, 'Input: ', input, 'Setpoint: ', setpoint)
             control = self.pid(error)
             self.control_callback(control)
             rate.sleep()
