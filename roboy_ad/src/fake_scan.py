@@ -22,7 +22,7 @@ class Converter:
 		# remap data from SBG_IMU_msg to ROS_IMU_msg and publish
 		FakeScan = LaserScan()
 		# FakeScan = ScanData
-		FakeScan.header.frame_id = 'fake_scan'
+		FakeScan.header.frame_id = 'laser'
 		FakeScan.header.seq = ScanData.header.seq
 		FakeScan.header.stamp = ScanData.header.stamp
 
@@ -39,14 +39,14 @@ class Converter:
 
 		i = 0
 		FakeScan.ranges = [1] * len(ScanData.ranges)
+		FakeScan.intensities = [1] * len(ScanData.intensities)
 		for i in range(len(ScanData.ranges)):
-			if ScanData.ranges[i] == 0:
-			 	FakeScan.ranges[i] = 50.0
+			if ScanData.ranges[i] < ScanData.range_min:
+			 	FakeScan.ranges[i] = 30.0
+				FakeScan.intensities[i] = 430.0
 			else:
 				FakeScan.ranges[i] = ScanData.ranges[i]
-
-		FakeScan.intensities = ScanData.intensities
-
+				FakeScan.intensities[i] = ScanData.intensities[i]
 		self.pub.publish(FakeScan)
 
 if __name__ == '__main__':
