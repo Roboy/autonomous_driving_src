@@ -54,7 +54,7 @@ class TargetAngleListener:
     def listen_to_navigation_controller(self):
         def navigation_commands_receiver(twist):
             angular_velocity = twist.angular.z
-            linear_velocity = twist.linear.x
+            linear_velocity = 1.0
             self.target_angle = convert_trans_rot_vel_to_steering_angle(
                 linear_velocity, angular_velocity, self.wheel_base
             )
