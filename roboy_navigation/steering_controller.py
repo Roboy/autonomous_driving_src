@@ -58,8 +58,8 @@ class SteeringController:
 
     def set_spring_displacement(self, displacement):
         print(displacement)
-        disp_left, disp_right = (self.min_displacement, displacement) if displacement > 0 \
-            else (-displacement, self.min_displacement)
+        disp_left, disp_right = (self.min_displacement, -displacement) if displacement < 0 \
+            else (displacement, self.min_displacement)
         disp_left = max(disp_left, self.min_displacement)
         disp_right = max(disp_right, self.min_displacement)
         disp_left = min(disp_left, self.max_displacement)

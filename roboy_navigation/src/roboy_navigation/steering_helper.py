@@ -92,7 +92,7 @@ class AngleSensorListener:
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
             angle = float(
-                -raw_angle.raw_angles[0] + self.zero_angle_raw) \
+                raw_angle.raw_angles[0] - self.zero_angle_raw) \
                                 / 4096 * 2 * pi
             self.actual_angle = angle
             self.smooth_angle = self.smooth_out(angle)
