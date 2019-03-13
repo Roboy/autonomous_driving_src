@@ -1,4 +1,4 @@
-AStarPlanner:
+AStarAckermannPlanner:
   default_tolerance: 0.5
   turning_radius: 8.0
   step_size: 0.2

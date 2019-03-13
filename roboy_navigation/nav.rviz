@@ -31,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -83,7 +83,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /AStarPlanner/global_plan
+      Topic: /AStarAckermannPlanner/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -261,12 +261,23 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        imu:
+          Value: true
+        front_part:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        laser:
+        left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -349,18 +360,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 30.6615391
-        Y: -56.9630585
-        Z: 0.000120919991
+        X: 27.847456
+        Y: -39.9594765
+        Z: 0.000113290589
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.749797106
+      Pitch: 0.829797089
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 4.87802982
+      Yaw: 2.5780282
     Saved: ~
 Window Geometry:
   Displays:

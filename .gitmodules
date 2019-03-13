@@ -10,3 +10,6 @@
 [submodule "ros_navigation_stack"]
 	path = ros_navigation_stack
 	url = https://github.com/ros-planning/navigation.git
+[submodule "astar_ackermann_planner"]
+	path = astar_ackermann_planner
+	url = https://github.com/melkonyan/astar_ackermann_planner.git
