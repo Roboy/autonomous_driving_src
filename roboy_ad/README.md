@@ -28,7 +28,7 @@ The IMU will publish topic `/imu_data` which is converted to `/imu` by our scrip
 ## Lidar
 Before launching, it is required to set the LIDAR IP adress accordingly in the `launch` file (i.e. 192.168.0.42). 
 ```
-roslaunch roboy_ad sick_lms_155.launch -use_binary_protocol
+roslaunch roboy_ad sick_lms_155.launch
 ```
 
 ## Cartographer Visualization
