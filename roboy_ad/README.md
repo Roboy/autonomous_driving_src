@@ -2,7 +2,7 @@
 This package can do many things needed for Roboy AD project.
 
 ## IMU 
-This is to convert the [custom ROS message](http://docs.ros.org/api/sbg_driver/html/msg/SbgImuData.html) of a [SBG Systems Ellipse2-A](https://www.sbg-systems.com/products/ellipse-2-series/) IMU unit to a standard [ROS Kinetic IMU sensor message](http://docs.ros.org/kinetic/api/sensor_msgs/html/msg/Imu.html) for the use in [Google Cartographer](https://github.com/Roboy/cartographer_ros/tree/roboy).
+This is to convert the [custom ROS message](http://docs.ros.org/api/sbg_driver/html/msg/SbgImuData.html) of a [SBG Systems Ellipse2-A](https://github.com/Roboy/autonomous_driving/wiki/Hardware%3A-IMU) IMU unit to a standard [ROS Kinetic IMU sensor message](http://docs.ros.org/kinetic/api/sensor_msgs/html/msg/Imu.html) for the use in [Google Cartographer](https://github.com/Roboy/cartographer_ros/tree/roboy).
 
 ### Install
 ```
