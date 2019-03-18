@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+'''
+This script enables sending the relevant messages to team dialog revolution for the demo. This should work as a backup in case the normal script (demo-communications.py) does not work. Then you can send the messages with the press of a button
+
+EDIT: A second version of the script was made because DR works with ROS bridge because they are on ROS 2 and apparently it does not support receiving messages that were sent via the 'rostopic pub' CLI command
+'''
+
+
  
 # adapted from https://github.com/recantha/EduKit3-RC-Keyboard/blob/master/rc_keyboard.py
  

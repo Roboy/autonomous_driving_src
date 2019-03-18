@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+
+'''
+This script enables sending the relevant messages to team dialog revolution for the demo. This should work as a backup in case the normal script (demo-communications.py) does not work. Then you can send the messages with the press of a butt
+on
+
+'''
+
 import rospy
 from std_msgs.msg import String
 import sys, termios, tty, os, time
