@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+'''
+This node allows easy monitoring of steering muscle monitors. 
+It prints warnings whenever there are no 'good' messages. 
+A good message means that the steering muscles are working correctly. 
+This means that at least 2 currents in the corresponding MotorStatus message are not zero. 
+'''
+
+
 import rospy
 import time
 from roboy_middleware_msgs.msg import MotorStatus
@@ -10,9 +18,10 @@ N_CURRENTS_OVER_TRESHOLD = 2
 CURRENT_THRESHOLD = 0
 TIME_BETWEEN_2_GOOD_MESSAGES = 1.0
 
-ENABLE_ONE_MESSAGE_WARN = False
-ENABLE_TIME_DELTA_WARN = True
-ENABLE_GOOD_MESSAGE = False
+ENABLE_ONE_MESSAGE_WARN = False # print warning for every single 'bad' message
+ENABLE_TIME_DELTA_WARN = True # print warning only if there was no good message in time delta TIME_BETWEEN_2_GOOD_MESSAGES
+ENABLE_GOOD_MESSAGE = False # print warning for every single 'good' message
+
 
 class MuscleMonitor:
     def __init__(self):
