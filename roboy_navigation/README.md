@@ -14,3 +14,8 @@ To start a simulation you should run
  1. `roslaunch roboy_models gaz_rickshaw.launch`
  2. `roslaunch roboy_navigation nav_static.launch`
  
+ 
+## Testing Steering
+
+1. `rosrun roboy_navingation test_steering.py`
+2. `rqt_plot /test_angle`

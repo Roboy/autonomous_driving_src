@@ -4,22 +4,12 @@
 [submodule "common_utilities"]
 	path = common_utilities
 	url = https://github.com/Roboy/common_utilities.git
-[submodule "obstacle_detector"]
-	path = obstacle_detector
-	url = https://github.com/tysik/obstacle_detector
-[submodule "realsense"]
-	path = realsense
-	url = https://github.com/intel-ros/realsense.git
-	branch = development
-[submodule "cartographer_ros"]
-	path = cartographer_ros
-	url = https://github.com/Roboy/cartographer_ros.git
-[submodule "radlocc_calibration"]
-	path = radlocc_calibration
-	url = https://github.com/bernardomig/radlocc_calibration.git
 [submodule "sick_scan"]
 	path = sick_scan
 	url = https://github.com/SICKAG/sick_scan.git
 [submodule "ros_navigation_stack"]
 	path = ros_navigation_stack
 	url = https://github.com/ros-planning/navigation.git
+[submodule "astar_ackermann_planner"]
+	path = astar_ackermann_planner
+	url = https://github.com/melkonyan/astar_ackermann_planner.git

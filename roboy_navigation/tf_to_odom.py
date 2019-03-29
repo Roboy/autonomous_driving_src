@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-A node that will republish tf transform information to the odometry node.
+A node that will republish tf transform information to the odometry topic.
 Can be used instead of doing actual odometry but it will not provide model
 velocity.
 """
@@ -20,7 +20,7 @@ class TFToOdom:
         pass
 
     def start(self):
-        rospy.init_node('gazebo_rviz_bridge',
+        rospy.init_node('tf_to_odom',
                         log_level=rospy.DEBUG)
         self.get_params()
         self.forward_odom()
@@ -37,9 +37,8 @@ class TFToOdom:
         odom_pub = rospy.Publisher('odom', Odometry, queue_size=10)
         while not rospy.is_shutdown():
             try:
-                (trans, rot) = listener.lookupTransform(self.world_frame,
-                                                        self.model_frame,
-                                                        rospy.Time(0))
+                (trans, rot) = listener.lookupTransform(
+                    self.world_frame, self.model_frame, rospy.Time(0))
                 # publish to 'odom' topic
                 curr_time = rospy.Time.now()
                 odom_msg = Odometry()
@@ -52,7 +51,7 @@ class TFToOdom:
                                                             rot[2], rot[3])
                 odom_pub.publish(odom_msg)
             except (tf.LookupException, tf.ConnectivityException,
-                        tf.ExtrapolationException):
+                    tf.ExtrapolationException):
                 continue
 
 
